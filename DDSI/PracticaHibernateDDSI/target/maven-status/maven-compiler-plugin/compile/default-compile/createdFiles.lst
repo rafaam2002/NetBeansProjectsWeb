@@ -1,0 +1,14 @@
+Config\HibernateUtilMariaDB.class
+Modelo\ActividadDAO.class
+Vista\VistaSocio.class
+Modelo\Actividad.class
+Modelo\SocioDAO.class
+Modelo\Socio.class
+Vista\VistaMensaje.class
+Controlador\ControladorPrincipal.class
+Aplicacion\PracticaHibernateDDSI.class
+Modelo\MonitorDAO.class
+Config\HibernateUtilOracle.class
+Modelo\Monitor.class
+Vista\VistaMonitor.class
+Controlador\ControladorLogin.class
