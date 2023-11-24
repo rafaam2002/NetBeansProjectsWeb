@@ -4,9 +4,11 @@ Vista\VistaSocio.class
 Modelo\Actividad.class
 Modelo\SocioDAO.class
 Vista\vistaLogin.class
+Vista\vistaPrincipal$1.class
 Modelo\Socio.class
 Vista\VistaMensaje.class
 Controlador\ControladorPrincipal.class
+Vista\vistaPrincipal.class
 Aplicacion\PracticaHibernateDDSI.class
 Modelo\MonitorDAO.class
 Config\HibernateUtilOracle.class

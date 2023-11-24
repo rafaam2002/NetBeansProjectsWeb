@@ -24,30 +24,25 @@ public class ControladorLogin implements ActionListener {
     public ControladorLogin() {
         vLogin = new vistaLogin();
         addListeners();
-        
+
         vLogin.setLocationRelativeTo(null);
         vLogin.setVisible(true);
-        
+
         vLogin.SelectDB.setSelectedIndex(0);
     }
 
-    private void conectarBD(String DB) {
-        try {
-            switch (DB) {
-                case "Oracle" -> {
-                    sessionFactory = HibernateUtilOracle.getSessionFactory();
-                    VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
-                }
-                case "MariaDB" -> {
-                    sessionFactory = HibernateUtilMariaDB.getSessionFactory();
-                    VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
-                }
-                default ->
-                    VistaMensaje.mensajeConsola("Introduce un nombre correcto");
+    private void conectarBD(String DB) throws ExceptionInInitializerError {
+        switch (DB) {
+            case "Oracle" -> {
+                sessionFactory = HibernateUtilOracle.getSessionFactory();
+                VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
             }
-        } catch (ExceptionInInitializerError e) {
-            Throwable cause = e.getCause();
-            System.out.println("Error en la conexión. Revise el fichero .cfg.xml: " + cause.getMessage());
+            case "MariaDB" -> {
+                sessionFactory = HibernateUtilMariaDB.getSessionFactory();
+                VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
+            }
+            default ->
+                VistaMensaje.mensajeConsola("Introduce un nombre correcto");
         }
     }
 
@@ -55,20 +50,28 @@ public class ControladorLogin implements ActionListener {
         return sessionFactory;
     }
 
+    //Probar si cuando se produce un error en la conexion sigue funiconando
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "jButtonConectar" -> {
-                var eleccionDb = (String) vLogin.SelectDB.getSelectedItem();
-                conectarBD(eleccionDb);
-                vLogin.dispose();
-                var controladorP = new ControladorPrincipal(sessionFactory);
+                try {
+                    var eleccionDb = (String) vLogin.SelectDB.getSelectedItem();
+                    conectarBD(eleccionDb);
+                    vLogin.dispose();
+                    var controladorP = new ControladorPrincipal(sessionFactory);
+                } catch (ExceptionInInitializerError ex) {
+                    Throwable cause = ex.getCause();
+                    System.out.println("Error en la conexión. Revise el fichero .cfg.xml: " + cause.getMessage());
+                }
+
             }
             case "jButtonSalir" -> {
                 vLogin.dispose();
                 System.exit(0);
             }
-            default -> throw new AssertionError();
+            default ->
+                throw new AssertionError();
         }
     }
 

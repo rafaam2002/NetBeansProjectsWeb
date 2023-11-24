@@ -11,21 +11,28 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import Modelo.SocioDAO;
+import Vista.vistaPrincipal;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import org.hibernate.HibernateException;
 
 /**
  *
  * @author rafaa
  */
-public class ControladorPrincipal {
+public class ControladorPrincipal implements ActionListener{
 
     private SessionFactory sessionFactory;
     private Session session;
     private Transaction tr;
+    private vistaPrincipal vistaP;
 
     public ControladorPrincipal(SessionFactory sesionFactory) {
         this.sessionFactory = sesionFactory;
-        // this.sesion = sessionFactory.openSession();
+        vistaP = new vistaPrincipal();
+        vistaP.setLocationRelativeTo(null);
+        vistaP.setVisible(true);
+        
         menu1();
     }
 
@@ -311,5 +318,10 @@ public class ControladorPrincipal {
 
             }
         } while (opcion != 0);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        vistaP.jButtonHolaPerro.addActionListener(this);
     }
 }
