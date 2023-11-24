@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
@@ -17,7 +16,6 @@ import org.hibernate.Transaction;
  */
 public class SocioDAO {
 
-    private Transaction tr;
 
     public ArrayList<Socio> getSociosHQL(Session s) {
         Query consulta = s.createQuery("SELECT s FROM Socio s", Socio.class);

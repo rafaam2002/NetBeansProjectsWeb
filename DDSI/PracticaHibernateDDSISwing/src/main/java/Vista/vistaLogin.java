@@ -118,7 +118,7 @@ public class vistaLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> SelectDB;
     public javax.swing.JButton jButton1Conectar;
-    private javax.swing.JButton jButton2SalirDialogoConexion;
+    public javax.swing.JButton jButton2SalirDialogoConexion;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

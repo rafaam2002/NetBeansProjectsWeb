@@ -14,8 +14,8 @@ import Controlador.ControladorPrincipal;
 public class PracticaHibernateDDSI {
 
     public static void main(String[] args) {
-        var cLogin = new ControladorLogin("Oracle");
-        var cPrincipal = new ControladorPrincipal(cLogin.getSessionFactory());
+        var cLogin = new ControladorLogin();
+//        var cPrincipal = new ControladorPrincipal(cLogin.getSessionFactory());
         
     }
 }
