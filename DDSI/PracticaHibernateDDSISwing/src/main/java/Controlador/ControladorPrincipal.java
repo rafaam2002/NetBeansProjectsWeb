@@ -11,7 +11,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import Modelo.SocioDAO;
+import Vista.vistaLogin;
+import Vista.vistaLoginPruebaMenu;
 import Vista.vistaPrincipal;
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.hibernate.HibernateException;
@@ -20,20 +23,25 @@ import org.hibernate.HibernateException;
  *
  * @author rafaa
  */
-public class ControladorPrincipal implements ActionListener{
+public class ControladorPrincipal implements ActionListener {
 
     private SessionFactory sessionFactory;
     private Session session;
     private Transaction tr;
     private vistaPrincipal vistaP;
+//    private final vistaLogin vLoginMenu;
 
-    public ControladorPrincipal(SessionFactory sesionFactory) {
-        this.sessionFactory = sesionFactory;
+    public ControladorPrincipal(SessionFactory s) {
         vistaP = new vistaPrincipal();
+        vistaP.getContentPane().setLayout(new CardLayout());
         vistaP.setLocationRelativeTo(null);
         vistaP.setVisible(true);
         
-        menu1();
+        this.sessionFactory = s;
+
+//        
+//        addListeners();
+//        menu1();
     }
 
     private void menu1() {
@@ -320,8 +328,18 @@ public class ControladorPrincipal implements ActionListener{
         } while (opcion != 0);
     }
 
+    private void addListeners() {
+//        vistaP.desplegableGestionMonitores.addActionListener(this);
+//        vistaP.desplegableGestionSocios.addActionListener(this);
+//        vistaP.desplegableSalir.addActionListener(this);
+//       
+//vLoginMenu.jButton1Conectar.addActionListener(this);
+//        vLoginMenu.jButton2SalirDialogoConexion.addActionListener(this);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        vistaP.jButtonHolaPerro.addActionListener(this);
+        System.out.println("Eres un perrro");
+//        vistaP.jButtonHolaPerro.addActionListener(this); esto creo que no va aqui va en addListeners
     }
 }

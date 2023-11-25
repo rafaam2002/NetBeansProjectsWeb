@@ -9,14 +9,13 @@ package Vista;
  *
  * @author rafaa
  */
-public class vistaLogin extends javax.swing.JFrame {
+public class vistaLoginPruebaMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form vistaLogin
      */
-    public vistaLogin() {
+    public vistaLoginPruebaMenu() {
         initComponents();
-        System.out.println("La instancia esta siendo creada");
     }
 
     /**

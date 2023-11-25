@@ -29,6 +29,7 @@ public class ControladorLogin implements ActionListener {
         vLogin.setVisible(true);
 
         vLogin.SelectDB.setSelectedIndex(0);
+
     }
 
     private void conectarBD(String DB) throws ExceptionInInitializerError {
@@ -59,7 +60,7 @@ public class ControladorLogin implements ActionListener {
                     var eleccionDb = (String) vLogin.SelectDB.getSelectedItem();
                     conectarBD(eleccionDb);
                     vLogin.dispose();
-                    var controladorP = new ControladorPrincipal(sessionFactory);
+                    new ControladorPrincipal(sessionFactory);
                 } catch (ExceptionInInitializerError ex) {
                     Throwable cause = ex.getCause();
                     System.out.println("Error en la conexión. Revise el fichero .cfg.xml: " + cause.getMessage());
