@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -12,9 +14,13 @@ import org.hibernate.Session;
  */
 public class MonitorDAO {
 
-    private final Session session;
+    private  Session s;
 
-    public MonitorDAO(Session session) {
-        this.session = session;
+    
+    
+    public ArrayList<Monitor> listaMonitores(Session session){
+        s = session;
+         Query consulta = s.createQuery("SELECT m FROM Monitor m", Monitor.class);
+        return (ArrayList<Monitor>) consulta.list();
     }
 }

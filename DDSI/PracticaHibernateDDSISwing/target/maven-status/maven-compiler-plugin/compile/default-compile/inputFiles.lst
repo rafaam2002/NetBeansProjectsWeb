@@ -1,7 +1,9 @@
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\VistaMonitor.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\PanelMonitores.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Config\HibernateUtilOracle.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\SocioDAO.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\VistaMensaje.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\PanelPrincipal.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\vistaLogin.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Actividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Monitor.java
@@ -10,8 +12,10 @@ C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\ma
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\MonitorDAO.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\vistaPrincipal.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Config\HibernateUtilMariaDB.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasMonitor.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorLogin.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Socio.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\vistaLoginPruebaMenu.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\PanelSocios.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\ActividadDAO.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorPrincipal.java

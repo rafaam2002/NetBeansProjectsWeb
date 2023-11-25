@@ -30,15 +30,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jButtonHolaPerro = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        desplegableGestionMonitores = new javax.swing.JMenuItem();
+        GestionMonitores = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        desplegableGestionSocios = new javax.swing.JMenuItem();
+        GestionSocios = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
-        desplegableSalir = new javax.swing.JMenuItem();
+        SalirAplicacion = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -51,25 +50,23 @@ public class vistaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Gimnasio \"Body Perfect\"");
 
-        jButtonHolaPerro.setText("Hola Perro");
-        jButtonHolaPerro.setActionCommand("HolaPerro");
-
         jMenu1.setText("Monitores");
 
-        desplegableGestionMonitores.setText("Gestión Monitores");
-        desplegableGestionMonitores.addActionListener(new java.awt.event.ActionListener() {
+        GestionMonitores.setText("Gestión Monitores");
+        GestionMonitores.setActionCommand("GestionMonitores");
+        GestionMonitores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                desplegableGestionMonitoresActionPerformed(evt);
+                GestionMonitoresActionPerformed(evt);
             }
         });
-        jMenu1.add(desplegableGestionMonitores);
+        jMenu1.add(GestionMonitores);
 
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Socios");
 
-        desplegableGestionSocios.setText("Gestión de socios");
-        jMenu2.add(desplegableGestionSocios);
+        GestionSocios.setText("Gestión de socios");
+        jMenu2.add(GestionSocios);
 
         jMenuBar1.add(jMenu2);
 
@@ -78,8 +75,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         jMenu6.setText("Salir");
 
-        desplegableSalir.setText("Salir de la Aplicación");
-        jMenu6.add(desplegableSalir);
+        SalirAplicacion.setText("Salir de la Aplicación");
+        SalirAplicacion.setActionCommand("SalirAplicación");
+        jMenu6.add(SalirAplicacion);
 
         jMenuBar1.add(jMenu6);
 
@@ -89,32 +87,25 @@ public class vistaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(474, Short.MAX_VALUE)
-                .addComponent(jButtonHolaPerro, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(323, 323, 323))
+            .addGap(0, 924, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(242, 242, 242)
-                .addComponent(jButtonHolaPerro)
-                .addContainerGap(306, Short.MAX_VALUE))
+            .addGap(0, 572, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void desplegableGestionMonitoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desplegableGestionMonitoresActionPerformed
+    private void GestionMonitoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionMonitoresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_desplegableGestionMonitoresActionPerformed
+    }//GEN-LAST:event_GestionMonitoresActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JMenuItem desplegableGestionMonitores;
-    public javax.swing.JMenuItem desplegableGestionSocios;
-    public javax.swing.JMenuItem desplegableSalir;
-    public javax.swing.JButton jButtonHolaPerro;
+    public javax.swing.JMenuItem GestionMonitores;
+    public javax.swing.JMenuItem GestionSocios;
+    public javax.swing.JMenuItem SalirAplicacion;
     public javax.swing.JMenu jMenu1;
     public javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

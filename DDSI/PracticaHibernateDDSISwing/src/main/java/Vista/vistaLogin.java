@@ -16,7 +16,6 @@ public class vistaLogin extends javax.swing.JFrame {
      */
     public vistaLogin() {
         initComponents();
-        System.out.println("La instancia esta siendo creada");
     }
 
     /**

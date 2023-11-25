@@ -2,21 +2,25 @@ package Controlador;
 
 import Modelo.Actividad;
 import Modelo.ActividadDAO;
+import Modelo.Monitor;
+import Modelo.MonitorDAO;
 import Modelo.Socio;
 import Vista.VistaMensaje;
 import Vista.VistaMonitor;
 import Vista.VistaSocio;
+import Vista.PanelMonitores;
 import java.util.Scanner;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import Modelo.SocioDAO;
-import Vista.vistaLogin;
-import Vista.vistaLoginPruebaMenu;
 import Vista.vistaPrincipal;
+import Vista.PanelPrincipal;
+import Vista.PanelSocios;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import org.hibernate.HibernateException;
 
 /**
@@ -28,20 +32,36 @@ public class ControladorPrincipal implements ActionListener {
     private SessionFactory sessionFactory;
     private Session session;
     private Transaction tr;
-    private vistaPrincipal vistaP;
-//    private final vistaLogin vLoginMenu;
+    private final vistaPrincipal vistaP;
+    private final PanelMonitores pMonitores;
+    private final PanelPrincipal pPrincipal;
+    private final PanelSocios pSocios;
+    private final UtilTablasMonitor uTablasM;
+    private final MonitorDAO monitorDAO;
 
+//    private final vistaLogin vLoginMenu;
     public ControladorPrincipal(SessionFactory s) {
+
+        //Inixcializar Frame Principal
         vistaP = new vistaPrincipal();
         vistaP.getContentPane().setLayout(new CardLayout());
         vistaP.setLocationRelativeTo(null);
         vistaP.setVisible(true);
-        
-        this.sessionFactory = s;
+        addListeners();
 
-//        
-//        addListeners();
-//        menu1();
+        //Inicializar y agregar al Frame Principal los Paneles
+        pPrincipal = new PanelPrincipal();
+        pMonitores = new PanelMonitores();
+        pSocios = new PanelSocios();
+        vistaP.add(pPrincipal);
+        vistaP.add(pMonitores);
+        vistaP.add(pSocios);
+        muestraPanel("pPrincipal");
+        
+        //logica del Controlador
+        uTablasM = new UtilTablasMonitor(pMonitores);
+        sessionFactory = s;
+        monitorDAO = new MonitorDAO();
     }
 
     private void menu1() {
@@ -329,17 +349,70 @@ public class ControladorPrincipal implements ActionListener {
     }
 
     private void addListeners() {
-//        vistaP.desplegableGestionMonitores.addActionListener(this);
-//        vistaP.desplegableGestionSocios.addActionListener(this);
-//        vistaP.desplegableSalir.addActionListener(this);
-//       
-//vLoginMenu.jButton1Conectar.addActionListener(this);
-//        vLoginMenu.jButton2SalirDialogoConexion.addActionListener(this);
+        vistaP.GestionMonitores.addActionListener(this);
+        vistaP.SalirAplicacion.addActionListener(this);
+        vistaP.GestionSocios.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Eres un perrro");
-//        vistaP.jButtonHolaPerro.addActionListener(this); esto creo que no va aqui va en addListeners
+//        System.out.println(e.getActionCommand());
+        switch (e.getActionCommand()) {
+            case "SalirAplicacion" -> {
+                vistaP.dispose();
+                System.exit(0);
+            }
+            case "GestionMonitores" -> {
+                muestraPanel("pMonitores");
+                uTablasM.dibujarTablaMonitores();
+                session = sessionFactory.openSession();
+
+                tr = session.beginTransaction();
+                try {
+                    ArrayList<Monitor> monitores = pideMonitores();
+                    uTablasM.vaciarTablaMonitores();
+                    uTablasM.rellenarTablaMonitores(monitores);
+                    tr.commit();
+                } catch (Exception ex) {
+                    tr.rollback();
+                    VistaMensaje.mensajeConsola("Error " + ex.getMessage());
+                } finally {
+                    if (session != null & session.isOpen()) {
+                        session.close();
+                    }
+                }
+            }
+            default ->{
+                VistaMensaje.mensajeConsola("No se ha reconocido el evento, revisa los nombres de las variables de las vista");
+            }
+                
+        }
+    }
+
+    private void muestraPanel(String panel) {
+
+        pPrincipal.setVisible(false);
+        pMonitores.setVisible(false);
+        pSocios.setVisible(false);
+
+        switch (panel) {
+            case "pMonitores" -> {
+                pMonitores.setVisible(true);
+            }
+            case "pSocios" -> {
+                pSocios.setVisible(true);
+            }
+            case "pPrincipal" -> {
+                pPrincipal.setVisible(true);
+            }
+            default -> {
+                VistaMensaje.mensajeConsola("El panel indicado no existe");
+            }
+        }
+    }
+
+    private ArrayList<Monitor> pideMonitores() throws Exception {
+        ArrayList<Monitor> monitores = monitorDAO.listaMonitores(session);
+        return monitores;
     }
 }
