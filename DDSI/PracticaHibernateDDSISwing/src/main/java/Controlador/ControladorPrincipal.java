@@ -37,7 +37,9 @@ public class ControladorPrincipal implements ActionListener {
     private final PanelPrincipal pPrincipal;
     private final PanelSocios pSocios;
     private final UtilTablasMonitor uTablasM;
+    private final UtilTablasSocio uTablasS;
     private final MonitorDAO monitorDAO;
+    private final SocioDAO socioDAO;
 
 //    private final vistaLogin vLoginMenu;
     public ControladorPrincipal(SessionFactory s) {
@@ -57,11 +59,15 @@ public class ControladorPrincipal implements ActionListener {
         vistaP.add(pMonitores);
         vistaP.add(pSocios);
         muestraPanel("pPrincipal");
+
+        //Inicializar las clases que se encargan de las tablas
+        uTablasM = new UtilTablasMonitor(pMonitores);
+        uTablasS = new UtilTablasSocio(pSocios);
         
         //logica del Controlador
-        uTablasM = new UtilTablasMonitor(pMonitores);
         sessionFactory = s;
         monitorDAO = new MonitorDAO();
+        socioDAO = new SocioDAO();
     }
 
     private void menu1() {
@@ -382,10 +388,31 @@ public class ControladorPrincipal implements ActionListener {
                     }
                 }
             }
-            default ->{
+            case "GestionSocios" -> {
+                muestraPanel("pSocios");
+                uTablasS.dibujarTablaSocios();
+                session = sessionFactory.openSession();
+                
+                tr = session.beginTransaction();
+                
+                 try {
+                    ArrayList<Socio> socios = pideSocios();
+                    uTablasS.vaciarTablaSocios();
+                    uTablasS.rellenarTablaSocios(socios);
+                    tr.commit();
+                } catch (Exception ex) {
+                    tr.rollback();
+                    VistaMensaje.mensajeConsola("Error " + ex.getMessage());
+                } finally {
+                    if (session != null & session.isOpen()) {
+                        session.close();
+                    }
+                }
+            }
+            default -> {
                 VistaMensaje.mensajeConsola("No se ha reconocido el evento, revisa los nombres de las variables de las vista");
             }
-                
+
         }
     }
 
@@ -414,5 +441,9 @@ public class ControladorPrincipal implements ActionListener {
     private ArrayList<Monitor> pideMonitores() throws Exception {
         ArrayList<Monitor> monitores = monitorDAO.listaMonitores(session);
         return monitores;
+    }
+    private ArrayList<Socio> pideSocios() throws Exception{
+        ArrayList<Socio> socios = socioDAO.getSociosNamedQuery(session);
+        return socios;
     }
 }

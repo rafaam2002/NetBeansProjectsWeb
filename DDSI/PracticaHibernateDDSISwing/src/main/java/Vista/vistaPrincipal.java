@@ -66,6 +66,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Socios");
 
         GestionSocios.setText("Gestión de socios");
+        GestionSocios.setActionCommand("GestionSocios");
         jMenu2.add(GestionSocios);
 
         jMenuBar1.add(jMenu2);

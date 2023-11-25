@@ -22,6 +22,7 @@ public class UtilTablasMonitor {
     public UtilTablasMonitor(PanelMonitores pMonitores) {
         this.pMonitores = pMonitores;
 
+        //Para trabajar con los valores de la tabla
         this.modeloTablaMonitores = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {

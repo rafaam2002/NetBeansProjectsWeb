@@ -1,5 +1,6 @@
 Modelo\ActividadDAO.class
 Vista\PanelPrincipal.class
+Controlador\UtilTablasSocio.class
 Modelo\SocioDAO.class
 Controlador\UtilTablasMonitor.class
 Vista\vistaLogin.class
@@ -14,7 +15,7 @@ Config\HibernateUtilMariaDB.class
 Vista\VistaSocio.class
 Vista\PanelSocios.class
 Modelo\Actividad.class
-Vista\vistaLoginPruebaMenu.class
+Controlador\UtilTablasSocio$1.class
 Vista\PanelMonitores.class
 Vista\vistaPrincipal$1.class
 Controlador\UtilTablasMonitor$1.class
