@@ -6,6 +6,7 @@ package Modelo;
 
 import java.util.ArrayList;
 import java.util.Set;
+import org.hibernate.HibernateException;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -45,7 +46,7 @@ public class SocioDAO {
         return (ArrayList<Object[]>) consulta.list();
     }
 
-    public void insertarSocio(Session s, Socio socio) {
+    public void insertarSocio(Session s, Socio socio) throws HibernateException {
         s.saveOrUpdate(socio);
     }
 

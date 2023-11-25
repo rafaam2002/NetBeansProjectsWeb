@@ -29,6 +29,9 @@ public class PanelSocios extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSocios = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jButtonNuevoSocio = new javax.swing.JButton();
+        jButtonActualizarSocio = new javax.swing.JButton();
+        jButtonBajaSocio = new javax.swing.JButton();
 
         jTableSocios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -47,6 +50,20 @@ public class PanelSocios extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 51, 0));
         jLabel1.setText("Gestión de Socios");
 
+        jButtonNuevoSocio.setText("Nuevo Socio");
+        jButtonNuevoSocio.setActionCommand("NuevoSocio");
+
+        jButtonActualizarSocio.setText("Actualización de Socio");
+        jButtonActualizarSocio.setActionCommand("ActualizarSocio");
+
+        jButtonBajaSocio.setText("Baja Socio");
+        jButtonBajaSocio.setActionCommand("BajaSocio");
+        jButtonBajaSocio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBajaSocioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -54,11 +71,20 @@ public class PanelSocios extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonNuevoSocio)
+                        .addGap(41, 41, 41)
+                        .addComponent(jButtonBajaSocio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonActualizarSocio)
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -67,12 +93,25 @@ public class PanelSocios extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonActualizarSocio)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonNuevoSocio)
+                        .addComponent(jButtonBajaSocio)))
+                .addGap(18, 18, 18))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonBajaSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBajaSocioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonBajaSocioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton jButtonActualizarSocio;
+    public javax.swing.JButton jButtonBajaSocio;
+    public javax.swing.JButton jButtonNuevoSocio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTableSocios;

@@ -54,7 +54,7 @@ class UtilTablasSocio {
     }
 
     public void rellenarTablaSocios(ArrayList<Socio> socios) {
-        Object[] fila = new Object[8];
+        Object[] fila = new Object[7];
 
         for (Socio s : socios) {
             fila[0] = s.getNumeroSocio();
