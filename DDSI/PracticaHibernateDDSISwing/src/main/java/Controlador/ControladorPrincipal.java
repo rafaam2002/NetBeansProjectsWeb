@@ -29,7 +29,7 @@ import org.hibernate.HibernateException;
  */
 public class ControladorPrincipal implements ActionListener {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
     private Session session;
     private Transaction tr;
     private final vistaPrincipal vistaP;
@@ -38,7 +38,7 @@ public class ControladorPrincipal implements ActionListener {
     private final PanelSocios pSocios;
     private final UtilTablasMonitor uTablasM;
     private final MonitorDAO monitorDAO;
-   
+
     private final ControladorSocios controladorS;
 
 //    private final vistaLogin vLoginMenu;
@@ -67,7 +67,6 @@ public class ControladorPrincipal implements ActionListener {
         //logica del Controlador
         sessionFactory = s;
         monitorDAO = new MonitorDAO();
-       
 
         //inicializo otros controladores
         controladorS = new ControladorSocios(pSocios, sessionFactory);
@@ -431,5 +430,4 @@ public class ControladorPrincipal implements ActionListener {
         return monitores;
     }
 
-    
 }
