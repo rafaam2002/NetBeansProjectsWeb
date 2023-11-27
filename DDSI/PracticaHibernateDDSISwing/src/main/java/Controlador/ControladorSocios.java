@@ -54,7 +54,7 @@ public class ControladorSocios implements ActionListener {
                 try {
                     session = sessionFactory.openSession();
                     tr = session.beginTransaction();
-                    var s = new Socio("S002", "Rafa", "49957379K", "1/1/0001", 'A');
+                    var s = new Socio("S013", "Rafa", "49907379K", "1/1/0001", 'A');
                     socioDAO.insertarSocio(session, s);
                     VistaMensaje.mensajeConsola("El socio se ha insertado con exito");
                     
