@@ -17,25 +17,32 @@ public class Tarjeta implements Runnable {
 
     private final Supermercado supermercado;
     private final Random rdm = new Random();
+    private final String name;
 
-    public Tarjeta(Supermercado supermercado) {
+    public Tarjeta(Supermercado supermercado, String name) {
         this.supermercado = supermercado;
+        this.name = name;
     }
 
     @Override
     public void run() {
-         int sleepTime = rdm.nextInt(2000) + 3000;
+        int sleepTime = rdm.nextInt(2000) + 3000;
         try {
+            System.out.println("El Hilo " + name + " intenta entrar en la caja");
+
             supermercado.pagarTarjeta();
         } catch (InterruptedException ex) {
             Logger.getLogger(Tarjeta.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
+            System.out.println("El Hilo " + name + " en caja");
+
             sleep(sleepTime);
         } catch (InterruptedException ex) {
             Logger.getLogger(Tarjeta.class.getName()).log(Level.SEVERE, null, ex);
         }
         supermercado.salir();
+        System.out.println("El Hilo " + name + " sale de la caja");
     }
 
 }

@@ -16,7 +16,7 @@ public class Supermercado {
 
     synchronized public void pagarEfectivo() throws InterruptedException {
         efectivoEsperando++;
-        while (numCajasLibres == 0 && !operarioLibre) {
+        while (numCajasLibres == 0 || !operarioLibre) {
             wait();
         }
         numCajasLibres--;
@@ -25,7 +25,7 @@ public class Supermercado {
     }
 
     synchronized public void pagarTarjeta() throws InterruptedException {
-        while (numCajasLibres == 0 && efectivoEsperando > 0 && operarioLibre) {
+        while (numCajasLibres == 0 || (efectivoEsperando > 0 && operarioLibre)) {
             wait();
         }
         numCajasLibres--;
