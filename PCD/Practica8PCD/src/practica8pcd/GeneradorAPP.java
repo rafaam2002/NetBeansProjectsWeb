@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class GeneradorAPP extends java.awt.Frame {
 
-    private static SuperCanvas cv = new SuperCanvas(600, 400);
+    private static SuperCanvas cv = new SuperCanvas(800, 600);
 
     /**
      * Creates new form GeneradorAPP
@@ -58,6 +58,7 @@ public class GeneradorAPP extends java.awt.Frame {
         generador.setLocation(100, 50);
         
         generador.add(cv);
+        generador.setVisible(true);
         
         var rdm = new Random();
 
