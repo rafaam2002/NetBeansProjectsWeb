@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  */
 public class GeneradorAPP extends java.awt.Frame {
 
+    private static SuperCanvas cv = new SuperCanvas(600, 400);
+
     /**
      * Creates new form GeneradorAPP
      */
@@ -50,15 +52,22 @@ public class GeneradorAPP extends java.awt.Frame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        var generador = new GeneradorAPP();
+        generador.setSize(800,600);
+        generador.setTitle("Practica 8");
+        generador.setLocation(100, 50);
+        
+        generador.add(cv);
+        
         var rdm = new Random();
-       
+
         var clientes = new Thread[20];
         var supermercado = new Supermercado();
         for (int i = 0; i < 20; i++) {
-            if (rdm.nextInt(100) < 50){
-               clientes[i] = new Thread(new Tarjeta(supermercado, "tarjeta-" + i));
-            }else{
-                clientes[i] = new Thread (new Efectivo(supermercado,"efectivo-" + i));
+            if (rdm.nextInt(100) < 50) {
+                clientes[i] = new Thread(new Tarjeta(supermercado, "tarjeta-" + i));
+            } else {
+                clientes[i] = new Thread(new Efectivo(supermercado, "efectivo-" + i));
             }
             clientes[i].start();
             try {
@@ -67,7 +76,7 @@ public class GeneradorAPP extends java.awt.Frame {
                 Logger.getLogger(Generador.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         for (int i = 0; i < 20; i++) {
             try {
                 clientes[i].join();
