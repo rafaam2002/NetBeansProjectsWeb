@@ -7,6 +7,7 @@ package practica8pcd;
 import static java.lang.Thread.sleep;
 import java.net.IDN;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author rafaa
  */
-public class Tarjeta implements Runnable {
+public class Tarjeta implements Callable<Integer> {
 
     private final Supermercado supermercado;
     private final Random rdm = new Random();
@@ -30,7 +31,7 @@ public class Tarjeta implements Runnable {
     }
 
     @Override
-    public void run() {
+    public Integer call() {
         int sleepTime = rdm.nextInt(2000) + 3000;
         try {
             System.out.println("El Hilo " + name + " intenta entrar en la caja");
@@ -50,6 +51,7 @@ public class Tarjeta implements Runnable {
         supermercado.salir('T');
         System.out.println("El Hilo " + name + " sale de la caja");
         cv.eliminarClientePagandoTarjeta(id);
+        return sleepTime / 1000;
     }
 
 }

@@ -5,7 +5,11 @@
 package practica8pcd;
 
 import static java.lang.Thread.sleep;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,24 +57,27 @@ public class GeneradorAPP extends java.awt.Frame {
      */
     public static void main(String args[]) {
         var generador = new GeneradorAPP();
-        generador.setSize(800,600);
+        generador.setSize(800, 600);
         generador.setTitle("Practica 8");
         generador.setLocation(100, 50);
-        
+
         generador.add(cv);
         generador.setVisible(true);
-        
+
         var rdm = new Random();
 
-        var clientes = new Thread[20];
+        var thpEfectivo = Executors.newFixedThreadPool(10);
+        var thpTarjeta = Executors.newFixedThreadPool(10);
+        var esperaTarjeta = new ArrayList<Future<Integer>>();
+        var esperaEfectivo = new ArrayList<Future<Integer>>();
+
         var supermercado = new Supermercado();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             if (rdm.nextInt(100) < 50) {
-                clientes[i] = new Thread(new Tarjeta(supermercado, "Tarjeta-" + i, cv));
+                esperaTarjeta.add(thpTarjeta.submit(new Tarjeta(supermercado, "Tarjeta-" + i, cv)));
             } else {
-                clientes[i] = new Thread(new Efectivo(supermercado, "Efectivo-" + i , cv));
+                esperaEfectivo.add(thpEfectivo.submit(new Efectivo(supermercado, "Efectivo-" + i, cv)));
             }
-            clientes[i].start();
             try {
                 sleep(1000);
             } catch (InterruptedException ex) {
@@ -78,13 +85,30 @@ public class GeneradorAPP extends java.awt.Frame {
             }
         }
 
-        for (int i = 0; i < 20; i++) {
+        thpEfectivo.shutdown();
+        System.out.println("El main hace el primer shutdown");
+        thpTarjeta.shutdown();
+        System.out.println("El main hace el primer shutdown");
+
+        for (Future<Integer> future : esperaTarjeta) {
             try {
-                clientes[i].join();
+                System.out.println(future.get());
             } catch (InterruptedException ex) {
+                Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        for (Future<Integer> future : esperaEfectivo) {
+            try {
+                System.out.println(future.get());
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         try {
             sleep(3000);
         } catch (InterruptedException ex) {
