@@ -5,6 +5,7 @@
 package practica8pcd;
 
 import static java.lang.Thread.sleep;
+import java.net.IDN;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,10 +19,14 @@ public class Tarjeta implements Runnable {
     private final Supermercado supermercado;
     private final Random rdm = new Random();
     private final String name;
+    private final SuperCanvas cv;
+    private final int id;
 
-    public Tarjeta(Supermercado supermercado, String name) {
+    public Tarjeta(Supermercado supermercado, String name, SuperCanvas cv) {
         this.supermercado = supermercado;
         this.name = name;
+        this.cv = cv;
+        this.id = Integer.parseInt(name.substring(name.length() - 1, name.length()));
     }
 
     @Override
@@ -29,20 +34,22 @@ public class Tarjeta implements Runnable {
         int sleepTime = rdm.nextInt(2000) + 3000;
         try {
             System.out.println("El Hilo " + name + " intenta entrar en la caja");
-
+            cv.insertarClienteTarjeta(id);
             supermercado.pagarTarjeta();
         } catch (InterruptedException ex) {
             Logger.getLogger(Tarjeta.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             System.out.println("El Hilo " + name + " en caja");
-
+            cv.eliminarClienteTarjeta(id);
+            cv.insertarClientePagandoTarjeta(id);
             sleep(sleepTime);
         } catch (InterruptedException ex) {
             Logger.getLogger(Tarjeta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        supermercado.salir();
+        supermercado.salir('T');
         System.out.println("El Hilo " + name + " sale de la caja");
+        cv.eliminarClientePagandoTarjeta(id);
     }
 
 }

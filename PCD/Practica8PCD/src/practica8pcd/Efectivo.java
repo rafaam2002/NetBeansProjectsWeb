@@ -18,10 +18,14 @@ public class Efectivo implements Runnable {
     private final Supermercado supermercado;
     private final Random rdm = new Random();
     private final String name;
+    private final SuperCanvas cv;
+    private final int id;                   
 
-    public Efectivo(Supermercado supermercado, String name) {
+    public Efectivo(Supermercado supermercado, String name, SuperCanvas cv) {
         this.supermercado = supermercado;
         this.name = name;
+        this.cv = cv;
+        this.id = Integer.parseInt(name.substring(name.length() - 1, name.length()));
     }
 
     @Override
@@ -30,18 +34,22 @@ public class Efectivo implements Runnable {
 
         try {
             System.out.println("El Hilo " + name + " intenta entrar en caja");
+            cv.insertarClienteEfectivo(id);
             supermercado.pagarEfectivo();
         } catch (InterruptedException ex) {
             Logger.getLogger(Efectivo.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             System.out.println("El Hilo " + name + " en caja");
+            cv.eliminarClienteEfectivo(id);
+            cv.insertarClientePagandoEfectivo(id);
             sleep(sleepTime);
         } catch (InterruptedException ex) {
             Logger.getLogger(Tarjeta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        supermercado.salir();
+        supermercado.salir('E');
         System.out.println("El Hilo " + name + " sale de la caja");
+        cv.eliminarClientePagandoEfectivo(id);
     }
 
 }

@@ -66,15 +66,15 @@ public class GeneradorAPP extends java.awt.Frame {
         var supermercado = new Supermercado();
         for (int i = 0; i < 20; i++) {
             if (rdm.nextInt(100) < 50) {
-                clientes[i] = new Thread(new Tarjeta(supermercado, "tarjeta-" + i));
+                clientes[i] = new Thread(new Tarjeta(supermercado, "Tarjeta-" + i, cv));
             } else {
-                clientes[i] = new Thread(new Efectivo(supermercado, "efectivo-" + i));
+                clientes[i] = new Thread(new Efectivo(supermercado, "Efectivo-" + i , cv));
             }
             clientes[i].start();
             try {
                 sleep(1000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Generador.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -82,9 +82,15 @@ public class GeneradorAPP extends java.awt.Frame {
             try {
                 clientes[i].join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(Generador.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        try {
+            sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.exit(0);
     }
 
 

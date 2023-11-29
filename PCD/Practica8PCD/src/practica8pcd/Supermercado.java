@@ -20,6 +20,7 @@ public class Supermercado {
             wait();
         }
         numCajasLibres--;
+//        System.out.println(numCajasLibres + " " + operarioLibre);
         operarioLibre = false;
 
     }
@@ -29,11 +30,16 @@ public class Supermercado {
             wait();
         }
         numCajasLibres--;
+//        System.out.println(numCajasLibres + " " + operarioLibre);
     }
 
-    synchronized public void salir() {
+    synchronized public void salir( char tipo ) {
         numCajasLibres++;
-        if ('E' == Thread.currentThread().getName().charAt(0)) {
+        System.out.println(numCajasLibres + " " + operarioLibre);
+        System.out.println(Thread.currentThread().getName().charAt(0));
+        System.out.println(Thread.currentThread().getName());
+        if (tipo == 'E') {
+            efectivoEsperando--;
             operarioLibre = true;
         }
         notifyAll();

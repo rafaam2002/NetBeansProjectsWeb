@@ -16,11 +16,27 @@ import javax.swing.JTree;
 class Cliente {
 
     private final int id;
-    private final char tipo;
 
-    public Cliente(int id, char tipo) {
+    public Cliente(int id) {
         this.id = id;
-        this.tipo = tipo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Cliente cliente = (Cliente) obj;
+        return id == cliente.id;
     }
 }
 
@@ -32,22 +48,94 @@ public class SuperCanvas extends Canvas {
 
     private final int ancho;
     private final int alto;
-    private final ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-    private final Image tarjetaImg, efectivoImg;
+    private final ArrayList<Cliente> clientesTarjeta = new ArrayList<Cliente>();
+    private final ArrayList<Cliente> clientesEfectivo = new ArrayList<Cliente>();
+    private final Image tarjetaImg, efectivoImg, cajeroImg;
+    private final ArrayList<Cliente> clientesPagandoTarjeta = new ArrayList<Cliente>();
+    private Cliente clientePagandoEfectivo = null;
+    private final ArrayList<Cliente> clientesPagandoEfectivo = new ArrayList<Cliente>();
 
     public SuperCanvas(int ancho, int alto) {
         this.ancho = ancho;
         this.alto = alto;
         this.setSize(ancho, alto);
         this.setBackground(new Color(0XDBD5F2));
-        tarjetaImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../imagenes/abuelaForrada.jpeg"));
-        efectivoImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../imagenes/abuelaForrada.jpeg"));
+        tarjetaImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../imagenes/tarjeta.png"));
+        efectivoImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../imagenes/abuelaForrada.png"));
+        cajeroImg = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../imagenes/cajeroPersona.png"));
+    }
+
+    public synchronized void insertarClienteTarjeta(int id) {
+        var c = new Cliente(id);
+        if (!clientesTarjeta.contains(c)) {
+            clientesTarjeta.add(c);
+        }
+        repaint();
+    }
+
+    public synchronized void insertarClienteEfectivo(int id) {
+        var c = new Cliente(id);
+        if (!clientesEfectivo.contains(c)) {
+            clientesEfectivo.add(c);
+        }
+        repaint();
+    }
+
+    public synchronized void eliminarClienteTarjeta(int id) {
+        var c = new Cliente(id);
+        if (clientesTarjeta.contains(c)) {
+            clientesTarjeta.remove(c);
+        }
+        repaint();
+    }
+
+    public synchronized void eliminarClienteEfectivo(int id) {
+        var c = new Cliente(id);
+        if (clientesEfectivo.contains(c)) {
+            clientesEfectivo.remove(c);
+        }
+        repaint();
+    }
+
+    public synchronized void insertarClientePagandoTarjeta(int id) {
+        var c = new Cliente(id);
+        if (!clientesPagandoTarjeta.contains(c)) {
+            clientesPagandoTarjeta.add(c);
+        }
+        repaint();
+    }
+
+    public synchronized void eliminarClientePagandoTarjeta(int id) {
+        var c = new Cliente(id);
+        if (clientesPagandoTarjeta.contains(c)) {
+            clientesPagandoTarjeta.remove(c);
+        }
+        repaint();
+    }
+
+    public synchronized void insertarClientePagandoEfectivo(int id) {
+        var c = new Cliente(id);
+        if (!c.equals(clientePagandoEfectivo)) {
+            clientePagandoEfectivo = c;
+        }
+        repaint();
+    }
+
+    public synchronized void eliminarClientePagandoEfectivo(int id) {
+        clientePagandoEfectivo = null;
+        repaint();
+    }
+
+    @Override
+    public void update(Graphics g) {
+        paint(g);
     }
 
     @Override
     public void paint(Graphics g) {
         int separacion = 0;
         Font f1 = new Font("Broadway", Font.BOLD, 20);
+        Font f2 = new Font("Broadway", Font.BOLD, 10);
         Image img = createImage(getWidth(), getHeight()); //coge las medidas del canvas
         Graphics og = img.getGraphics();
         og.setFont(f1);
@@ -73,14 +161,42 @@ public class SuperCanvas extends Canvas {
         og.setColor(new Color(0x333333));
         for (int i = 1; i < 5; i++) {
             og.fillRect(separacion, 200, 180, alto - 410);
-            og.drawImage(efectivoImg, 0, 0, 120, 120, this);
             separacion += 190;
         }
 
         //Meter clientes en la fila de tarjeta
-        for (Cliente c : clientes) {
+        og.setFont(f1);
+        separacion = 10;
+        for (Cliente c : clientesTarjeta) {
+            og.drawImage(tarjetaImg, separacion, 10, 120, 120, this);
+            og.drawString("T-" + c.getId(), separacion, 140);
+            separacion += 120;
 
         }
+
+        //Meter clientes en la fila de Efectivo
+        separacion = 10;
+        for (Cliente c : clientesEfectivo) {
+            og.drawImage(efectivoImg, separacion, alto - 160, 120, 120, this);
+            og.drawString("E-" + c.getId(), separacion, alto - 130);
+            separacion += 120;
+        }
+
+        //Clientes pagando tarjeta
+        separacion = 30;
+        for (Cliente c : clientesPagandoTarjeta) {
+            og.drawImage(tarjetaImg, separacion, 210, 120, 120, this);
+            og.drawString("T-" + c.getId(), separacion, 200);
+            separacion += 190;
+
+        }
+        if (clientePagandoEfectivo != null) {
+            og.drawImage(efectivoImg, 600, 210, 120, 120, this);
+            og.drawString("E-" + clientePagandoEfectivo.getId(), 600, 200);
+        }
+
+        //Persona Cajero
+        og.drawImage(cajeroImg, 660, 290, 190, 170, this);
 
         g.drawImage(img, 0, 0, null);
 
