@@ -19,8 +19,8 @@ public class Supermercado {
         while (numCajasLibres == 0 || !operarioLibre) {
             wait();
         }
+        efectivoEsperando--;
         numCajasLibres--;
-//        System.out.println(numCajasLibres + " " + operarioLibre);
         operarioLibre = false;
 
     }
@@ -39,10 +39,10 @@ public class Supermercado {
         System.out.println(Thread.currentThread().getName().charAt(0));
         System.out.println(Thread.currentThread().getName());
         if (tipo == 'E') {
-            efectivoEsperando--;
             operarioLibre = true;
         }
         notifyAll();
+        System.out.println("Efectivos esperando: " + efectivoEsperando);
     }
 
 }
