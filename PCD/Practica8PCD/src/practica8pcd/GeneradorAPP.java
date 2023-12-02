@@ -75,7 +75,7 @@ public class GeneradorAPP extends java.awt.Frame {
 
         var supermercado = new Supermercado();
         for (int i = 0; i < 50; i++) {
-            if (rdm.nextInt(100) < 50) {
+            if (rdm.nextInt(100) < 60) {
                 esperaTarjeta.add(thpTarjeta.submit(new Tarjeta(supermercado, "Tarjeta-" + i, cv)));
             } else {
                 esperaEfectivo.add(thpEfectivo.submit(new Efectivo(supermercado, "Efectivo-" + i, cv)));
@@ -94,7 +94,6 @@ public class GeneradorAPP extends java.awt.Frame {
 
         for (Future<Integer> future : esperaTarjeta) {
             try {
-                System.out.println(future.get());
                 tiempoEsperaTarjeta += future.get();
             } catch (InterruptedException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,7 +103,6 @@ public class GeneradorAPP extends java.awt.Frame {
         }
         for (Future<Integer> future : esperaEfectivo) {
             try {
-                System.out.println(future.get());
                 tiempoEsperaEfectivo += future.get();
             } catch (InterruptedException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
