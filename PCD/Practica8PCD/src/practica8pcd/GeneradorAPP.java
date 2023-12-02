@@ -70,6 +70,8 @@ public class GeneradorAPP extends java.awt.Frame {
         var thpTarjeta = Executors.newFixedThreadPool(10);
         var esperaTarjeta = new ArrayList<Future<Integer>>();
         var esperaEfectivo = new ArrayList<Future<Integer>>();
+        int tiempoEsperaTarjeta = 0;
+        int tiempoEsperaEfectivo = 0;
 
         var supermercado = new Supermercado();
         for (int i = 0; i < 50; i++) {
@@ -79,7 +81,7 @@ public class GeneradorAPP extends java.awt.Frame {
                 esperaEfectivo.add(thpEfectivo.submit(new Efectivo(supermercado, "Efectivo-" + i, cv)));
             }
             try {
-                sleep(1000);
+                sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -93,6 +95,7 @@ public class GeneradorAPP extends java.awt.Frame {
         for (Future<Integer> future : esperaTarjeta) {
             try {
                 System.out.println(future.get());
+                tiempoEsperaTarjeta += future.get();
             } catch (InterruptedException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ExecutionException ex) {
@@ -102,13 +105,22 @@ public class GeneradorAPP extends java.awt.Frame {
         for (Future<Integer> future : esperaEfectivo) {
             try {
                 System.out.println(future.get());
+                tiempoEsperaEfectivo += future.get();
             } catch (InterruptedException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ExecutionException ex) {
                 Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GeneradorAPP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Tiempo usado por efectivo: " + tiempoEsperaEfectivo + " sec");
+        System.out.println("Tiempo usado por tarjeta: " + tiempoEsperaTarjeta + " sec");
+
         try {
             sleep(3000);
         } catch (InterruptedException ex) {
