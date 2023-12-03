@@ -42,6 +42,7 @@ public class ControladorPrincipal implements ActionListener {
     private  final VMensaje vMensaje;
 
     private final ControladorSocios controladorS;
+    private final ControladorMonitor controladorM;
 
 //    private final vistaLogin vLoginMenu;
     public ControladorPrincipal(SessionFactory s) {
@@ -72,6 +73,7 @@ public class ControladorPrincipal implements ActionListener {
 
         //inicializo otros controladores
         controladorS = new ControladorSocios(pSocios, sessionFactory);
+        controladorM = new ControladorMonitor(pMonitores, sessionFactory);
         
         vMensaje = new VMensaje();
         vMensaje.MensajeInfo(pPrincipal, "Conexion correcta");
@@ -372,7 +374,6 @@ public class ControladorPrincipal implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        System.out.println(e.getActionCommand());
         switch (e.getActionCommand()) {
             case "SalirAplicacion" -> {
                 vistaP.dispose();
@@ -381,23 +382,7 @@ public class ControladorPrincipal implements ActionListener {
             case "GestionMonitores" -> {
 
                 muestraPanel("pMonitores");
-                uTablasM.dibujarTablaMonitores();
-                session = sessionFactory.openSession();
-
-                tr = session.beginTransaction();
-                try {
-                    ArrayList<Monitor> monitores = pideMonitores();
-                    uTablasM.vaciarTablaMonitores();
-                    uTablasM.rellenarTablaMonitores(monitores);
-                    tr.commit();
-                } catch (Exception ex) {
-                    tr.rollback();
-                    VistaMensaje.mensajeConsola("Error " + ex.getMessage());
-                } finally {
-                    if (session != null & session.isOpen()) {
-                        session.close();
-                    }
-                }
+                controladorM.init();
             }
             case "GestionSocios" -> {
                 muestraPanel("pSocios");

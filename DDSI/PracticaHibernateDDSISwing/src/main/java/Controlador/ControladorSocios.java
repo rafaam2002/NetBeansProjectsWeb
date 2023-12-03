@@ -6,10 +6,12 @@ package Controlador;
 
 import Modelo.Socio;
 import Modelo.SocioDAO;
+import Vista.JDialogInsertarMonitor;
 import Vista.PanelSocios;
 import Vista.VMensaje;
 import Vista.VistaMensaje;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

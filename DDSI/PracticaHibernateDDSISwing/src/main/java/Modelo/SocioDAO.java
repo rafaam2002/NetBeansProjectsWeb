@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Set;
 import org.hibernate.HibernateException;
 
-import org.hibernate.Query;
+//import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 
 /**
