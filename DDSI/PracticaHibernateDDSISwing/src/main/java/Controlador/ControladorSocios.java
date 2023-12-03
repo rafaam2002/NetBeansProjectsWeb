@@ -7,11 +7,14 @@ package Controlador;
 import Modelo.Socio;
 import Modelo.SocioDAO;
 import Vista.PanelSocios;
+import Vista.VMensaje;
 import Vista.VistaMensaje;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import org.hibernate.HibernateException;
+import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -28,8 +31,10 @@ public class ControladorSocios implements ActionListener {
     private Session session;
     private Transaction tr;
     private final SocioDAO socioDAO;
+    private final VMensaje vMensaje;
 
     public ControladorSocios(PanelSocios pSocios, SessionFactory sessionFactory) {
+        vMensaje = new VMensaje();
         this.pSocios = pSocios;
         uTablasS = new UtilTablasSocio(this.pSocios);
         addListeners();
@@ -54,26 +59,53 @@ public class ControladorSocios implements ActionListener {
                 try {
                     session = sessionFactory.openSession();
                     tr = session.beginTransaction();
-                    var s = new Socio("S013", "Rafa", "49907379K", "1/1/0001", 'A');
+                    var s = new Socio("S014", "Rafa", "49900379K", "1/1/0001", 'A');
                     socioDAO.insertarSocio(session, s);
+                    tr.commit();
                     VistaMensaje.mensajeConsola("El socio se ha insertado con exito");
-                    
-                } catch (HibernateException ex) {
+                } catch (Exception ex) {
                     tr.rollback();
-                    VistaMensaje.mensajeConsola("Error en la petición de socios " + ex.getMessage());
+
+                    VistaMensaje.mensajeConsola("Error en la insercion de un nuevo socio " + ex.getMessage());
                 } finally {
                     if (session != null && session.isOpen()) {
                         session.close();
                     }
+
                     dibujarTabla();
                 }
             }
-            case "EliminarSocio" -> {
-                
+            case "BajaSocio" -> {
+                int filaSocio = pSocios.jTableSocios.getSelectedRow();
+                if (filaSocio != -1) {
+                    int confirm = BajaDialog(pSocios);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        try {
+                            session = sessionFactory.openSession();
+                            tr = session.beginTransaction();
+
+                            List<Socio> socios = socioDAO.getSociosNamedQuery(session);
+                            socioDAO.eliminarSocio(session, socios.get(filaSocio).getNumeroSocio());
+                            tr.commit();
+                            VistaMensaje.mensajeConsola("El socio se ha eliminado con exito");
+//                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
+                        } catch (Exception ex) {
+                            tr.rollback();
+                            VistaMensaje.mensajeConsola("Error en el delete de un socio " + ex.getMessage());
+                            vMensaje.MensajeInfo(pSocios, "Error al eliminar socio " + ex.getMessage());
+                        } finally {
+                            if (session != null && session.isOpen()) {
+                                session.close();
+                            }
+
+                            dibujarTabla();
+                        }
+                    }
+                }
             }
 
             default ->
-                throw new AssertionError();
+                VistaMensaje.mensajeConsola("El boton pulsado no tiene una opcion definida");
         }
     }
 
@@ -102,4 +134,12 @@ public class ControladorSocios implements ActionListener {
         ArrayList<Socio> socios = socioDAO.getSociosNamedQuery(session);
         return socios;
     }
+
+    public int BajaDialog(Component C) {
+        int opcion = JOptionPane.showConfirmDialog(C, "Deseas eliminar dicho Socio ?",
+                "Atención", JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+        return opcion;
+    }
+
 }

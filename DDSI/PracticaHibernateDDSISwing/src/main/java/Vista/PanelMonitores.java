@@ -29,6 +29,9 @@ public class PanelMonitores extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableMonitores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jButtonNuevoMonitor = new javax.swing.JButton();
+        jButtonBajaMonitor = new javax.swing.JButton();
+        jButtonActualizacionMonitor = new javax.swing.JButton();
 
         jTableMonitores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -47,18 +50,43 @@ public class PanelMonitores extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 51, 0));
         jLabel1.setText("Gestión de Monitores");
 
+        jButtonNuevoMonitor.setText("Nuevo Monitor");
+        jButtonNuevoMonitor.setActionCommand("NuevoMonitor");
+        jButtonNuevoMonitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNuevoMonitorActionPerformed(evt);
+            }
+        });
+
+        jButtonBajaMonitor.setText("Baja de Monitor");
+        jButtonBajaMonitor.setActionCommand("BajaMonitor");
+
+        jButtonActualizacionMonitor.setText("Actualización de Monitor");
+        jButtonActualizacionMonitor.setActionCommand("ActualizacionMonitor");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButtonNuevoMonitor)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonBajaMonitor)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonActualizacionMonitor)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -67,12 +95,24 @@ public class PanelMonitores extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNuevoMonitor)
+                    .addComponent(jButtonBajaMonitor)
+                    .addComponent(jButtonActualizacionMonitor))
+                .addGap(57, 57, 57))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonNuevoMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoMonitorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNuevoMonitorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton jButtonActualizacionMonitor;
+    public javax.swing.JButton jButtonBajaMonitor;
+    public javax.swing.JButton jButtonNuevoMonitor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTableMonitores;
