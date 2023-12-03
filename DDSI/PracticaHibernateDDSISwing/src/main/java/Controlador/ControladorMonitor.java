@@ -11,6 +11,7 @@ import Vista.JDialogInsertarMonitor;
 import Vista.PanelMonitores;
 import Vista.VMensaje;
 import Vista.VistaMensaje;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -110,7 +113,7 @@ public class ControladorMonitor implements ActionListener {
                         fecha = Establecerfecha(dialogoInsertaMonitor.FechaNacMonitor.getDate().toString());
                     }
                     //campos opigatorios
-                    DNI = DNI.toUpperCase(); 
+                    DNI = DNI.toUpperCase();
                     System.out.println(DNI);
                     if (!nombre.isEmpty() && DNIValido(DNI) && fechaValida(fecha)) {
                         Monitor m = new Monitor(codigo, nombre, DNI, fecha); //creamos el monitor con los campos obligatorios
@@ -141,6 +144,38 @@ public class ControladorMonitor implements ActionListener {
                     vaciarDatos();
                 }
 
+            }
+
+            case "BajaMonitor" -> {
+                int filaMoniror = pMonitores.jTableMonitores.getSelectedRow();
+                if (filaMoniror != -1) {
+                    int confirm = BajaDialog(pMonitores);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        try {
+                            session = sessionFactory.openSession();
+                            tr = session.beginTransaction();
+
+                            List<Monitor> monitores = monitorDAO.listaMonitores(session);
+                            monitorDAO.eliminarMonitor(session, monitores.get(filaMoniror).getCodMonitor());
+                            tr.commit();
+                            VistaMensaje.mensajeConsola("El monitor se ha eliminado con exito");
+//                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
+                        } catch (Exception ex) {
+                            tr.rollback();
+                            VistaMensaje.mensajeConsola("Error en el delete de un monitor " + ex.getMessage());
+                            vMensaje.MensajeInfo(pMonitores, "Error al eliminar monitor " + ex.getMessage());
+                        } finally {
+                            if (session != null && session.isOpen()) {
+                                session.close();
+                            }
+                            dibujarTabla();
+                        }
+                    }
+                }
+            }
+            
+            case "ActualizarMonitor" -> {
+                
             }
 
             default ->
@@ -231,11 +266,7 @@ public class ControladorMonitor implements ActionListener {
 
     //comprueba que el dni tiene 9 caracteres y que el ultimo es una letra
     private boolean DNIValido(String DNI) {
-        
         char letra = DNI.charAt(DNI.length() - 1);
-//        letra = Character.toUpperCase(letra);
-//        DNI = DNI.substring(0, DNI.length() - 2);
-//        DNI += Character.toString(letra);
 
         return DNI.length() == 9 && Character.isLetter(letra);
     }
@@ -255,6 +286,13 @@ public class ControladorMonitor implements ActionListener {
         dialogoInsertaMonitor.correoMonitor.setText("");
         dialogoInsertaMonitor.nickMonitor.setText("");
         dialogoInsertaMonitor.telefonoMonitor.setText("");
+    }
+    
+    public int BajaDialog(Component C) {
+        int opcion = JOptionPane.showConfirmDialog(C, "Deseas eliminar dicho Monitor ?",
+                "Atención", JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+        return opcion;
     }
 
 }

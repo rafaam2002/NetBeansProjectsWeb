@@ -32,4 +32,9 @@ public class MonitorDAO {
     public void insertarActualizarMonitor (Session session, Monitor monitor) throws Exception {
         session.saveOrUpdate(monitor);
     }
+
+    public void eliminarMonitor(Session session, String codMonitor) throws Exception {
+        Query consulta = session.createNamedQuery("Monitor.findByCodMonitor", Monitor.class).setParameter("codMonitor", codMonitor);
+        session.delete((Monitor)consulta.getSingleResult());
+    }
 }

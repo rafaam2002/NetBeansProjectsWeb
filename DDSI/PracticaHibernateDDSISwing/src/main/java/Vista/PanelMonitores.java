@@ -60,9 +60,14 @@ public class PanelMonitores extends javax.swing.JPanel {
 
         jButtonBajaMonitor.setText("Baja de Monitor");
         jButtonBajaMonitor.setActionCommand("BajaMonitor");
+        jButtonBajaMonitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBajaMonitorActionPerformed(evt);
+            }
+        });
 
         jButtonActualizacionMonitor.setText("Actualización de Monitor");
-        jButtonActualizacionMonitor.setActionCommand("ActualizacionMonitor");
+        jButtonActualizacionMonitor.setActionCommand("ActualizarMonitor");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -107,6 +112,10 @@ public class PanelMonitores extends javax.swing.JPanel {
     private void jButtonNuevoMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoMonitorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonNuevoMonitorActionPerformed
+
+    private void jButtonBajaMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBajaMonitorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonBajaMonitorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

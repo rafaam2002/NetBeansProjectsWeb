@@ -25,6 +25,7 @@ Controlador/UtilTablasSocio.class
 Modelo/SocioDAO.class
 Vista/PanelSocios.class
 Config/HibernateUtilMariaDB.class
+Vista/PanelMonitores$2.class
 Vista/VistaSocio.class
 Vista/VistaMensaje.class
 Vista/PanelMonitores.class

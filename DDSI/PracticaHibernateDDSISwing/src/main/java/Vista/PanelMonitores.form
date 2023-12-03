@@ -115,6 +115,9 @@
         <Property name="text" type="java.lang.String" value="Baja de Monitor"/>
         <Property name="actionCommand" type="java.lang.String" value="BajaMonitor"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBajaMonitorActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
@@ -122,7 +125,7 @@
     <Component class="javax.swing.JButton" name="jButtonActualizacionMonitor">
       <Properties>
         <Property name="text" type="java.lang.String" value="Actualizaci&#xf3;n de Monitor"/>
-        <Property name="actionCommand" type="java.lang.String" value="ActualizacionMonitor"/>
+        <Property name="actionCommand" type="java.lang.String" value="ActualizarMonitor"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
