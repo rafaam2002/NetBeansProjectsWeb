@@ -8,6 +8,7 @@ Vista/vistaLogin.class
 Vista/vistaPrincipal.class
 Modelo/Socio.class
 Controlador/ControladorMonitor.class
+Vista/JDialogInsertarMonitor$1.class
 Controlador/ControladorPrincipal.class
 Vista/PanelMonitores$1.class
 Controlador/UtilTablasMonitor$1.class

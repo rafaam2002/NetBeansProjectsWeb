@@ -18,14 +18,18 @@ public class MonitorDAO {
 
     
     
-    public ArrayList<Monitor> listaMonitores(Session session){
+    public ArrayList<Monitor> listaMonitores(Session session) throws Exception{
         s = session;
          Query consulta = s.createQuery("SELECT m FROM Monitor m", Monitor.class);
         return (ArrayList<Monitor>) consulta.list();
     }
     
-     public String DevolverUltimoCodigo(Session session){
+     public String DevolverUltimoCodigo(Session session) throws Exception{
         Query consulta = session.createQuery("Select MAX(m.codMonitor) from Monitor m");
         return (String)consulta.getSingleResult();
+    }
+     
+    public void insertarActualizarMonitor (Session session, Monitor monitor) throws Exception {
+        session.saveOrUpdate(monitor);
     }
 }
