@@ -1,7 +1,9 @@
+Vista\JDialogInsertarMonitor.class
 Modelo\ActividadDAO.class
 Vista\PanelPrincipal.class
 Controlador\UtilTablasSocio.class
 Controlador\ControladorSocios.class
+Vista\VMensaje.class
 Modelo\SocioDAO.class
 Controlador\UtilTablasMonitor.class
 Vista\vistaLogin.class
@@ -15,9 +17,13 @@ Controlador\ControladorLogin.class
 Config\HibernateUtilMariaDB.class
 Vista\VistaSocio.class
 Vista\PanelSocios.class
+Vista\JDialogInsertarMonitor$1.class
 Modelo\Actividad.class
+Controlador\ControladorMonitor.class
 Controlador\UtilTablasSocio$1.class
+Vista\PanelMonitores$2.class
 Vista\PanelMonitores.class
+Vista\PanelMonitores$1.class
 Vista\vistaPrincipal$1.class
 Controlador\UtilTablasMonitor$1.class
 Controlador\ControladorPrincipal.class

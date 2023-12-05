@@ -16,27 +16,33 @@ public class Supermercado {
 
     synchronized public void pagarEfectivo() throws InterruptedException {
         efectivoEsperando++;
-        while (numCajasLibres == 0 && !operarioLibre) {
+        while (numCajasLibres == 0 || !operarioLibre) {
             wait();
         }
+        efectivoEsperando--;
         numCajasLibres--;
         operarioLibre = false;
 
     }
 
     synchronized public void pagarTarjeta() throws InterruptedException {
-        while (numCajasLibres == 0 && efectivoEsperando > 0 && operarioLibre) {
+        while (numCajasLibres == 0 || (efectivoEsperando > 0 && operarioLibre)) {
             wait();
         }
         numCajasLibres--;
+//        System.out.println(numCajasLibres + " " + operarioLibre);
     }
 
-    synchronized public void salir() {
+    synchronized public void salir( char tipo ) {
         numCajasLibres++;
-        if ('E' == Thread.currentThread().getName().charAt(0)) {
+        System.out.println(numCajasLibres + " " + operarioLibre);
+        System.out.println(Thread.currentThread().getName().charAt(0));
+        System.out.println(Thread.currentThread().getName());
+        if (tipo == 'E') {
             operarioLibre = true;
         }
         notifyAll();
+        System.out.println("Efectivos esperando: " + efectivoEsperando);
     }
 
 }
