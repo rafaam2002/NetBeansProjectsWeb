@@ -132,7 +132,7 @@ public class SuperCanvas extends Canvas {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public synchronized void paint(Graphics g) {
         int separacion = 0;
         Font f1 = new Font("Broadway", Font.BOLD, 20);
         Font f2 = new Font("Broadway", Font.BOLD, 10);

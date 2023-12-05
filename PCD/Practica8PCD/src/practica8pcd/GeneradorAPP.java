@@ -75,7 +75,7 @@ public class GeneradorAPP extends java.awt.Frame {
 
         var supermercado = new Supermercado();
         for (int i = 0; i < 50; i++) {
-            if (rdm.nextInt(100) < 60) {
+            if (rdm.nextInt(100) < 0) {
                 esperaTarjeta.add(thpTarjeta.submit(new Tarjeta(supermercado, "Tarjeta-" + i, cv)));
             } else {
                 esperaEfectivo.add(thpEfectivo.submit(new Efectivo(supermercado, "Efectivo-" + i, cv)));

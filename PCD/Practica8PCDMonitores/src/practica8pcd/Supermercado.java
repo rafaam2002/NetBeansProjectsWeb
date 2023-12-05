@@ -25,7 +25,7 @@ public class Supermercado {
         mutex.lock();
         try {
             efectivoEsperando++;
-            if (numCajasLibres == 0 || !operarioLibre) {
+            while (numCajasLibres == 0 || !operarioLibre) {
                 colaEfectivo.await();
             }
             efectivoEsperando--;
@@ -41,7 +41,7 @@ public class Supermercado {
         mutex.lock();
 
         try {
-            if (numCajasLibres == 0 || (efectivoEsperando > 0 && operarioLibre)) {
+            while (numCajasLibres == 0 || (efectivoEsperando > 0 && operarioLibre)) {
                 colaTarjeta.await();
             }
             numCajasLibres--;
