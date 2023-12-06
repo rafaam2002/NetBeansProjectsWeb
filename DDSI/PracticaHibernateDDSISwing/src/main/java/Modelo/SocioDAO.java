@@ -40,6 +40,12 @@ public class SocioDAO {
         return (ArrayList<Object[]>) consulta.list();
 
     }
+    
+    public ArrayList<Socio> getSociosSortByNumSocio (Session s) throws Exception {
+        Query consulta = s.createQuery("SELECT s FROM Socio s ORDER BY s.numeroSocio ASC");
+        return (ArrayList<Socio>) consulta.getResultList();
+                
+    }
 
     public ArrayList<Object[]> getSociosCategoria(Session s, char c) throws Exception{
         Query consulta = s.createQuery("SELECT s.nombre,s.categoria FROM Socio s where s.categoria = :categoria");

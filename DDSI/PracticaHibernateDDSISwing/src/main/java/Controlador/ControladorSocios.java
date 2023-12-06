@@ -86,7 +86,7 @@ public class ControladorSocios implements ActionListener {
                             session = sessionFactory.openSession();
                             tr = session.beginTransaction();
 
-                            List<Socio> socios = socioDAO.getSociosNamedQuery(session);
+                            List<Socio> socios = socioDAO.getSociosSortByNumSocio(session);
                             socioDAO.eliminarSocio(session, socios.get(filaSocio).getNumeroSocio());
                             tr.commit();
                             VistaMensaje.mensajeConsola("El socio se ha eliminado con exito");
@@ -118,7 +118,7 @@ public class ControladorSocios implements ActionListener {
         tr = session.beginTransaction();
 
         try {
-            ArrayList<Socio> socios = pideSocios();
+            ArrayList<Socio> socios = socioDAO.getSociosSortByNumSocio(session);
             uTablasS.vaciarTablaSocios();
             uTablasS.rellenarTablaSocios(socios);
             tr.commit();
@@ -131,12 +131,7 @@ public class ControladorSocios implements ActionListener {
             }
         }
     }
-
-    private ArrayList<Socio> pideSocios() throws Exception {
-        ArrayList<Socio> socios = socioDAO.getSociosNamedQuery(session);
-        return socios;
-    }
-
+    
     public int BajaDialog(Component C) {
         int opcion = JOptionPane.showConfirmDialog(C, "Deseas eliminar dicho Socio ?",
                 "Atención", JOptionPane.YES_NO_OPTION,

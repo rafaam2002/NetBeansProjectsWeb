@@ -155,7 +155,7 @@ public class ControladorMonitor implements ActionListener {
                             session = sessionFactory.openSession();
                             tr = session.beginTransaction();
 
-                            List<Monitor> monitores = monitorDAO.listaMonitores(session);
+                            List<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
                             monitorDAO.eliminarMonitor(session, monitores.get(filaMoniror).getCodMonitor());
                             tr.commit();
                             VistaMensaje.mensajeConsola("El monitor se ha eliminado con exito");
@@ -173,9 +173,42 @@ public class ControladorMonitor implements ActionListener {
                     }
                 }
             }
-            
+
             case "ActualizarMonitor" -> {
-                
+                int filaMoniror = pMonitores.jTableMonitores.getSelectedRow();
+                if (filaMoniror != -1) {
+                    try {
+                        session = sessionFactory.openSession();
+                        tr = session.beginTransaction();
+
+                        List<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
+                        Monitor monitor = monitores.get(filaMoniror);
+
+                        dialogoInsertaMonitor.codigoMonitor.setText(monitor.getCodMonitor());
+                        dialogoInsertaMonitor.nombreMonitor.setText(monitor.getNombre());
+                        dialogoInsertaMonitor.DNIMonitor.setText(monitor.getDni());
+                        dialogoInsertaMonitor.telefonoMonitor.setText(monitor.getTelefono());
+                        dialogoInsertaMonitor.correoMonitor.setText(monitor.getCorreo());
+                        dialogoInsertaMonitor.nickMonitor.setText(monitor.getNick());
+                        
+                        dialogoInsertaMonitor.codigoMonitor.setEditable(false);
+                        dialogoInsertaMonitor.setVisible(true);
+
+                        tr.commit();
+                        VistaMensaje.mensajeConsola("El monitor se ha modificado con exito");
+//                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
+                    } catch (Exception ex) {
+                        tr.rollback();
+                        VistaMensaje.mensajeConsola("Error en la modificacion de un monitor " + ex.getMessage());
+                        vMensaje.MensajeInfo(pMonitores, "Error al modificar monitor " + ex.getMessage());
+                    } finally {
+                        if (session != null && session.isOpen()) {
+                            session.close();
+                        }
+                        dibujarTabla();
+                    }
+                }
+
             }
 
             default ->
@@ -193,7 +226,7 @@ public class ControladorMonitor implements ActionListener {
         session = sessionFactory.openSession();
         tr = session.beginTransaction();
         try {
-            ArrayList<Monitor> monitores = pideMonitores();
+            ArrayList<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
             uTablasM.vaciarTablaMonitores();
             uTablasM.rellenarTablaMonitores(monitores);
             tr.commit();
@@ -205,11 +238,6 @@ public class ControladorMonitor implements ActionListener {
                 session.close();
             }
         }
-    }
-
-    private ArrayList<Monitor> pideMonitores() throws Exception {
-        ArrayList<Monitor> monitores = monitorDAO.listaMonitores(session);
-        return monitores;
     }
 
     private String Establecerfecha(String s) {
@@ -287,7 +315,7 @@ public class ControladorMonitor implements ActionListener {
         dialogoInsertaMonitor.nickMonitor.setText("");
         dialogoInsertaMonitor.telefonoMonitor.setText("");
     }
-    
+
     public int BajaDialog(Component C) {
         int opcion = JOptionPane.showConfirmDialog(C, "Deseas eliminar dicho Monitor ?",
                 "Atención", JOptionPane.YES_NO_OPTION,
