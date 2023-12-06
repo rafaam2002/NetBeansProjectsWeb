@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 
@@ -15,7 +16,7 @@ import org.hibernate.Session;
 
 public class MonitorDAO {
 
-     public ArrayList<Monitor> listaMonitores(Session session) throws Exception {
+    public ArrayList<Monitor> listaMonitores(Session session) throws Exception {
 
         Query consulta = session.createQuery("SELECT m FROM Monitor m", Monitor.class);
         return (ArrayList<Monitor>) consulta.list();

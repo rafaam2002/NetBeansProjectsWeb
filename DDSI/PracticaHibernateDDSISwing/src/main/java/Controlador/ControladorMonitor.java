@@ -155,7 +155,7 @@ public class ControladorMonitor implements ActionListener {
                             session = sessionFactory.openSession();
                             tr = session.beginTransaction();
 
-                            List<Monitor> monitores = monitorDAO.listaMonitores(session);
+                            List<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
                             monitorDAO.eliminarMonitor(session, monitores.get(filaMoniror).getCodMonitor());
                             tr.commit();
                             VistaMensaje.mensajeConsola("El monitor se ha eliminado con exito");
@@ -190,7 +190,6 @@ public class ControladorMonitor implements ActionListener {
                         dialogoInsertaMonitor.telefonoMonitor.setText(monitor.getTelefono());
                         dialogoInsertaMonitor.correoMonitor.setText(monitor.getCorreo());
                         dialogoInsertaMonitor.nickMonitor.setText(monitor.getNick());
-
                         dialogoInsertaMonitor.codigoMonitor.setEditable(false);
                         dialogoInsertaMonitor.setVisible(true);
 
@@ -229,7 +228,7 @@ public class ControladorMonitor implements ActionListener {
         session = sessionFactory.openSession();
         tr = session.beginTransaction();
         try {
-            ArrayList<Monitor> monitores = pideMonitores();
+            ArrayList<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
             uTablasM.vaciarTablaMonitores();
             uTablasM.rellenarTablaMonitores(monitores);
             tr.commit();
@@ -241,11 +240,6 @@ public class ControladorMonitor implements ActionListener {
                 session.close();
             }
         }
-    }
-
-    private ArrayList<Monitor> pideMonitores() throws Exception {
-        ArrayList<Monitor> monitores = monitorDAO.listaMonitores(session);
-        return monitores;
     }
 
     private String Establecerfecha(String s) {
