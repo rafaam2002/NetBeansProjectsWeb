@@ -122,7 +122,7 @@
                         Crear cuenta
                     </h2>
                 </div>
-                <form id="formulario" class="space-y-6" action="Registrar" method="POST">
+                <form id="formulario" class="space-y-6" action="/Achilles/ControladorLogin/newUser" method="POST">
                     <div class="relative -space-y-px rounded-md shadow-sm">
                         <div
                             class="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-zinc-500"
@@ -149,6 +149,19 @@
                                 required
                                 class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
                                 placeholder="Apellidos"
+                                />
+                        </div>
+                        <div>
+                            <label for="nick" class="sr-only"
+                                   >nick</label
+                            >
+                            <input
+                                id="nick"
+                                name="nick"
+                                type="text"
+                                required
+                                class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="nombre de usuario"
                                 />
                         </div>
                         <div>
