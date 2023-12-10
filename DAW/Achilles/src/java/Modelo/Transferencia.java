@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ import javax.persistence.NamedQuery;
 })
 public class Transferencia implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,6 +36,9 @@ public class Transferencia implements Serializable {
     public Long getId() {
         return id;
     }
+    
+    @Column(nullable = false)
+    private String fecha;
     
     @ManyToOne
     @JoinColumn(name = "Emisor")
@@ -51,7 +55,7 @@ public class Transferencia implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -62,7 +66,7 @@ public class Transferencia implements Serializable {
             return false;
         }
         Transferencia other = (Transferencia) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -70,7 +74,63 @@ public class Transferencia implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelo.Transferencia[ id=" + id + " ]";
+        return "Modelo.Transferencia[ id=" + getId() + " ]";
+    }
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
+
+    /**
+     * @return the fecha
+     */
+    public String getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the emiTransferencia
+     */
+    public Usuario getEmiTransferencia() {
+        return emiTransferencia;
+    }
+
+    /**
+     * @param emiTransferencia the emiTransferencia to set
+     */
+    public void setEmiTransferencia(Usuario emiTransferencia) {
+        this.emiTransferencia = emiTransferencia;
+    }
+
+    /**
+     * @return the recTransferencia
+     */
+    public Usuario getRecTransferencia() {
+        return recTransferencia;
+    }
+
+    /**
+     * @param recTransferencia the recTransferencia to set
+     */
+    public void setRecTransferencia(Usuario recTransferencia) {
+        this.recTransferencia = recTransferencia;
     }
     
 }

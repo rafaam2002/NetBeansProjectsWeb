@@ -35,6 +35,7 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "Usuario.findNickById", query = "SELECT u.nick FROM Usuario u WHERE u.id = :id"),
     @NamedQuery(name = "Usuario.findByNick", query = "SELECT u FROM Usuario u WHERE u.nick = :nick"),
     @NamedQuery(name = "Usuario.findByNumTel", query = "SELECT u FROM Usuario u WHERE u.numTel = :numTel"),
+    @NamedQuery(name = "Usuario.findByNumCuenta", query = "SELECT u FROM Usuario u WHERE u.numCuenta = :numCuenta"),
 })
 
 public class Usuario implements Serializable {
@@ -50,7 +51,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String apellido;
     @Column(nullable = false)
-    private String numTel; 
+    private String numTel;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)

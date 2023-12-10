@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.jms.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -21,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -114,7 +116,7 @@ public class ControladorLogin extends HttpServlet {
                     user.setBizumActive(false);
                     user.setNumCuenta(generarNumCuenta());
                     vista = "/WEB-INF/main.jsp";
-//                    persist(user);
+                    persist(user);
                 } else {
                     vista = "/nuevoUsuario.html";
                 }
@@ -131,22 +133,26 @@ public class ControladorLogin extends HttpServlet {
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
                         if (password.equals(user.getPassword())) {
+                            HttpSession session = request.getSession();
+                            if(session.isNew()){
+                                session.setAttribute("idUsuario", user.getId());
+                            }
                             vista = "/WEB-INF/main.jsp";
                         } else {
                             vista = "/index.html";
                         }
                     } catch (NoResultException ex) {
                         System.out.println("El usuario no existe " + ex.getMessage());
+                        vista = "/index.html";
                     }
 
                 } else {
                     vista = "/index.html";
                 }
-
+                break;
             default:
                 vista = "/index.html";
         }
-        System.err.println(vista);
         RequestDispatcher rd = request.getRequestDispatcher(vista);
         rd.forward(request, response);
     }
