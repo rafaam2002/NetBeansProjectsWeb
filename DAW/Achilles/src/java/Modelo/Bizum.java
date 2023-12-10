@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,19 +28,24 @@ import javax.persistence.NamedQuery;
 })
 public class Bizum implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(nullable = false)
+    private String fecha;
     
+    @Column(nullable = false)
+    private double cantidad;
+
     @ManyToOne
     @JoinColumn(name = "Emisor")
     private Usuario emiBizum;
-    
+
     @ManyToOne
     @JoinColumn(name = "Receptor")
     private Usuario recBizum;
-    
 
     public Long getId() {
         return id;
@@ -52,7 +58,7 @@ public class Bizum implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -63,7 +69,7 @@ public class Bizum implements Serializable {
             return false;
         }
         Bizum other = (Bizum) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -71,7 +77,77 @@ public class Bizum implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelo.Bizum[ id=" + id + " ]";
+        return "Modelo.Bizum[ id=" + getId() + " ]";
     }
-    
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
+
+    /**
+     * @return the fecha
+     */
+    public String getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the cantidad
+     */
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    /**
+     * @param cantidad the cantidad to set
+     */
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    /**
+     * @return the emiBizum
+     */
+    public Usuario getEmiBizum() {
+        return emiBizum;
+    }
+
+    /**
+     * @param emiBizum the emiBizum to set
+     */
+    public void setEmiBizum(Usuario emiBizum) {
+        this.emiBizum = emiBizum;
+    }
+
+    /**
+     * @return the recBizum
+     */
+    public Usuario getRecBizum() {
+        return recBizum;
+    }
+
+    /**
+     * @param recBizum the recBizum to set
+     */
+    public void setRecBizum(Usuario recBizum) {
+        this.recBizum = recBizum;
+    }
+
 }

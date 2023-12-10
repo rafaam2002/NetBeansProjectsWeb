@@ -26,26 +26,11 @@ async function cargarDatos() {
     let response = await fetch("/Achilles/ControladorDatos/getDatos");
     if (response.ok) { // sielHTTP-status es 200-299 
         let resp = await response.json();
-        let datosResp = resp.datos;
-        
-        xAxisData = [
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat",
-            "Sun",
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat",
-            "Sun",
-        ];
+        data = resp.datos;
+        xAxisData = resp.ejeX;
+        console.log(resp);
 
-        data = datosResp;
+
         console.log("tipo data: " + typeof data);
         if (data.length < xAxisData.length) {
             const array14dias = Array(14).fill(0);

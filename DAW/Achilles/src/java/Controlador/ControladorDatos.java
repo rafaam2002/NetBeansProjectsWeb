@@ -9,7 +9,9 @@ import Modelo.Transferencia;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,8 +44,8 @@ public class ControladorDatos extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    
-    private final LocalDate fInicioAplicacion = LocalDate.of(2023, 12, 10); 
+
+    private final LocalDate fInicioAplicacion = LocalDate.of(2023, 12, 1);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -98,7 +100,7 @@ public class ControladorDatos extends HttpServlet {
                 user = (Usuario) query.getSingleResult();
 
                 double[] datos = getMovimientosUsuario(user);
-                JsonObject datosJson = transformarMovimientosAJson(user);
+                JsonObject datosJson = transformarMovimientosAJson(datos);
 
                 // Configurar la respuesta
                 response.setContentType("application/json");
@@ -151,55 +153,84 @@ public class ControladorDatos extends HttpServlet {
     }
 
     private double[] getMovimientosUsuario(Usuario user) {
-        Query query;
         LocalDate fHoy = LocalDate.now();
-        Transferencia t;
-       
+
+        // Define el formato de fecha
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/dd/MM/yyyy");
+
         // Calcula la diferencia en días
-        int diferenciaEnDias = (int)ChronoUnit.DAYS.between(fInicioAplicacion, fHoy);
-        
+        int difDiasEntreIniAppYHoy = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fHoy);
+
         List<Transferencia> tEnviadas = user.gettEnviadas();
         List<Transferencia> tRecividas = user.gettRecividas();
         List<Bizum> bEnviados = user.getbEnviados();
         List<Bizum> bRecividos = user.getbRecividos();
-        
-        double[] datosXdia  = new double[diferenciaEnDias]; //se inicializa a 0 automaticamente en java 
+
+        double[] datosXdia = new double[difDiasEntreIniAppYHoy]; //se inicializa a 0 automaticamente en java 
         int i = 0;
-        
-        while( i < tEnviadas.size() || i < tRecividas.size() || i < bEnviados.size() || i < bRecividos.size()){
-            if(i < tEnviadas.size()){
-                t = tEnviadas.get(i);
-                t.getFecha();
+
+        //Bucle que va sumando los movimientos a la posicion de datosXdia correspondiente
+        LocalDate fecha;
+        Transferencia trans;
+        Bizum bizum;
+        String fString;
+        int difDias;
+        while (i < tEnviadas.size() || i < tRecividas.size() || i < bEnviados.size() || i < bRecividos.size()) {
+            if (i < tEnviadas.size()) {
+                trans = tEnviadas.get(i);
+                fString = trans.getFecha();
+                fecha = LocalDate.parse(fString, formatter);
+                difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
+                datosXdia[difDias] -= trans.getCantidad();
+            }
+            if (i < tRecividas.size()) {
+                trans = tRecividas.get(i);
+                fString = trans.getFecha();
+                fecha = LocalDate.parse(fString, formatter);
+                difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
+                datosXdia[difDias] += trans.getCantidad();
+            }
+            if (i < bEnviados.size()) {
+                bizum = bEnviados.get(i);
+                fString = bizum.getFecha();
+                fecha = LocalDate.parse(fString, formatter);
+                difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
+                datosXdia[difDias] -= bizum.getCantidad();
+            }
+            if (i < bEnviados.size()) {
+                bizum = bEnviados.get(i);
+                fString = bizum.getFecha();
+                fecha = LocalDate.parse(fString, formatter);
+                difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
+                datosXdia[difDias] += bizum.getCantidad();
             }
         }
-
+        return datosXdia;
     }
 
-    private JsonObject transformarMovimientosAJson(Usuario user) {
+    private JsonObject transformarMovimientosAJson(double[] datos) {
 
         JsonObjectBuilder jBuilder = Json.createObjectBuilder();
-        long datos[] = {1, 2, 3, 4};
 
-        JsonArrayBuilder daJsBuilder = Json.createArrayBuilder();
+        //datos
+        JsonArrayBuilder daJsBuilderDatos = Json.createArrayBuilder();
 
-        daJsBuilder.add(1.0);
-        daJsBuilder.add(2.0);
-        daJsBuilder.add(3.0);
-        daJsBuilder.add(4.0);
-        daJsBuilder.add(5.0);
-//        daJsBuilder.add(1.0);
-//        daJsBuilder.add(2.0);
-//        daJsBuilder.add(3.0);
-//        daJsBuilder.add(4.0);
-//        daJsBuilder.add(5.0);
-//        daJsBuilder.add(1.0);
-//        daJsBuilder.add(2.0);
-//        daJsBuilder.add(3.0);
-//        daJsBuilder.add(4.0);
+        //EjeX
+        JsonArrayBuilder daJsBuilderEjeX = Json.createArrayBuilder();
+        final String[] diasSemana = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        String[] diasEjeX = new String[datos.length];
 
-        JsonArray datosJson = daJsBuilder.build();
+        for (int i = 0; i < datos.length; i++) {
+            daJsBuilderDatos.add(datos[i]);
+            daJsBuilderEjeX.add(diasSemana[i % 7]);
+        }
 
-        jBuilder.add("datos", datosJson);
+        JsonArray datosJsonArray = daJsBuilderDatos.build();
+        JsonArray ejeXJsonArray = daJsBuilderEjeX.build();
+
+        jBuilder.add("datos", datosJsonArray);
+        jBuilder.add("ejeX",ejeXJsonArray);
+
         return jBuilder.build();
     }
 

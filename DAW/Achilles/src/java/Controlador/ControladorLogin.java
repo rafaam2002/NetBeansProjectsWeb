@@ -115,13 +115,18 @@ public class ControladorLogin extends HttpServlet {
                     user.setDineroDouble(0.0);
                     user.setBizumActive(false);
                     user.setNumCuenta(generarNumCuenta());
-                    vista = "/WEB-INF/main.jsp";
                     persist(user);
+                    
+                    //Busco el usuario creado para encontrar su id ya que este se genera automaticamente
+                    query = em.createNamedQuery("Usuario.findByNick",Usuario.class);
+                    query.setParameter("nick", nick);
+                    user = (Usuario)query.getSingleResult();
+                    HttpSession session = request.getSession();
+                    session.setAttribute("idUsuario", user.getId());
+                    vista = "/WEB-INF/main.jsp";
                 } else {
                     vista = "/nuevoUsuario.html";
                 }
-
-                System.out.println(name);
 
                 break;
             case "/login":
@@ -134,7 +139,7 @@ public class ControladorLogin extends HttpServlet {
                         user = (Usuario) query.getSingleResult();
                         if (password.equals(user.getPassword())) {
                             HttpSession session = request.getSession();
-                            if(session.isNew()){
+                            if (session.isNew()) {
                                 session.setAttribute("idUsuario", user.getId());
                             }
                             vista = "/WEB-INF/main.jsp";
@@ -197,12 +202,12 @@ public class ControladorLogin extends HttpServlet {
         do {
             nuevoNumCuenta = Math.abs(rdm.nextLong());  // Genera número aleatorio de 64 bits
         } while (numeroCuentaExistente(nuevoNumCuenta));
-        
+
         return nuevoNumCuenta;
     }
 
     private boolean numeroCuentaExistente(long nuevoNumCuenta) {
-         Query query = em.createNamedQuery("Usuario.findByNumCuenta", Long.class);
+        Query query = em.createNamedQuery("Usuario.findByNumCuenta", Long.class);
         query.setParameter("numCuenta", nuevoNumCuenta);
 
         return !query.getResultList().isEmpty();

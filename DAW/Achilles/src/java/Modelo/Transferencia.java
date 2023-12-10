@@ -40,6 +40,9 @@ public class Transferencia implements Serializable {
     @Column(nullable = false)
     private String fecha;
     
+    @Column(nullable = false)
+    private double cantidad;
+    
     @ManyToOne
     @JoinColumn(name = "Emisor")
     private Usuario emiTransferencia;
@@ -131,6 +134,20 @@ public class Transferencia implements Serializable {
      */
     public void setRecTransferencia(Usuario recTransferencia) {
         this.recTransferencia = recTransferencia;
+    }
+
+    /**
+     * @return the cantidad
+     */
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    /**
+     * @param cantidad the cantidad to set
+     */
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
     
 }
