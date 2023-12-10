@@ -23,8 +23,10 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,8 +39,8 @@ import javax.transaction.Transaction;
  *
  * @author rafaa
  */
-@WebServlet(name = "ControladorDatos", urlPatterns = {"/ControladorDatos/*"})
-public class ControladorDatos extends HttpServlet {
+@WebServlet(name = "ControladorDatos", urlPatterns = {"/ControladorPrincipal/*"})
+public class ControladorPrincipal extends HttpServlet {
 
     @PersistenceContext(unitName = "AchillesPU")
     private EntityManager em;
@@ -87,20 +89,27 @@ public class ControladorDatos extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
         String accion = request.getPathInfo();
+        String vista = "/index.html";
         Query query;
         Usuario user;
-        switch (accion) {
-            case "/getDatos":
-                HttpSession session = request.getSession();
+        HttpSession session;
+        long idUsuario;
 
-                long idUsuario = (long) session.getAttribute("idUsuario");
+        //si siempre tengo que estar buscando al usuario lo puedo hacer fuera del switch?
+        switch (accion) {
+            case "/getDatosGraficas":
+                session = request.getSession();
+
+                idUsuario = (long) session.getAttribute("idUsuario");
                 query = em.createNamedQuery("Usuario.findById", Usuario.class);
                 query.setParameter("id", idUsuario);
 
                 user = (Usuario) query.getSingleResult();
 
-                double[] datos = getMovimientosUsuario(user);
-                JsonObject datosJson = transformarMovimientosAJson(datos);
+                Object[] datos = getMovimientosUsuario(user); //datos: [0] array con datos de la grafica principal
+                //[1] ingresos mensual, [2] gasto mensual
+                JsonObject datosJson = transformarMovimientosAJson((double[]) datos[0], (double) datos[1],
+                        (double) datos[2], user.getDineroDouble(), (double) datos[3]);
 
                 // Configurar la respuesta
                 response.setContentType("application/json");
@@ -112,9 +121,60 @@ public class ControladorDatos extends HttpServlet {
                 }
 
                 break;
-            default:
-                throw new AssertionError();
+
+            case "/main":
+                System.err.println("Entrando en accion main");
+                vista = "/WEB-INF/main.jsp";
+
+                break;
+
+            case "/getContactos":
+                session = request.getSession();
+                idUsuario = (long) session.getAttribute("idUsuario");
+                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+                query.setParameter("id", idUsuario);
+
+                user = (Usuario) query.getSingleResult();
+
+                List<Usuario> contactos = user.getContactos();
+                request.setAttribute("contactos", contactos);
+                vista = "/WEB-INF/contactos.jsp";
+                break;
+
+            case "/nuevoContacto":
+
+                vista = "/WEB-INF/nuevoContacto.jsp";
+                
+                break;
+
+            case "/addContacto":
+                String nick = request.getParameter("nick");
+
+                session = request.getSession();
+                idUsuario = (long) session.getAttribute("idUsuario");
+                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+                query.setParameter("id", idUsuario);
+                user = (Usuario) query.getSingleResult();
+                
+                query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
+                query.setParameter("nick", nick);
+
+                try {
+                    Usuario newContacto = (Usuario) query.getSingleResult();
+                    user.getContactos().add(newContacto);
+                    persist(user);
+                    request.setAttribute("mensaje", "Contacto agregado correctamente");
+                } catch (NoResultException  ex) {
+                    request.setAttribute("mensaje", "El nick que ha introducido no pertenece a ningún"
+                            + "usuario");
+                }
+                
+                vista = "/WEB-INF/nuevoContacto.jsp";
+                break;
+
         }
+        RequestDispatcher rd = request.getRequestDispatcher(vista);
+        rd.forward(request, response);
     }
 
     /**
@@ -152,7 +212,7 @@ public class ControladorDatos extends HttpServlet {
         }
     }
 
-    private double[] getMovimientosUsuario(Usuario user) {
+    private Object[] getMovimientosUsuario(Usuario user) {
         LocalDate fHoy = LocalDate.now();
 
         // Define el formato de fecha
@@ -167,7 +227,13 @@ public class ControladorDatos extends HttpServlet {
         List<Bizum> bRecividos = user.getbRecividos();
 
         double[] datosXdia = new double[difDiasEntreIniAppYHoy]; //se inicializa a 0 automaticamente en java 
-        int i = 0;
+
+        //Para graficaPie
+        double ingresosMes = 0;
+        double gastosMes = 0;
+
+        //Capital semana pasada
+        double capitalSemanaPasada;
 
         //Bucle que va sumando los movimientos a la posicion de datosXdia correspondiente
         LocalDate fecha;
@@ -175,6 +241,7 @@ public class ControladorDatos extends HttpServlet {
         Bizum bizum;
         String fString;
         int difDias;
+        int i = 0;
         while (i < tEnviadas.size() || i < tRecividas.size() || i < bEnviados.size() || i < bRecividos.size()) {
             if (i < tEnviadas.size()) {
                 trans = tEnviadas.get(i);
@@ -182,6 +249,12 @@ public class ControladorDatos extends HttpServlet {
                 fecha = LocalDate.parse(fString, formatter);
                 difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
                 datosXdia[difDias] -= trans.getCantidad();
+
+                //graficaPe
+                //Posteriormente ajustar los dias con una funcion dependiendo del mes (30 o 31 o 28)
+                if (difDiasEntreIniAppYHoy - difDias < 30) {
+                    gastosMes -= trans.getCantidad();
+                }
             }
             if (i < tRecividas.size()) {
                 trans = tRecividas.get(i);
@@ -189,6 +262,11 @@ public class ControladorDatos extends HttpServlet {
                 fecha = LocalDate.parse(fString, formatter);
                 difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
                 datosXdia[difDias] += trans.getCantidad();
+
+                //graficaPe
+                if (difDiasEntreIniAppYHoy - difDias < 30) {
+                    ingresosMes += trans.getCantidad();
+                }
             }
             if (i < bEnviados.size()) {
                 bizum = bEnviados.get(i);
@@ -196,6 +274,11 @@ public class ControladorDatos extends HttpServlet {
                 fecha = LocalDate.parse(fString, formatter);
                 difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
                 datosXdia[difDias] -= bizum.getCantidad();
+
+                //graficaPe
+                if (difDiasEntreIniAppYHoy - difDias < 30) {
+                    ingresosMes -= bizum.getCantidad();
+                }
             }
             if (i < bEnviados.size()) {
                 bizum = bEnviados.get(i);
@@ -203,33 +286,63 @@ public class ControladorDatos extends HttpServlet {
                 fecha = LocalDate.parse(fString, formatter);
                 difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
                 datosXdia[difDias] += bizum.getCantidad();
+
+                //graficaPe
+                if (difDiasEntreIniAppYHoy - difDias < 30) {
+                    ingresosMes += bizum.getCantidad();
+                }
             }
         }
-        return datosXdia;
+
+        if (difDiasEntreIniAppYHoy >= 7) {
+            capitalSemanaPasada = datosXdia[datosXdia.length - 7];
+        } else {
+            capitalSemanaPasada = 0;
+        }
+        //Creo datos para pasarlo todo
+        Object[] datos = new Object[4];
+        datos[0] = datosXdia;
+        datos[1] = ingresosMes;
+        datos[2] = gastosMes;
+        datos[3] = capitalSemanaPasada;
+        return datos;
     }
 
-    private JsonObject transformarMovimientosAJson(double[] datos) {
+    private JsonObject transformarMovimientosAJson(double[] datosPrincipal, double ingresosMes,
+            double gastosMes, double capital, double capitalSemanaPasada) {
 
         JsonObjectBuilder jBuilder = Json.createObjectBuilder();
 
+        //Tabla Principal
         //datos
-        JsonArrayBuilder daJsBuilderDatos = Json.createArrayBuilder();
+        JsonArrayBuilder jsBuilderDatos = Json.createArrayBuilder();
 
         //EjeX
-        JsonArrayBuilder daJsBuilderEjeX = Json.createArrayBuilder();
+        JsonArrayBuilder jsBuilderEjeX = Json.createArrayBuilder();
         final String[] diasSemana = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        String[] diasEjeX = new String[datos.length];
 
-        for (int i = 0; i < datos.length; i++) {
-            daJsBuilderDatos.add(datos[i]);
-            daJsBuilderEjeX.add(diasSemana[i % 7]);
+        for (int i = 0; i < datosPrincipal.length; i++) {
+            jsBuilderDatos.add(datosPrincipal[i]);
+            jsBuilderEjeX.add(diasSemana[i % 7]);
         }
 
-        JsonArray datosJsonArray = daJsBuilderDatos.build();
-        JsonArray ejeXJsonArray = daJsBuilderEjeX.build();
+        JsonArray datosJsonArray = jsBuilderDatos.build();
+        JsonArray ejeXJsonArray = jsBuilderEjeX.build();
 
         jBuilder.add("datos", datosJsonArray);
-        jBuilder.add("ejeX",ejeXJsonArray);
+        jBuilder.add("ejeX", ejeXJsonArray);
+
+        //Tabla Pie
+        JsonArrayBuilder jsBuilderDatosPie = Json.createArrayBuilder();
+        jsBuilderDatosPie.add(capital);
+        jsBuilderDatosPie.add(ingresosMes);
+        jsBuilderDatosPie.add(gastosMes);
+        JsonArray datosPieJson = jsBuilderDatosPie.build();
+
+        jBuilder.add("capitalIngresosGastos", datosPieJson);
+
+        //Capital semana Pasada
+        jBuilder.add("capitalSemanaPasada", capitalSemanaPasada);
 
         return jBuilder.build();
     }

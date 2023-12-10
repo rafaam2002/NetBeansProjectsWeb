@@ -1,12 +1,9 @@
-<%-- 
-    Document   : main.jsp
-    Created on : 09-dic-2023, 15:58:40
-    Author     : rafaa
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html class="bg-zinc-800">
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -70,7 +67,7 @@
 
         <title>General</title>
     </head>
-    <body>
+    <body class="bg-zinc-800">
         <header>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -320,137 +317,61 @@
             </nav>
         </header>
 
-        <main class="grid lg:grid-cols-4 lg:grid-rows-3 lg:gap-5 sm:grid-cols-3 gap-4 sm:mx-8 mx-3 my-5">
-            <!-- eChart grafica -->
-            <article class="lg:col-span-3 lg:row-span-2 sm:col-span-3 w-full sm:h-96 h-72  bg-zinc-700 rounded-md shadow-md shadow-black sm:pb-8"
-                     id="grafica"
-                     >
+        <main>
+            <!-- add User Form  -->
+            <article class="mt-7 md:max-w-6xl mx-auto md:w-1/2">
+                <form id = "formulario" class="space-y-6" action="/Achilles/ControladorPrincipal/addContacto" method="POST">
+                    <div class="w-full flex justify-center">
+                        <h1 class="text-zinc-200">Nuevo contacto</h1>
+                    </div>
+                    <div class="grid md:grid-cols-2 md:gap-6 mt-5 md:mt-6">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input
+                                type="text"
+                                name="nick"
+                                id="nombre"
+                                class="block py-2.5 px-0 w-full text-sm text-zinc-300 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-selective-yellow-500 peer"
+                                placeholder=" "
+                                required
+                                />
+                            <label
+                                for="nick"
+                                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-selective-yellow-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                >Nombre de Usuario</label
+                            >
+                        </div>
+                        <div class="relative z-0 w-full mb-6 group">
+                            <label
+                                class="relative inline-flex items-center mb-4 cursor-pointer"
+                                >
+                                <input
+                                    type="checkbox"
+                                    value="active"
+                                    class="sr-only peer"
+                                    name="bizum"
+                                    checked
+                                    />
+                                <div
+                                    class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-selective-yellow-500"
+                                    ></div>
+                                <span class="ml-3 text-sm font-medium text-zinc-400"
+                                      >Habilitar Bizum</span
+                                >
+                            </label>
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        class="rounded-md bg-selective-yellow-500 px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-selective-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selective-yellow-500 transform scale-100 hover:scale-110 transition-transform ease-in"
+                        >
+                        A�adir
+                    </button>
+                </form>
+
             </article>
 
-            <!-- Conversaciones -->
-            <article
-                class="items-center lg:col-span-1 lg:row-span-3 sm:col-span-3 sm:row-start-3 text-zinc-200 bg-zinc-700 text-xs xl:text-sm 2xl:text-base rounded-md shadow-md shadow-black p-5"
-                >
-                <h2 class="pb-4">Chats</h2>
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
 
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
-            </article>
-
-            <!-- Capital -->
-            <article
-                class="lg:col-span-1 lg:row-span-1 sm:col-span-1 text-zinc-200 w-full h-full bg-zinc-700 rounded-md shadow-md shadow-black pt-5 pl-5"
-                >
-                <div class="flex justify-between">
-                    <div class="flex flex-col justify-between pb-4">
-                        <h1 class="text-selective-yellow-500 text-lg">Capital</h1>
-                        <div class="text-2xl text-zinc-50" id = "capital_general"></div>
-                        <div class="text-sm">Last Week</div>
-                        <div class="text-sm" id = "porcentaje_semanal"></div>
-                    </div>
-                    <div class="">
-                        <img
-                            src="/Achilles/imagenmoneda.png"
-                            width="140"
-
-                            class=""
-                            alt="monedas"
-                            />
-                    </div>
-                </div>
-            </article>
-
-            <!-- Gastos e Ingresos -->
-            <article
-                class="lg:col-span-2 lg:row-span-1 sm:col-span-2 flex justify-evenly text-zinc-200 w-full h-full bg-zinc-700 rounded-md shadow-md shadow-black pr-5"
-                >
-                <div id="grafica_pie" class="md:w-1/2 w-1/3 h-full bg-zinc-700 md:pt-4"></div>
-                <div class="flex flex-col justify-around py-5 text-zinc-300">
-                    <h1 class="text-lg text-zinc-50">Último mes</h1>
-                    <div class="flex">
-                        <div class="w-6 h-6 bg-zinc-500 rounded-full mr-4"></div>
-                        <h2 id="leyenda_capital">Capital: 1000€</h2>
-                    </div>
-                    <div class="flex">
-                        <div class="w-6 h-6 bg-green-300 rounded-full mr-4"></div>
-                        <h2 id="leyenda_ingresos">Ingresos: 100€</h2>
-                    </div>
-                    <div class="flex">
-                        <div class="w-6 h-6 bg-red-400 rounded-full mr-4"></div>
-                        <h2 id="leyenda_gastos">Gastos: 50€</h2>
-                    </div>
-                </div>
-            </article>
         </main>
-
-        <!-- Apache Echarts -->
-        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-        <!-- Graficas -->
-        <script src="/Achilles/graficas.js"></script>
-        <!--C:\Users\rafaa\Documents\NetBeansProjects\DAW\Achilles\web\scripts\dropdown_menu_movil.js-->
-        <!--<script src="/Achilles/scripts/graficas.js"></script>-->
 
         <!-- Dropdown menu -->
         <script src="/Achilles/dropdown_menu.js"></script>
