@@ -9,7 +9,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="shortcut icon"
-            href="/Achilles/espadafavicon.ico"
+            href="/Achilles/images/espadafavicon.ico"
             type="image/x-icon"
             />
         <!--<link href="/dist/output.css" rel="stylesheet" />-->
@@ -85,12 +85,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <!-- Current: "border-brotext-selecborder-selective-yellow-200 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-zinc-400" -->
                                 <a
                                     href="/Achilles/ControladorPrincipal/main"
-                                    class="inline-flex items-center border-b-2 border-selective-yellow-500 px-1 pt-1 text-sm font-medium text-selective-yellow-500"
+                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
                                     >General</a
                                 >
                                 <a
                                     href="/Achilles/ControladorPrincipal/getContactos"
-                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
+                                    class="inline-flex items-center border-b-2 border-selective-yellow-500 px-1 pt-1 text-sm font-medium text-selective-yellow-500"
                                     >Contactos</a
                                 >
                                 <a
@@ -320,7 +320,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <main>
             <!-- add User Form  -->
             <article class="mt-7 md:max-w-6xl mx-auto md:w-1/2">
-                <form id = "formulario" class="space-y-6" action="/Achilles/ControladorPrincipal/addContacto" method="POST">
+                <form id = "formulario" class="space-y-6">
                     <div class="w-full flex justify-center">
                         <h1 class="text-zinc-200">Nuevo contacto</h1>
                     </div>
@@ -329,7 +329,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <input
                                 type="text"
                                 name="nick"
-                                id="nombre"
+                                id="nick"
                                 class="block py-2.5 px-0 w-full text-sm text-zinc-300 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-selective-yellow-500 peer"
                                 placeholder=" "
                                 required
@@ -361,7 +361,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                     </div>
                     <button
-                        type="submit"
+                        type="button"
+                        onclick="realizarPeticion()"
                         class="rounded-md bg-selective-yellow-500 px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-selective-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selective-yellow-500 transform scale-100 hover:scale-110 transition-transform ease-in"
                         >
                         Añadir
@@ -369,12 +370,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </form>
 
             </article>
-
-
+            <div class="md:max-w-6xl mx-auto md:w-1/2 pointer-events-none fixed inset-x-0 bottom-16 sm:px-6 sm:pb-5 lg:px-8 ">
+                <div class="pointer-events-auto flex items-center justify-between gap-x-6 bg-black px-6 py-2.5 sm:rounded-xl sm:py-3 sm:pl-4 sm:pr-3.5">
+                    <p class="text-sm leading-6 text-zinc-200">
+                        <a href="#">
+                            <strong class="font-semibold">Usuario agregado correctamente</strong><svg viewBox="0 0 2 2" class="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true"><circle cx="1" cy="1" r="1" /></svg>El nombre de usuario no existe&nbsp;</span>
+                        </a>
+                    </p>
+                    <button type="button" class="-m-3 flex-none p-3 focus-visible:outline-offset-[-4px]">
+                        <span class="sr-only"></span>
+                        <svg class="h-5 w-5 text-selective-yellow-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </main>
 
+
+
         <!-- Dropdown menu -->
-        <script src="/Achilles/dropdown_menu.js"></script>
-        <script src="/Achilles/dropdown_menu_movil.js"></script>
+        <script src="/Achilles/scripts/dropdown_menu.js"></script>
+        <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
+
+        <script src="/Achilles/scripts/peticionContacto.js"></script>
     </body>
 </html>

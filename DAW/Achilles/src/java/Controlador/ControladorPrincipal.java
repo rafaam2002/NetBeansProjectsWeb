@@ -144,7 +144,7 @@ public class ControladorPrincipal extends HttpServlet {
             case "/nuevoContacto":
 
                 vista = "/WEB-INF/nuevoContacto.jsp";
-                
+
                 break;
 
             case "/addContacto":
@@ -155,21 +155,31 @@ public class ControladorPrincipal extends HttpServlet {
                 query = em.createNamedQuery("Usuario.findById", Usuario.class);
                 query.setParameter("id", idUsuario);
                 user = (Usuario) query.getSingleResult();
-                
+
                 query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
                 query.setParameter("nick", nick);
 
+                JsonObject textJson;
                 try {
                     Usuario newContacto = (Usuario) query.getSingleResult();
                     user.getContactos().add(newContacto);
                     persist(user);
-                    request.setAttribute("mensaje", "Contacto agregado correctamente");
-                } catch (NoResultException  ex) {
-                    request.setAttribute("mensaje", "El nick que ha introducido no pertenece a ningún"
-                            + "usuario");
+                    textJson = transformarRespNewContacto("Contacto agregado correctamente");
+
+                    
+                } catch (NoResultException ex) {
+                   textJson = transformarRespNewContacto("El nick que ha introducido no pertenece a ningún usuario");
                 }
-                
-                vista = "/WEB-INF/nuevoContacto.jsp";
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                // Escribir los datos JSON en la respuesta
+                try ( PrintWriter out = response.getWriter()) {
+                    out.print(textJson);
+                }
+
+//                vista = "/WEB-INF/nuevoContacto.jsp";
                 break;
 
         }
@@ -344,6 +354,12 @@ public class ControladorPrincipal extends HttpServlet {
         //Capital semana Pasada
         jBuilder.add("capitalSemanaPasada", capitalSemanaPasada);
 
+        return jBuilder.build();
+    }
+
+    private JsonObject transformarRespNewContacto(String text) {
+        JsonObjectBuilder jBuilder = Json.createObjectBuilder();
+        jBuilder.add("text", text);
         return jBuilder.build();
     }
 

@@ -12,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="shortcut icon"
-            href="/Achilles/espadafavicon.ico"
+            href="/Achilles/images/espadafavicon.ico"
             type="image/x-icon"
             />
         <!--<link href="/dist/output.css" rel="stylesheet" />-->
@@ -448,12 +448,13 @@
         <!-- Apache Echarts -->
         <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
         <!-- Graficas -->
-        <script src="/Achilles/graficas.js"></script>
+        <script src="/Achilles/scripts/graficas.js"></script>
         <!--C:\Users\rafaa\Documents\NetBeansProjects\DAW\Achilles\web\scripts\dropdown_menu_movil.js-->
         <!--<script src="/Achilles/scripts/graficas.js"></script>-->
 
-        <!-- Dropdown menu -->
-        <script src="/Achilles/dropdown_menu.js"></script>
-        <script src="/Achilles/dropdown_menu_movil.js"></script>
+        <!-- Dropdown menu --> 
+        <!--<script src="/Achilles/dropdown_menu.js"></script>-->
+        <script src="/Achilles/scripts/dropdown_menu.js"></script>
+        <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
     </body>
 </html>

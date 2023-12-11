@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="shortcut icon"
-            href="/Achilles/espadafavicon.ico"
+            href="/Achilles/images/espadafavicon.ico"
             type="image/x-icon"
             />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
@@ -595,12 +595,12 @@
         </main>
 
         <!-- Dropdown menu -->
-        <script src="/Achilles/dropdown_menu.js"></script>
-        <script src="/Achilles/dropdown_menu_movil.js"></script>
+        <script src="/Achilles/scripts/dropdown_menu.js"></script>
+        <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
 
-        <script src="/Achilles/dividers.js"></script>
+        <script src="/Achilles/scripts/dividers.js"></script>
 
         <!--<script src="scripts/dividers.js"></script>-->
-        <script src="/Achilles/userSearch.js"></script>
+        <script src="/Achilles/scripts/userSearch.js"></script>
     </body>
 </html>
