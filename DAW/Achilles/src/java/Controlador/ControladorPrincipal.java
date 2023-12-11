@@ -23,6 +23,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -33,6 +34,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.Transaction;
 
 /**
@@ -163,12 +169,11 @@ public class ControladorPrincipal extends HttpServlet {
                 try {
                     Usuario newContacto = (Usuario) query.getSingleResult();
                     user.getContactos().add(newContacto);
-                    persist(user);
+                    update(user);
                     textJson = transformarRespNewContacto("Contacto agregado correctamente");
 
-                    
                 } catch (NoResultException ex) {
-                   textJson = transformarRespNewContacto("El nick que ha introducido no pertenece a ningún usuario");
+                    textJson = transformarRespNewContacto("El nombre de usuario no existe");
                 }
 
                 response.setContentType("application/json");
@@ -183,8 +188,11 @@ public class ControladorPrincipal extends HttpServlet {
                 break;
 
         }
-        RequestDispatcher rd = request.getRequestDispatcher(vista);
-        rd.forward(request, response);
+        if (!accion.equals("/addContacto")) {
+            RequestDispatcher rd = request.getRequestDispatcher(vista);
+            rd.forward(request, response);
+        }
+
     }
 
     /**
@@ -217,6 +225,22 @@ public class ControladorPrincipal extends HttpServlet {
             em.persist(object);
             utx.commit();
         } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void update(Object object) {
+        try {
+            utx.begin();
+
+            if (object != null) {
+                // Copiar los cambios de la instancia proporcionada a la instancia existente
+                em.merge(object);
+            }
+
+            utx.commit();
+        } catch (EntityNotFoundException | IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | RollbackException | SystemException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
