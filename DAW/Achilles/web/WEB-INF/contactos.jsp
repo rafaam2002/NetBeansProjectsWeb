@@ -403,8 +403,13 @@
                                 out.println(contacto.getNumTel());
                                 out.println("    </td>");
                                 out.println("    <td class='whitespace-nowrap px-3 py-5 text-sm text-gray-500'>");
-                                out.println("        <span class='inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-500 ring-1 ring-inset ring-green-500/70'>");
-                                out.println("            Active");
+                                if (contacto.isBizumActive()) {
+                                    out.println("        <span class='inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-500 ring-1 ring-inset ring-green-500/70'>");
+                                    out.println("            Active");
+                                } else {
+                                    out.println("        <span class='inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-red-500 ring-1 ring-inset ring-red-500/70'>");
+                                    out.println("            idle");
+                                }
                                 out.println("        </span>");
                                 out.println("    </td>");
                                 out.println("</tr>");

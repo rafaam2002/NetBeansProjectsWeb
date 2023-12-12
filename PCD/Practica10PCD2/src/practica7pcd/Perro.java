@@ -36,21 +36,21 @@ public class Perro extends Thread {
     @Override
     public void run() {
         cv.enColaPerros(id, 'P');
-        System.out.println("Perro " + id + " esperando");
+//        System.out.println("Perro " + id + " esperando");
         entraPerro.out().write(id);
         int lee = (int) permiso.in().read();
         cv.finColaPerros(id, 'P');
-        System.out.println("Entra perro " + id);
+//        System.out.println("Entra perro " + id + " "+ lee);
 
         try {
             cv.enColaComiendo(id, 'P');
             sleep(rdm.nextInt(6, 8) * 1000);
         } catch (InterruptedException ex) {
-            System.out.println("Error al hacer el sleep");
+//            System.out.println("Error al hacer el sleep");
         }
         salePerro.out().write(id);
         cv.finColaComiendo(id, 'P');
-        System.out.println("Sale perro " + id);
+//        System.out.println("Sale perro " + id);
 
     }
 

@@ -105,6 +105,7 @@ public class ControladorLogin extends HttpServlet {
                 String numTel = request.getParameter("num_tel");
                 password = request.getParameter("password");
                 String checkPassword = request.getParameter("password_check");
+                String bizumActive = request.getParameter("bizum");
                 if (nickNoRepetido(nick) && password.equals(checkPassword) && numTelNoRepetido(numTel)
                         && name != null) {
                     user.setNombre(name);
@@ -115,6 +116,12 @@ public class ControladorLogin extends HttpServlet {
                     user.setDineroDouble(0.0);
                     user.setBizumActive(false);
                     user.setNumCuenta(generarNumCuenta());
+                    if(bizumActive != null && bizumActive.equals("active")){
+                        user.setBizumActive(true);
+                    } else {
+                        user.setBizumActive(false);
+                    }
+                        
                     persist(user);
                     
                     //Busco el usuario creado para encontrar su id ya que este se genera automaticamente

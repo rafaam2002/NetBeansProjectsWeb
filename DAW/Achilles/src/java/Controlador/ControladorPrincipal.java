@@ -98,19 +98,19 @@ public class ControladorPrincipal extends HttpServlet {
         String vista = "/index.html";
         Query query;
         Usuario user;
-        HttpSession session;
         long idUsuario;
 
         //si siempre tengo que estar buscando al usuario lo puedo hacer fuera del switch?
         switch (accion) {
             case "/getDatosGraficas":
-                session = request.getSession();
-
-                idUsuario = (long) session.getAttribute("idUsuario");
-                query = em.createNamedQuery("Usuario.findById", Usuario.class);
-                query.setParameter("id", idUsuario);
-
-                user = (Usuario) query.getSingleResult();
+//                session = request.getSession();
+//
+//                idUsuario = (long) session.getAttribute("idUsuario");
+//                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+//                query.setParameter("id", idUsuario);
+//
+//                user = (Usuario) query.getSingleResult();
+                user = (Usuario) request.getAttribute("user");
 
                 Object[] datos = getMovimientosUsuario(user); //datos: [0] array con datos de la grafica principal
                 //[1] ingresos mensual, [2] gasto mensual
@@ -135,12 +135,12 @@ public class ControladorPrincipal extends HttpServlet {
                 break;
 
             case "/getContactos":
-                session = request.getSession();
-                idUsuario = (long) session.getAttribute("idUsuario");
-                query = em.createNamedQuery("Usuario.findById", Usuario.class);
-                query.setParameter("id", idUsuario);
-
-                user = (Usuario) query.getSingleResult();
+//                session = request.getSession();
+//                idUsuario = (long) session.getAttribute("idUsuario");
+//                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+//                query.setParameter("id", idUsuario);
+//                 user = (Usuario) query.getSingleResult();
+                user = (Usuario) request.getAttribute("user");
 
                 List<Usuario> contactos = user.getContactos();
                 request.setAttribute("contactos", contactos);
@@ -156,21 +156,40 @@ public class ControladorPrincipal extends HttpServlet {
             case "/addContacto":
                 String nick = request.getParameter("nick");
 
-                session = request.getSession();
-                idUsuario = (long) session.getAttribute("idUsuario");
-                query = em.createNamedQuery("Usuario.findById", Usuario.class);
-                query.setParameter("id", idUsuario);
-                user = (Usuario) query.getSingleResult();
+//                session = request.getSession();
+//                idUsuario = (long) session.getAttribute("idUsuario");
+//                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+//                query.setParameter("id", idUsuario);
+//                user = (Usuario) query.getSingleResult();
+                user = (Usuario) request.getAttribute("user");
+
+                System.out.println(user.getNick());
 
                 query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
                 query.setParameter("nick", nick);
 
                 JsonObject textJson;
+
                 try {
                     Usuario newContacto = (Usuario) query.getSingleResult();
-                    user.getContactos().add(newContacto);
-                    update(user);
-                    textJson = transformarRespNewContacto("Contacto agregado correctamente");
+                    if (!newContacto.equals(user)) {//compruebo que no escriba su propio nick
+                        //compruebo que no esté ya es su lista de contactos
+                        boolean repetido = false;
+                        for (Usuario contacto : user.getContactos()) {
+                            if (contacto.getNick().equals(newContacto.getNick())) {
+                                repetido = true;
+                            }
+                        }
+                        if (!repetido) {
+                            user.getContactos().add(newContacto);
+                            update(user);
+                            textJson = transformarRespNewContacto("Contacto agregado correctamente");
+                        } else {
+                            textJson = transformarRespNewContacto("Este usuario ya pertenece a su lista de contactos");
+                        }
+                    } else {
+                        textJson = transformarRespNewContacto("Ha introducido su propio nombre de usuario");
+                    }
 
                 } catch (NoResultException ex) {
                     textJson = transformarRespNewContacto("El nombre de usuario no existe");
@@ -188,7 +207,7 @@ public class ControladorPrincipal extends HttpServlet {
                 break;
 
         }
-        if (!accion.equals("/addContacto")) {
+        if (!accion.equals("/addContacto") && !accion.equals("/getDatosGraficas")) {
             RequestDispatcher rd = request.getRequestDispatcher(vista);
             rd.forward(request, response);
         }

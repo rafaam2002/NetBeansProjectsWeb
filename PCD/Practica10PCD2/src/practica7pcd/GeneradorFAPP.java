@@ -86,7 +86,7 @@ public class GeneradorFAPP extends java.awt.Frame {
             }
             animales[i].start();
             try {
-                sleep(rdm.nextInt(1, 3) * 1000);
+                sleep(rdm.nextInt(1, 3) * 500);
             } catch (InterruptedException ex) {
                 System.out.println("No se pudo hacer el sleep");
             }

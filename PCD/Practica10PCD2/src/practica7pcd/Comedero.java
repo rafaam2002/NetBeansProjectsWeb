@@ -35,10 +35,11 @@ public class Comedero extends Thread {
         int numGatos = 0;
         int id;
 
+        //Guard son los canales que esta escuchando
         final Guard[] guardas_or = new Guard[4];
         guardas_or[0] = entraPerro.in();
-        guardas_or[1] = salePerro.in();
-        guardas_or[2] = entraGato.in();
+        guardas_or[1] = entraGato.in();
+        guardas_or[2] = salePerro.in();
         guardas_or[3] = saleGato.in();
 
         final boolean[] preCondition = new boolean[guardas_or.length];
@@ -47,21 +48,21 @@ public class Comedero extends Thread {
 
         while (true) {
             
-            preCondition[0] = true;
-            preCondition[1] = true;
-
-//            preCondition[0] = numGatos + numPerros <= 4 && ((numGatos <= 2 && numPerros <= 2) || numGatos == 0);
-//            preCondition[1] = numPerros + numGatos <= 4 && ((numPerros <= 2 && numGatos <= 2) || numPerros == 0);
+//            preCondition[0] = true;
+//            preCondition[1] = true;
+                                                
+            preCondition[0] = numGatos + numPerros < 4 && ((numGatos <= 2 && numPerros <= 1) || numGatos == 0);
+            preCondition[1] = numPerros + numGatos < 4 && ((numPerros <= 2 && numGatos <= 1) || numPerros == 0);
             preCondition[2] = true;
             preCondition[3] = true;
-            //System.out.println("Entraleer " + preCondition[0] + "  Entraescriir " + preCondition[1]);
+            System.out.println("Entraleer " + preCondition[0] + "  Entraescriir " + preCondition[1] + " " + (numPerros+numGatos));
             int index = selector.select(preCondition);
             switch (index) {
                 case 0 -> {
                     //System.out.println("Entra en leer");
                     id = (int) entraPerro.in().read();
-                    System.out.println("Entra hilo: " + id);
                     numPerros++;
+                    System.err.println("Numero de perros: " + numPerros);
                     permiso[id].out().write(id);
                 }
 
@@ -69,6 +70,7 @@ public class Comedero extends Thread {
                     //System.out.println("Entra en leer");
                     id = (int) entraGato.in().read();
                     numGatos++;
+                    System.err.println("numGatos: " + numGatos );
                     permiso[id].out().write(id);
                 }
 

@@ -37,20 +37,20 @@ public class Gato implements Runnable {
     public void run() {
 
         cv.enColaGatos(id, 'G');
-        System.out.println("Gato " + id + " esperando");
+//        System.out.println("Gato " + id + " esperando");
         entraGato.out().write(id);
         int lee = (int) permiso.in().read();
         cv.finColaGatos(id, 'G');
-        System.out.println("Entra gato " + id);
+//        System.out.println("Entra gato " + id + " " + lee);
         try {
             cv.enColaComiendo(id, 'G');
             sleep(rdm.nextInt(6, 8) * 1000);
         } catch (InterruptedException ex) {
-            System.out.println("Eror al hacer sleep");
+//            System.out.println("Eror al hacer sleep");
         }
         saleGato.out().write(id);
         cv.finColaComiendo(id, 'G');
-        System.out.println("Sale gato " + id);
+//        System.out.println("Sale gato " + id);
     }
 
 }

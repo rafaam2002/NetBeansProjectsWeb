@@ -319,7 +319,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
         <main>
             <!-- add User Form  -->
-            <article class="mt-7 md:max-w-6xl mx-auto md:w-1/2">
+            <article id ="article_formulario" class="mt-7 md:max-w-6xl mx-auto md:w-1/2">
                 <form id = "formulario" class="space-y-6">
                     <div class="w-full flex justify-center">
                         <h1 class="text-zinc-200">Nuevo contacto</h1>
@@ -340,7 +340,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 >Nombre de Usuario</label
                             >
                         </div>
-                        <div class="relative z-0 w-full mb-6 group">
+<!--                        <div class="relative z-0 w-full mb-6 group">
                             <label
                                 class="relative inline-flex items-center mb-4 cursor-pointer"
                                 >
@@ -358,7 +358,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                       >Habilitar Bizum</span
                                 >
                             </label>
-                        </div>
+                        </div>-->
                     </div>
                     <button
                         id ="submit_button"
@@ -370,7 +370,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </form>
 
             </article>
-            <div id = "banner_new_usuario" class=" opacity-100 transition-opacity ease-out md:max-w-6xl mx-auto md:w-1/2 pointer-events-none fixed inset-x-0 bottom-16 sm:px-6 sm:pb-5 lg:px-8 ">
+            <!--<div id = "banner_new_usuario" class=" opacity-100 transition-opacity ease-out md:max-w-6xl mx-auto md:w-1/2 pointer-events-none fixed inset-x-0 bottom-16 sm:px-6 sm:pb-5 lg:px-8 ">-->
 
             </div>
         </main>
