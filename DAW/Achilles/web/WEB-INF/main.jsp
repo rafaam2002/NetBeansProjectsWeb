@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html class="bg-zinc-800">
     <head>
@@ -149,7 +150,7 @@
                                 -->
                                 <div
                                     id="dropdown-menu"
-                                    class="transition transform opacity-0 scale-95 absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-zinc-800 py-1 shadow-md shadow-zinc-950 ring-1 ring-zinc-900 ring-opacity-60 focus:outline-none"
+                                    class="transition transform opacity-0 scale-95 absolute right-0 -z-10 mt-2 w-48 origin-top-right rounded-md bg-zinc-800 py-1 shadow-md shadow-zinc-950 ring-1 ring-zinc-900 ring-opacity-60 focus:outline-none"
                                     role="menu"
                                     aria-orientation="vertical"
                                     aria-labelledby="user-menu-button"
@@ -173,12 +174,12 @@
                                         >Chats</a
                                     >
                                     <a
-                                        href="/Achilles/ControladorLogin/logout"
+                                        href="/ControladorLogin/logout"
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-2"
-                                        >Sign out</a
+                                        >Log out</a
                                     >
                                 </div>
                             </div>
@@ -274,7 +275,10 @@
                                     />
                             </div>
                             <div class="ml-3">
-                                <div class="text-sm font-medium">tom@example.com</div>
+                                <% String userName = (String) request.getAttribute("nickUsuario");
+                                    System.out.println(userName);
+                                %>
+                                <div class="text-sm font-medium"><%=userName%></div>
                             </div>
                             <button
                                 type="button"
@@ -310,9 +314,9 @@
                                 >Chats</a
                             >
                             <a
-                                href="/Achilles/ControladorLogin/logout"
+                                href="/ControladorLogin/logout"
                                 class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Sign out</a
+                                >Log out</a
                             >
                         </div>
                     </div>

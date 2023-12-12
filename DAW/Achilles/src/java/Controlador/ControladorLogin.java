@@ -7,6 +7,8 @@ package Controlador;
 import Modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -91,7 +94,7 @@ public class ControladorLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-
+        System.out.println("Entra en controlador");
         String accion = request.getPathInfo();
         String vista, nick, password;
         Usuario user = new Usuario();
@@ -108,29 +111,35 @@ public class ControladorLogin extends HttpServlet {
                 String bizumActive = request.getParameter("bizum");
                 if (nickNoRepetido(nick) && password.equals(checkPassword) && numTelNoRepetido(numTel)
                         && name != null) {
-                    user.setNombre(name);
-                    user.setApellido(apellidos);
-                    user.setNick(nick);
-                    user.setNumTel(numTel);
-                    user.setPassword(password);
-                    user.setDineroDouble(0.0);
-                    user.setBizumActive(false);
-                    user.setNumCuenta(generarNumCuenta());
-                    if(bizumActive != null && bizumActive.equals("active")){
-                        user.setBizumActive(true);
-                    } else {
+                    try {
+                        user.setNombre(name);
+                        user.setApellido(apellidos);
+                        user.setNick(nick);
+                        user.setNumTel(numTel);
+                        user.setPassword(cifrarPassword(password));
+                        user.setDineroDouble(0.0);
                         user.setBizumActive(false);
+                        user.setNumCuenta(generarNumCuenta());
+                        if (bizumActive != null && bizumActive.equals("active")) {
+                            user.setBizumActive(true);
+                        } else {
+                            user.setBizumActive(false);
+                        }
+                        persist(user);
+                        //Busco el usuario creado para encontrar su id ya que este se genera automaticamente
+                        query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
+                        query.setParameter("nick", nick);
+                        user = (Usuario) query.getSingleResult();
+                        HttpSession session = request.getSession();
+                        session.setAttribute("idUsuario", user.getId());
+                        request.setAttribute("nickUsuario", nick);
+                        vista = "/WEB-INF/main.jsp";
+                    } catch (NoSuchAlgorithmException ex) {
+                        vista = "/index.html";
+                        System.out.println("No se ha podido crear MessageDigest");
+                        Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                        
-                    persist(user);
-                    
-                    //Busco el usuario creado para encontrar su id ya que este se genera automaticamente
-                    query = em.createNamedQuery("Usuario.findByNick",Usuario.class);
-                    query.setParameter("nick", nick);
-                    user = (Usuario)query.getSingleResult();
-                    HttpSession session = request.getSession();
-                    session.setAttribute("idUsuario", user.getId());
-                    vista = "/WEB-INF/main.jsp";
+
                 } else {
                     vista = "/nuevoUsuario.html";
                 }
@@ -149,6 +158,7 @@ public class ControladorLogin extends HttpServlet {
                             if (session.isNew()) {
                                 session.setAttribute("idUsuario", user.getId());
                             }
+                            request.setAttribute("nickUsuario", nick);
                             vista = "/WEB-INF/main.jsp";
                         } else {
                             vista = "/index.html";
@@ -161,6 +171,12 @@ public class ControladorLogin extends HttpServlet {
                 } else {
                     vista = "/index.html";
                 }
+                break;
+            case "/logout":
+                System.out.println("Esta hacienod logout");
+                HttpSession session = request.getSession();
+                session.removeAttribute("idUsuario");
+                vista = "/index.html";
                 break;
             default:
                 vista = "/index.html";
@@ -218,6 +234,18 @@ public class ControladorLogin extends HttpServlet {
         query.setParameter("numCuenta", nuevoNumCuenta);
 
         return !query.getResultList().isEmpty();
+    }
+
+    private String cifrarPassword(String password) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        StringBuilder sb = new StringBuilder();
+        for (byte b : digest) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        return sb.toString();
     }
 
 }

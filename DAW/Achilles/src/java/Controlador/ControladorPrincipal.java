@@ -155,21 +155,10 @@ public class ControladorPrincipal extends HttpServlet {
 
             case "/addContacto":
                 String nick = request.getParameter("nick");
-
-//                session = request.getSession();
-//                idUsuario = (long) session.getAttribute("idUsuario");
-//                query = em.createNamedQuery("Usuario.findById", Usuario.class);
-//                query.setParameter("id", idUsuario);
-//                user = (Usuario) query.getSingleResult();
                 user = (Usuario) request.getAttribute("user");
-
-                System.out.println(user.getNick());
-
                 query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
                 query.setParameter("nick", nick);
-
                 JsonObject textJson;
-
                 try {
                     Usuario newContacto = (Usuario) query.getSingleResult();
                     if (!newContacto.equals(user)) {//compruebo que no escriba su propio nick
@@ -204,6 +193,10 @@ public class ControladorPrincipal extends HttpServlet {
                 }
 
 //                vista = "/WEB-INF/nuevoContacto.jsp";
+                break;
+            case "/hacerBizum": 
+                vista = "/WEB-INF/hacerBizum.jsp";
+                
                 break;
 
         }

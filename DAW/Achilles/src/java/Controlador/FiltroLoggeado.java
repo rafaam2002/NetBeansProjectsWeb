@@ -34,7 +34,7 @@ import javax.transaction.UserTransaction;
  *
  * @author rafaa
  */
-@WebFilter(filterName = "FiltroLoggeado", urlPatterns = {"/ControladorPrincipal/*"})
+@WebFilter(filterName = "FiltroLoggeado", urlPatterns = {"/ControladorPrincipal/*", "/ControladorLogin/logout"})
 public class FiltroLoggeado implements Filter {
 
     @PersistenceContext(unitName = "AchillesPU")
@@ -118,9 +118,13 @@ public class FiltroLoggeado implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
+       
         System.out.println("El filtro esta funcionando");
         HttpSession session;
         HttpServletRequest req = (HttpServletRequest) request;
+        if(req.getPathInfo().equals("/logout")){
+            System.out.println("Filtro activado desde ControladorLogin/logout");
+        }
         Query query;
         Usuario user;
         session = req.getSession();
@@ -129,11 +133,11 @@ public class FiltroLoggeado implements Filter {
         query.setParameter("id", idUsuario);
         try {
             user = (Usuario) query.getSingleResult();
-            System.out.println("Nombre: " + user.getNombre());
             req.setAttribute("user", user);
-            System.out.println("bizum" + user.isBizumActive());
+            System.err.println("Filtro Pasa a Controlador");
+            //tengo un comentario en controladorLogin para ver si entra pero no entra
             chain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
              RequestDispatcher rd = request.getRequestDispatcher("/intex.htm");
              System.err.println("El usuario no esta logeado, la sesion no pertenece a ningun usuario");
             rd.forward(request, response);
