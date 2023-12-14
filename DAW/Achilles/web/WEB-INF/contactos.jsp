@@ -94,9 +94,9 @@
                                     >Contactos</a
                                 >
                                 <a
-                                    href="/Achilles/ControladorPrincipal/hacerTransaccion"
+                                    href="/Achilles/ControladorPrincipal/transferencia"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
-                                    >Transaccion</a
+                                    >Transferencia</a
                                 >
                                 <a
                                     href="/Achilles/ControladorPrincipal/hacerBizum"
@@ -251,9 +251,9 @@
                             >Contactos</a
                         >
                         <a
-                            href="/Achilles/ControladorPrincipal/hacerTransaccion"
+                            href="/Achilles/ControladorPrincipal/transferencia"
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
-                            >Transaccion</a
+                            >Transferencia</a
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/hacerBizum"

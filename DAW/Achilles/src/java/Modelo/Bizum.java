@@ -35,9 +35,13 @@ public class Bizum implements Serializable {
 
     @Column(nullable = false)
     private String fecha;
-    
+
     @Column(nullable = false)
     private double cantidad;
+
+    @Column(nullable = false)
+    private String concepto;
+    
 
     @ManyToOne
     @JoinColumn(name = "Emisor")
@@ -148,6 +152,20 @@ public class Bizum implements Serializable {
      */
     public void setRecBizum(Usuario recBizum) {
         this.recBizum = recBizum;
+    }
+
+    /**
+     * @return the concepto
+     */
+    public String getConcepto() {
+        return concepto;
+    }
+
+    /**
+     * @param concepto the concepto to set
+     */
+    public void setConcepto(String concepto) {
+        this.concepto = concepto;
     }
 
 }

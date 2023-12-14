@@ -98,9 +98,9 @@
                                     >Contactos</a
                                 >
                                 <a
-                                    href="/Achilles/ControladorPrincipal/hacerTransaccion"
+                                    href="/Achilles/ControladorPrincipal/transferencia"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
-                                    >Transaccion</a
+                                    >Transferencia</a
                                 >
                                 <a
                                     href="/Achilles/ControladorPrincipal/hacerBizum"
@@ -174,7 +174,7 @@
                                         >Chats</a
                                     >
                                     <a
-                                        href="/ControladorLogin/logout"
+                                        href="/Achilles/ControladorLogin/logout"
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
@@ -255,9 +255,9 @@
                             >Contactos</a
                         >
                         <a
-                            href="/Achilles/ControladorPrincipal/hacerTransaccion"
+                            href="/Achilles/ControladorPrincipal/transferencia"
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
-                            >Transaccion</a
+                            >Transferencia</a
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/hacerBizum"
@@ -314,7 +314,7 @@
                                 >Chats</a
                             >
                             <a
-                                href="/ControladorLogin/logout"
+                                href="/Achilles/ControladorLogin/logout"
                                 class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
                                 >Log out</a
                             >

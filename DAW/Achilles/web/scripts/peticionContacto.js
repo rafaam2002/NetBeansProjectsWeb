@@ -23,7 +23,7 @@ async function realizarPeticion() {
 
         // Crea el elemento div
         const nuevoDiv = document.createElement('div');
-        divBanner = nuevoDiv.id = "divBanner";
+        nuevoDiv.id = "divBanner";
         nuevoDiv.className = 'md:max-w-6xl mx-auto md:w-1/2 opacity-0 transition-opacity ease-out pointer-events-none fixed inset-x-0 bottom-10 sm:px-6 sm:pb-5 lg:px-8';
 
 // Crea el contenido interno del div

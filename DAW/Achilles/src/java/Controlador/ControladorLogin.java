@@ -79,7 +79,30 @@ public class ControladorLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String accion = request.getPathInfo();
+        String vista;
+        HttpSession session;
+        Usuario user;
+        //        Query query;
+        //        System.out.println("Entra en controladorLogin doget");
+        switch (accion) {
+            case "/logout":
+                System.out.println("Esta hacienod logout");
+                session = request.getSession();
+                session.removeAttribute("idUsuario");
+                vista = "/index.html";
+                break;
+            case "/eliminarCuenta":
+                System.out.println("Esta eliminando cuenta");
+                session = request.getSession();
+                session.removeAttribute("idUsuario");
+                user = (Usuario) request.getAttribute("user");
+                delete(user);
+            default:
+                vista = "/index.html";
+        }
+        RequestDispatcher rd = request.getRequestDispatcher(vista);
+        rd.forward(request, response);
     }
 
     /**
@@ -94,10 +117,10 @@ public class ControladorLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        System.out.println("Entra en controlador");
+//        System.out.println("Entra en controladorLogin doPost");
         String accion = request.getPathInfo();
         String vista, nick, password;
-        Usuario user = new Usuario();
+        Usuario user;
         Query query;
 
         switch (accion) {
@@ -112,12 +135,13 @@ public class ControladorLogin extends HttpServlet {
                 if (nickNoRepetido(nick) && password.equals(checkPassword) && numTelNoRepetido(numTel)
                         && name != null) {
                     try {
+                        user = new Usuario();
                         user.setNombre(name);
                         user.setApellido(apellidos);
                         user.setNick(nick);
                         user.setNumTel(numTel);
-                        user.setPassword(cifrarPassword(password));
-                        user.setDineroDouble(0.0);
+                        user.setPassword(password); //cifrarPassword(password)
+                        user.setDineroDouble(3000.0);
                         user.setBizumActive(false);
                         user.setNumCuenta(generarNumCuenta());
                         if (bizumActive != null && bizumActive.equals("active")) {
@@ -127,17 +151,21 @@ public class ControladorLogin extends HttpServlet {
                         }
                         persist(user);
                         //Busco el usuario creado para encontrar su id ya que este se genera automaticamente
-                        query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
+                        query
+                                = em.createNamedQuery("Usuario.findByNick", Usuario.class
+                                );
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
                         HttpSession session = request.getSession();
                         session.setAttribute("idUsuario", user.getId());
                         request.setAttribute("nickUsuario", nick);
                         vista = "/WEB-INF/main.jsp";
-                    } catch (NoSuchAlgorithmException ex) {
+                    } catch (Exception ex) { //NoSuchAlgorithmException ex
                         vista = "/index.html";
                         System.out.println("No se ha podido crear MessageDigest");
-                        Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger
+                                .getLogger(ControladorLogin.class
+                                        .getName()).log(Level.SEVERE, null, ex);
                     }
 
                 } else {
@@ -148,16 +176,16 @@ public class ControladorLogin extends HttpServlet {
             case "/login":
                 nick = request.getParameter("nick");
                 password = request.getParameter("password");
+
                 if (password != null && nick != null) {
                     try {
-                        query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
+                        query = em.createNamedQuery("Usuario.findByNick", Usuario.class
+                        );
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
                         if (password.equals(user.getPassword())) {
                             HttpSession session = request.getSession();
-                            if (session.isNew()) {
-                                session.setAttribute("idUsuario", user.getId());
-                            }
+                            session.setAttribute("idUsuario", user.getId());
                             request.setAttribute("nickUsuario", nick);
                             vista = "/WEB-INF/main.jsp";
                         } else {
@@ -172,12 +200,12 @@ public class ControladorLogin extends HttpServlet {
                     vista = "/index.html";
                 }
                 break;
-            case "/logout":
-                System.out.println("Esta hacienod logout");
-                HttpSession session = request.getSession();
-                session.removeAttribute("idUsuario");
-                vista = "/index.html";
-                break;
+//            case "/logout":
+//                System.out.println("Esta hacienod logout");
+//                HttpSession session = request.getSession();
+//                session.removeAttribute("idUsuario");
+//                vista = "/index.html";
+//                break;
             default:
                 vista = "/index.html";
         }
@@ -197,7 +225,9 @@ public class ControladorLogin extends HttpServlet {
 
     private boolean nickNoRepetido(String nick) {
         Query query;
-        query = em.createNamedQuery("Usuario.findByNick", Long.class);
+        query
+                = em.createNamedQuery("Usuario.findByNick", Long.class
+                );
         query.setParameter("nick", nick);
         return query.getResultList().isEmpty();
     }
@@ -213,9 +243,28 @@ public class ControladorLogin extends HttpServlet {
         }
     }
 
+    public void delete(Object object) {
+        try {
+            utx.begin();
+
+            // Si no está gestionada, se hace un merge para adjuntarla al contexto de persistencia
+            if (!em.contains(object)) {
+                object = em.merge(object);
+            }
+            em.remove(object);
+
+            utx.commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+            throw new RuntimeException(e);
+        }
+    }
+
     private boolean numTelNoRepetido(String numTel) {
         Query query;
-        query = em.createNamedQuery("Usuario.findByNumTel", Long.class);
+        query
+                = em.createNamedQuery("Usuario.findByNumTel", Long.class
+                );
         query.setParameter("numTel", numTel);
         return query.getResultList().isEmpty();
     }
@@ -227,10 +276,12 @@ public class ControladorLogin extends HttpServlet {
         } while (numeroCuentaExistente(nuevoNumCuenta));
 
         return nuevoNumCuenta;
+
     }
 
     private boolean numeroCuentaExistente(long nuevoNumCuenta) {
-        Query query = em.createNamedQuery("Usuario.findByNumCuenta", Long.class);
+        Query query = em.createNamedQuery("Usuario.findByNumCuenta", Long.class
+        );
         query.setParameter("numCuenta", nuevoNumCuenta);
 
         return !query.getResultList().isEmpty();

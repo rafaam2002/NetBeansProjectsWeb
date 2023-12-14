@@ -34,7 +34,8 @@ import javax.transaction.UserTransaction;
  *
  * @author rafaa
  */
-@WebFilter(filterName = "FiltroLoggeado", urlPatterns = {"/ControladorPrincipal/*", "/ControladorLogin/logout"})
+@WebFilter(filterName = "FiltroLoggeado", urlPatterns = {"/ControladorPrincipal/*", "/ControladorLogin/logout", 
+    "/ControladorLogin/eliminarCuenta","/ControladorTransferencia/*"})
 public class FiltroLoggeado implements Filter {
 
     @PersistenceContext(unitName = "AchillesPU")
@@ -118,28 +119,28 @@ public class FiltroLoggeado implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
 
-       
-        System.out.println("El filtro esta funcionando");
+//        System.out.println("El filtro esta funcionando");
         HttpSession session;
         HttpServletRequest req = (HttpServletRequest) request;
-        if(req.getPathInfo().equals("/logout")){
-            System.out.println("Filtro activado desde ControladorLogin/logout");
-        }
+//        if (req.getPathInfo().equals("/logout")) {
+//            System.out.println("Filtro activado desde ControladorLogin/logout");
+//        }
         Query query;
         Usuario user;
         session = req.getSession();
-        long idUsuario = (long) session.getAttribute("idUsuario");
-        query = em.createNamedQuery("Usuario.findById", Usuario.class);
-        query.setParameter("id", idUsuario);
+
         try {
+            long idUsuario = (long) session.getAttribute("idUsuario");
+            query = em.createNamedQuery("Usuario.findById", Usuario.class);
+            query.setParameter("id", idUsuario);
             user = (Usuario) query.getSingleResult();
             req.setAttribute("user", user);
-            System.err.println("Filtro Pasa a Controlador");
+            System.out.println("Filtro Pasa a Controlador");
             //tengo un comentario en controladorLogin para ver si entra pero no entra
             chain.doFilter(request, response);
-        } catch (IOException | ServletException e) {
-             RequestDispatcher rd = request.getRequestDispatcher("/intex.htm");
-             System.err.println("El usuario no esta logeado, la sesion no pertenece a ningun usuario");
+        } catch (IOException | ServletException | NullPointerException e) {
+            RequestDispatcher rd = request.getRequestDispatcher("/intex.html");
+            System.out.println("El usuario no esta logeado, la sesion no pertenece a ningun usuario");
             rd.forward(request, response);
         }
 

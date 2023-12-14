@@ -97,19 +97,18 @@ public class ControladorPrincipal extends HttpServlet {
         String accion = request.getPathInfo();
         String vista = "/index.html";
         Query query;
-        Usuario user;
+        Usuario user, userRecBizum;
+        List<Usuario> contactos;
+        String paramString, concepto;
+        HttpSession session;
+        double cantidad;
+        Bizum bizum;
         long idUsuario;
-
-        //si siempre tengo que estar buscando al usuario lo puedo hacer fuera del switch?
+        LocalDate fechaActual;
+        DateTimeFormatter formatter;
+        String fechaFormateada;
         switch (accion) {
             case "/getDatosGraficas":
-//                session = request.getSession();
-//
-//                idUsuario = (long) session.getAttribute("idUsuario");
-//                query = em.createNamedQuery("Usuario.findById", Usuario.class);
-//                query.setParameter("id", idUsuario);
-//
-//                user = (Usuario) query.getSingleResult();
                 user = (Usuario) request.getAttribute("user");
 
                 Object[] datos = getMovimientosUsuario(user); //datos: [0] array con datos de la grafica principal
@@ -135,14 +134,9 @@ public class ControladorPrincipal extends HttpServlet {
                 break;
 
             case "/getContactos":
-//                session = request.getSession();
-//                idUsuario = (long) session.getAttribute("idUsuario");
-//                query = em.createNamedQuery("Usuario.findById", Usuario.class);
-//                query.setParameter("id", idUsuario);
-//                 user = (Usuario) query.getSingleResult();
                 user = (Usuario) request.getAttribute("user");
 
-                List<Usuario> contactos = user.getContactos();
+                contactos = user.getContactos();
                 request.setAttribute("contactos", contactos);
                 vista = "/WEB-INF/contactos.jsp";
                 break;
@@ -194,11 +188,31 @@ public class ControladorPrincipal extends HttpServlet {
 
 //                vista = "/WEB-INF/nuevoContacto.jsp";
                 break;
-            case "/hacerBizum": 
-                vista = "/WEB-INF/hacerBizum.jsp";
-                
-                break;
+            case "/hacerBizum":
+                user = (Usuario) request.getAttribute("user");
 
+                contactos = user.getContactos();
+                request.setAttribute("contactos", contactos);
+                vista = "/WEB-INF/hacerBizum.jsp";
+                break;
+            case "/cantidadBizum":
+                paramString = request.getParameter("idUsuario");
+
+                if (paramString != null) {
+                    idUsuario = Long.parseLong(paramString);
+                    query = em.createNamedQuery("Usuario.findById", Usuario.class);
+                    query.setParameter("id", idUsuario);
+                    userRecBizum = (Usuario) query.getSingleResult();
+                    if (userRecBizum.isBizumActive()) {
+                        session = request.getSession();
+                        session.setAttribute("idRecBizum", idUsuario);
+                        vista = "/WEB-INF/cantidadBizum.jsp";
+                    }
+                }
+                break;
+            case "/transferencia" :
+                vista = "/WEB-INF/transferencia.jsp";
+                break;
         }
         if (!accion.equals("/addContacto") && !accion.equals("/getDatosGraficas")) {
             RequestDispatcher rd = request.getRequestDispatcher(vista);
@@ -218,7 +232,59 @@ public class ControladorPrincipal extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String accion = request.getPathInfo();
+        String vista = "/index.html";
+        Query query;
+        Usuario user, userRecBizum;
+        HttpSession session;
+        double cantidad;
+        Bizum bizum;
+        long idUsuario, idUsuarioRec;
+        LocalDate fechaActual;
+        DateTimeFormatter formatter;
+        String fechaFormateada, concepto;
+
+        switch (accion) {
+
+            case "/guardarBizum":
+
+                user = (Usuario) request.getAttribute("user");
+                cantidad = Double.parseDouble(request.getParameter("cantidad"));
+                concepto = request.getParameter("concepto");
+                System.out.println(cantidad + " " + concepto);
+                session = request.getSession();
+                idUsuarioRec = (long) session.getAttribute("idRecBizum");
+                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+                query.setParameter("id", idUsuarioRec);
+                userRecBizum = (Usuario) query.getSingleResult();
+                if (concepto != null && cantidad > 0) {
+                    bizum = new Bizum();
+                    fechaActual = LocalDate.now();
+                    formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    fechaFormateada = fechaActual.format(formatter);
+                    bizum.setFecha(fechaFormateada);
+
+                    bizum.setCantidad(cantidad);
+                    bizum.setConcepto(concepto);
+                    bizum.setEmiBizum(user);
+                    bizum.setRecBizum(userRecBizum);
+                    user.setDineroDouble(user.getDineroDouble() - cantidad);
+                    userRecBizum.setDineroDouble(userRecBizum.getDineroDouble() - cantidad);
+//                    user.getbEnviados().add(bizum);
+//                    userRecBizum.getbRecividos().add(bizum);
+
+                    persist(bizum);
+                    update(user);
+                    update(userRecBizum);
+                }
+                session.removeAttribute("idRecBizum");
+                vista = "/WEB-INF/main.jsp";
+                break;
+        }
+
+        RequestDispatcher rd = request.getRequestDispatcher(vista);
+        rd.forward(request, response);
+
     }
 
     /**
@@ -262,10 +328,10 @@ public class ControladorPrincipal extends HttpServlet {
         LocalDate fHoy = LocalDate.now();
 
         // Define el formato de fecha
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("/dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         // Calcula la diferencia en días
-        int difDiasEntreIniAppYHoy = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fHoy);
+        int difDiasEntreIniAppYHoy = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fHoy) + 1;
 
         List<Transferencia> tEnviadas = user.gettEnviadas();
         List<Transferencia> tRecividas = user.gettRecividas();
@@ -273,7 +339,8 @@ public class ControladorPrincipal extends HttpServlet {
         List<Bizum> bRecividos = user.getbRecividos();
 
         double[] datosXdia = new double[difDiasEntreIniAppYHoy]; //se inicializa a 0 automaticamente en java 
-
+        double[] seguimientoTotal = new double[difDiasEntreIniAppYHoy];
+        seguimientoTotal[0] = 3000.0;
         //Para graficaPie
         double ingresosMes = 0;
         double gastosMes = 0;
@@ -288,7 +355,9 @@ public class ControladorPrincipal extends HttpServlet {
         String fString;
         int difDias;
         int i = 0;
+
         while (i < tEnviadas.size() || i < tRecividas.size() || i < bEnviados.size() || i < bRecividos.size()) {
+            //guardo cada movimiento en su dia correspondiente 
             if (i < tEnviadas.size()) {
                 trans = tEnviadas.get(i);
                 fString = trans.getFecha();
@@ -326,8 +395,8 @@ public class ControladorPrincipal extends HttpServlet {
                     ingresosMes -= bizum.getCantidad();
                 }
             }
-            if (i < bEnviados.size()) {
-                bizum = bEnviados.get(i);
+            if (i < bRecividos.size()) {
+                bizum = bRecividos.get(i);
                 fString = bizum.getFecha();
                 fecha = LocalDate.parse(fString, formatter);
                 difDias = (int) ChronoUnit.DAYS.between(fInicioAplicacion, fecha);
@@ -338,6 +407,14 @@ public class ControladorPrincipal extends HttpServlet {
                     ingresosMes += bizum.getCantidad();
                 }
             }
+            i++;
+        }
+        for (int j = 0; j < seguimientoTotal.length - 1; j++) {
+            //si el movimiento se hizo el primer dia hay que sumarlo en la primera iteracion
+            if (j == 0) {
+                seguimientoTotal[j] += datosXdia[j];
+            }
+            seguimientoTotal[j + 1] = seguimientoTotal[j] + datosXdia[j + 1];
         }
 
         if (difDiasEntreIniAppYHoy >= 7) {
@@ -347,7 +424,7 @@ public class ControladorPrincipal extends HttpServlet {
         }
         //Creo datos para pasarlo todo
         Object[] datos = new Object[4];
-        datos[0] = datosXdia;
+        datos[0] = seguimientoTotal;
         datos[1] = ingresosMes;
         datos[2] = gastosMes;
         datos[3] = capitalSemanaPasada;
@@ -365,7 +442,8 @@ public class ControladorPrincipal extends HttpServlet {
 
         //EjeX
         JsonArrayBuilder jsBuilderEjeX = Json.createArrayBuilder();
-        final String[] diasSemana = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        //Empieza el viernes porque el dia que empezo la aplicacion fue un viernes
+        final String[] diasSemana = {"Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"};
 
         for (int i = 0; i < datosPrincipal.length; i++) {
             jsBuilderDatos.add(datosPrincipal[i]);

@@ -1,8 +1,11 @@
+<%-- 
+    Document   : transferencia
+    Created on : 13-dic-2023, 20:36:13
+    Author     : rafaa
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
     <head>
         <meta charset="UTF-8" />
@@ -65,9 +68,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             };
         </script>
 
-        <title>General</title>
+        <title>Transferencia</title>
     </head>
-    <body class="bg-zinc-800">
+    <body class = "bg-zinc-800">
         <header>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,33 +89,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <a
                                     href="/Achilles/ControladorPrincipal/main"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
+
                                     >General</a
                                 >
                                 <a
                                     href="/Achilles/ControladorPrincipal/getContactos"
-                                    class="inline-flex items-center border-b-2 border-selective-yellow-500 px-1 pt-1 text-sm font-medium text-selective-yellow-500"
+                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
                                     >Contactos</a
                                 >
                                 <a
                                     href="/Achilles/ControladorPrincipal/transferencia"
-                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
+                                    class="inline-flex items-center border-b-2 border-selective-yellow-500 px-1 pt-1 text-sm font-medium text-selective-yellow-500"
                                     >Transferencia</a
                                 >
                                 <a
                                     href="/Achilles/ControladorPrincipal/hacerBizum"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
+
                                     >Bizum</a
                                 >
                             </div>
                         </div>
                         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-                            <!-- <button type="button" class="relative rounded-full bg-zinc-800 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brotext-brown-200 focus:ring-offset-2">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                            </svg>
-                          </button> -->
 
                             <!-- Profile dropdown -->
                             <div class="relative ml-3">
@@ -170,12 +168,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         >Chats</a
                                     >
                                     <a
-                                        href="/Achilles/ControladorLogin/logout"
+                                        href="/ControladorLogin/logout"
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-2"
-                                        >Sign out</a
+                                        >Log out</a
                                     >
                                 </div>
                             </div>
@@ -271,7 +269,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     />
                             </div>
                             <div class="ml-3">
-                                <div class="text-sm font-medium">tom@example.com</div>
+                                <% String userName = (String) request.getAttribute("nickUsuario");
+                                    System.out.println(userName);
+                                %>
+                                <div class="text-sm font-medium"><%=userName%></div>
                             </div>
                             <button
                                 type="button"
@@ -307,92 +308,135 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 >Chats</a
                             >
                             <a
-                                href="/Achilles/ControladorLogin/logout"
+                                href="/ControladorLogin/logout"
                                 class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Sign out</a
+                                >Log out</a
                             >
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
-
         <main>
-            <!-- add User Form  -->
-            <article id ="article_formulario" class="mt-7 md:max-w-6xl mx-auto md:w-1/2">
-                <form id = "formulario" class="space-y-6">
-                    <div class="w-full flex justify-center">
-                        <h1 class="text-zinc-200">Nuevo contacto</h1>
-                    </div>
-                    <div class="grid md:grid-cols-2 md:gap-6 mt-5 md:mt-6">
-                        <div class="relative z-0 w-full mb-6 group">
-                            <input
-                                type="text"
-                                name="nick"
-                                id="nick"
-                                class="block py-2.5 px-0 w-full text-sm text-zinc-300 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-selective-yellow-500 peer"
-                                placeholder=" "
-                                required
-                                />
+            <form action="/Achilles/ControladorTransferencia/hacerTransferencia" method="POST" class="mx-auto max-w-5xl bg-zinc-700 mt-5 rounded-md">
+                <div
+                    class="h-20 bg-zinc-600 rounded-t-md flex justify-center items-center text-selective-yellow-500 font-bold"
+                    >
+                    <h1>Datos de la Transferencia</h1>
+                </div>
+                <div class="border-b border-gray-900/10 pb-12 px-5 text-zinc-200">
+                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
                             <label
-                                for="nick"
-                                class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-selective-yellow-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                                >Nombre de Usuario</label
+                                for="first-name"
+                                class="block text-sm font-medium leading-6"
+                                >Nombre del destinatario</label
                             >
-                        </div>
-<!--                        <div class="relative z-0 w-full mb-6 group">
-                            <label
-                                class="relative inline-flex items-center mb-4 cursor-pointer"
-                                >
+                            <div class="mt-2">
                                 <input
-                                    type="checkbox"
-                                    value="active"
-                                    class="sr-only peer"
-                                    name="bizum"
-                                    checked
+                                    type="text"
+                                    name="first-name"
+                                    id="first-name"
+                                    autocomplete="given-name"
+                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black font-normal ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-600 sm:text-sm sm:leading-6"
                                     />
-                                <div
-                                    class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-selective-yellow-500"
-                                    ></div>
-                                <span class="ml-3 text-sm font-medium text-zinc-400"
-                                      >Habilitar Bizum</span
-                                >
-                            </label>
-                        </div>-->
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                            <label for="last-name" class="block text-sm font-medium leading-6"
+                                   >Apellido del destinatario</label
+                            >
+                            <div class="mt-2">
+                                <input
+                                    type="text"
+                                    name="last-name"
+                                    id="last-name"
+                                    autocomplete="family-name"
+                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    />
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-4">
+                            <label for="iban" class="block text-sm font-medium leading-6"
+                                   >IBAN</label
+                            >
+                            <div class="mt-2">
+                                <input
+                                    id="iban"
+                                    name="iban"
+                                    type="text"
+                                    autocomplete="on"
+                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    />
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-full">
+                            <label for="importe" class="block text-sm font-medium leading-6"
+                                   >Importe â‚¬</label
+                            >
+                            <div class="mt-2 w-1/3">
+                                <input
+                                    type="text"
+                                    name="importe"
+                                    id="importe"
+                                    autocomplete="cc-number"
+                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    />
+                            </div>
+                        </div>
+
+                        <div class="col-span-full">
+                            <label for="concepto" class="block text-sm font-medium leading-6"
+                                   >Concepto</label
+                            >
+                            <div class="mt-2">
+                                <textarea
+                                    id="concepto"
+                                    name="concepto"
+                                    rows="3"
+                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-full">
+                            <label for="fecha" class="block text-sm font-medium leading-6"
+                                   >Fecha</label
+                            >
+                            <div class="mt-2 w-1/3">
+                                <input
+                                    type="date"
+                                    id="fecha"
+                                    name="fecha"
+                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    />
+                            </div>
+                        </div>
                     </div>
-                    <button
-                        id ="submit_button"
-                        type="button"
-                        class="rounded-md bg-selective-yellow-500 px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-selective-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selective-yellow-500 transform scale-100 hover:scale-110 transition-transform ease-in"
-                        >
-                        Añadir
-                    </button>
-                </form>
+                    <div class="mt-6 flex items-center justify-end gap-x-6">
+                        <button
+                            type="button"
+                            class="text-sm font-semibold leading-6 text-white"
+                            >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            class="rounded-md bg-selective-yellow-500 px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-selective-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selective-yellow-500 transform scale-100 hover:scale-110 transition-transform ease-in"
+                            >
+                            Transferir
+                        </button>
+                    </div>
+                </div>
 
-            </article>
-            <!--<div id = "banner_new_usuario" class=" opacity-100 transition-opacity ease-out md:max-w-6xl mx-auto md:w-1/2 pointer-events-none fixed inset-x-0 bottom-16 sm:px-6 sm:pb-5 lg:px-8 ">-->
-
-            </div>
+            </form>
         </main>
-<!--
-        <div class="pointer-events-auto flex items-center justify-between gap-x-6 bg-black px-6 py-2.5 sm:rounded-xl sm:py-3 sm:pl-4 sm:pr-3.5">
-            <p class="text-sm leading-6 text-zinc-200">
-                <a href="#">
-                    <strong class="font-semibold">Usuario agregado correctamente</strong><svg viewBox="0 0 2 2" class="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true"><circle cx="1" cy="1" r="1" /></svg>El nombre de usuario no existe&nbsp;</span>
-                </a>
-            </p>
-            <button type="button" class="-m-3 flex-none p-3 focus-visible:outline-offset-[-4px]">
-                <span class="sr-only"></span>
-                <svg class="h-5 w-5 text-selective-yellow-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                </svg>
-            </button>
-        </div>-->
 
-        <!-- Dropdown menu -->
+        <!-- Dropdown menu --> 
         <script src="/Achilles/scripts/dropdown_menu.js"></script>
-        <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
-
-        <script src="/Achilles/scripts/peticionContacto.js"></script>
+        <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>                               
     </body>
 </html>
