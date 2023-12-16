@@ -90,6 +90,7 @@ public class ControladorLogin extends HttpServlet {
                 System.out.println("Esta hacienod logout");
                 session = request.getSession();
                 session.removeAttribute("idUsuario");
+                session.invalidate();
                 vista = "/index.html";
                 break;
             case "/eliminarCuenta":
@@ -140,7 +141,7 @@ public class ControladorLogin extends HttpServlet {
                         user.setApellido(apellidos);
                         user.setNick(nick);
                         user.setNumTel(numTel);
-                        user.setPassword(password); //cifrarPassword(password)
+                        user.setPassword(cifrarPassword(password)); 
                         user.setDineroDouble(3000.0);
                         user.setBizumActive(false);
                         user.setNumCuenta(generarNumCuenta());
@@ -183,7 +184,7 @@ public class ControladorLogin extends HttpServlet {
                         );
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
-                        if (password.equals(user.getPassword())) {
+                        if (checkearPassword(password,user.getPassword())) { //checkearPassword(password,user.getPassword())
                             HttpSession session = request.getSession();
                             session.setAttribute("idUsuario", user.getId());
                             request.setAttribute("nickUsuario", nick);
@@ -191,7 +192,7 @@ public class ControladorLogin extends HttpServlet {
                         } else {
                             vista = "/index.html";
                         }
-                    } catch (NoResultException ex) {
+                    } catch (NoResultException | NoSuchAlgorithmException  ex) {
                         System.out.println("El usuario no existe " + ex.getMessage());
                         vista = "/index.html";
                     }
@@ -298,5 +299,10 @@ public class ControladorLogin extends HttpServlet {
         }
         return sb.toString();
     }
+    
+    private boolean checkearPassword(String password,String userPassword) throws NoSuchAlgorithmException{
+        return (cifrarPassword(password).equals(userPassword)); 
+    }
+    
 
 }

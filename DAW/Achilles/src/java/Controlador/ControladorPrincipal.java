@@ -210,7 +210,7 @@ public class ControladorPrincipal extends HttpServlet {
                     }
                 }
                 break;
-            case "/transferencia" :
+            case "/transferencia":
                 vista = "/WEB-INF/transferencia.jsp";
                 break;
         }
@@ -270,20 +270,23 @@ public class ControladorPrincipal extends HttpServlet {
                     bizum.setRecBizum(userRecBizum);
                     user.setDineroDouble(user.getDineroDouble() - cantidad);
                     userRecBizum.setDineroDouble(userRecBizum.getDineroDouble() - cantidad);
-//                    user.getbEnviados().add(bizum);
-//                    userRecBizum.getbRecividos().add(bizum);
+                    user.getbEnviados().add(bizum);
+                    userRecBizum.getbRecividos().add(bizum);
 
                     persist(bizum);
                     update(user);
                     update(userRecBizum);
+
                 }
                 session.removeAttribute("idRecBizum");
-                vista = "/WEB-INF/main.jsp";
+//                vista = "/WEB-INF/main.jsp";
+                response.sendRedirect("/Achilles/ControladorPrincipal/main");
                 break;
         }
-
-        RequestDispatcher rd = request.getRequestDispatcher(vista);
-        rd.forward(request, response);
+        if (!accion.equals("/guardarBizum")) {
+            RequestDispatcher rd = request.getRequestDispatcher(vista);
+            rd.forward(request, response);
+        }
 
     }
 
@@ -315,6 +318,7 @@ public class ControladorPrincipal extends HttpServlet {
             if (object != null) {
                 // Copiar los cambios de la instancia proporcionada a la instancia existente
                 em.merge(object);
+                System.out.println("El usuario se esta actualizando");
             }
 
             utx.commit();
@@ -384,6 +388,7 @@ public class ControladorPrincipal extends HttpServlet {
                 }
             }
             if (i < bEnviados.size()) {
+                System.out.println("Bizum Enviado de " + bEnviados.get(i).getCantidad());
                 bizum = bEnviados.get(i);
                 fString = bizum.getFecha();
                 fecha = LocalDate.parse(fString, formatter);

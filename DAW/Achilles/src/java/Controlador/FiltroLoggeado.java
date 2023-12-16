@@ -139,7 +139,7 @@ public class FiltroLoggeado implements Filter {
             //tengo un comentario en controladorLogin para ver si entra pero no entra
             chain.doFilter(request, response);
         } catch (IOException | ServletException | NullPointerException e) {
-            RequestDispatcher rd = request.getRequestDispatcher("/intex.html");
+            RequestDispatcher rd = request.getRequestDispatcher("/index.html");
             System.out.println("El usuario no esta logeado, la sesion no pertenece a ningun usuario");
             rd.forward(request, response);
         }
