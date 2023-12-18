@@ -17,6 +17,8 @@ public class Sala {
     int conCitaEsperando = 0;
 //    int sinCitaEsperando = 0;
     int vecesEsperandoSin = 0;
+    int sinCitaEsperando = 0;
+    int veces = 0;
     ReentrantLock mutex = new ReentrantLock();
     Condition colaConCinta = mutex.newCondition();
     Condition colaSinCita = mutex.newCondition();
@@ -25,11 +27,12 @@ public class Sala {
         mutex.lock();
         try {
             conCitaEsperando++;
-            while (!libre || vecesEsperandoSin > 2) {
+            while (!libre) {
                 colaConCinta.await();
             }
             libre = false;
             conCitaEsperando--;
+            if(sinCitaEsperando > 0) veces++; 
         } finally {
             mutex.unlock();
         }
@@ -40,12 +43,10 @@ public class Sala {
         mutex.lock();
         try {
             libre = true;
-            if (vecesEsperandoSin >= 2) {
+            if((sinCitaEsperando > 0 && veces >=2) || conCitaEsperando == 0){
                 colaSinCita.signal();
-            } else if (conCitaEsperando > 0) {
-                colaConCinta.signal();
             } else {
-                colaSinCita.signal();
+                colaConCinta.signal();
             }
         } finally {
             mutex.unlock();
@@ -56,11 +57,9 @@ public class Sala {
     public synchronized void sincitaIn() throws InterruptedException {
         mutex.lock();
         try {
-            while (!libre) {
-                vecesEsperandoSin++;
+            while (!libre || conCitaEsperando > 0) {
                 colaSinCita.await();
             }
-            vecesEsperandoSin = 0;
             libre = false;
         } finally {
             mutex.unlock();
