@@ -61,16 +61,16 @@ public class GeneradorFAPP extends java.awt.Frame {
         int N = 20;
 
         Any2OneChannel entraGato = Channel.any2one(new Buffer(20));
-//        One2OneChannel permiso[] = Channel.one2oneArray(N, new Buffer(1));
+        One2OneChannel permiso[] = Channel.one2oneArray(N, new Buffer(1));
 
         Any2OneChannel entraPerro = Channel.any2one(new Buffer(20));
         Any2OneChannel salePerro = Channel.any2one(new Buffer(20));
         Any2OneChannel saleGato = Channel.any2one(new Buffer(20));
         
-        One2OneChannel permiso[] = new One2OneChannel[N];
-        for (int i = 0; i < N; i++) {
-            permiso[i] = Channel.one2one(new Buffer(1));
-        }
+//        One2OneChannel permiso[] = new One2OneChannel[N];
+//        for (int i = 0; i < N; i++) {
+//            permiso[i] = Channel.one2one(new Buffer(1));
+//        }
         
 
         Thread[] animales = new Thread[20];

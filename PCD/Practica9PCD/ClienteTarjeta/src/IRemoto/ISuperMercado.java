@@ -4,8 +4,7 @@
  */
 package IRemoto;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
