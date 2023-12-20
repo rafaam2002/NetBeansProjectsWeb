@@ -190,6 +190,7 @@ public class ControladorLogin extends HttpServlet {
                             request.setAttribute("nickUsuario", nick);
                             vista = "/WEB-INF/main.jsp";
                         } else {
+                            System.out.println("password incorrecta");
                             vista = "/index.html";
                         }
                     } catch (NoResultException | NoSuchAlgorithmException  ex) {
@@ -198,6 +199,7 @@ public class ControladorLogin extends HttpServlet {
                     }
 
                 } else {
+                    System.out.println("Password o nick null");
                     vista = "/index.html";
                 }
                 break;
