@@ -4,6 +4,7 @@
  */
 package Objetos;
 
+import chat.miChat;
 import java.io.IOException;
 import java.io.Reader;
 import javax.json.Json;
@@ -24,7 +25,8 @@ public class DecoderMensaje implements Decoder.TextStream<Mensaje> {
         Mensaje mensaje = new Mensaje();
         try ( JsonReader jsonReader = Json.createReader(reader)) {
             JsonObject json = jsonReader.readObject();
-            mensaje.setNombre(json.getString("nombre"));
+            mensaje.setnEmisor(json.getString("nEmisor"));
+            mensaje.setnReceptor(json.getString("nReceptor"));
             mensaje.setMensaje(json.getString("mensaje"));
         }
         return mensaje;
@@ -32,6 +34,7 @@ public class DecoderMensaje implements Decoder.TextStream<Mensaje> {
 
     @Override
     public void init(EndpointConfig config) {
+        miChat chat = new miChat();
     }
 
     @Override

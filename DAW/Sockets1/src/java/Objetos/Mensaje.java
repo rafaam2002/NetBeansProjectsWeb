@@ -9,18 +9,28 @@ package Objetos;
  * @author rafaa
  */
 public class Mensaje {
-    private String nombre;
+
+    private String nEmisor;
+    private String nReceptor;
     private String mensaje;
 
     public Mensaje() {
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getnEmisor() {
+        return nEmisor;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setnEmisor(String nEmisor) {
+        this.nEmisor = nEmisor;
+    }
+
+    public String getnReceptor() {
+        return nReceptor;
+    }
+
+    public void setnReceptor(String nReceptor) {
+        this.nReceptor = nReceptor;
     }
 
     public String getMensaje() {
@@ -30,6 +40,5 @@ public class Mensaje {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-    
-    
+
 }

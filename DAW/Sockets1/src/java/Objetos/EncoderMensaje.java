@@ -24,10 +24,11 @@ public class EncoderMensaje implements Encoder.TextStream<Mensaje> {
     @Override
     public void encode(Mensaje object, Writer writer) throws EncodeException, IOException {
         JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-        jsonBuilder.add("nombre", object.getNombre());
+        jsonBuilder.add("nEmisor", object.getnEmisor());
+        jsonBuilder.add("nReceptor", object.getnReceptor());
         jsonBuilder.add("mensaje", object.getMensaje());
         JsonObject json = jsonBuilder.build();
-        try (JsonWriter jsonWriter = Json.createWriter(writer)) {
+        try ( JsonWriter jsonWriter = Json.createWriter(writer)) {
             jsonWriter.writeObject(json);
         }
     }
