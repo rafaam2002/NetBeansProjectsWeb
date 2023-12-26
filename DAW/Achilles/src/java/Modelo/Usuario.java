@@ -35,8 +35,7 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "Usuario.findNickById", query = "SELECT u.nick FROM Usuario u WHERE u.id = :id"),
     @NamedQuery(name = "Usuario.findByNick", query = "SELECT u FROM Usuario u WHERE u.nick = :nick"),
     @NamedQuery(name = "Usuario.findByNumTel", query = "SELECT u FROM Usuario u WHERE u.numTel = :numTel"),
-    @NamedQuery(name = "Usuario.findByNumCuenta", query = "SELECT u FROM Usuario u WHERE u.numCuenta = :numCuenta"),
-})
+    @NamedQuery(name = "Usuario.findByNumCuenta", query = "SELECT u FROM Usuario u WHERE u.numCuenta = :numCuenta"),})
 
 public class Usuario implements Serializable {
 
@@ -66,12 +65,6 @@ public class Usuario implements Serializable {
         @JoinColumn(name = "Usuario2")})
     private List<Usuario> contactos;
 
-    @OneToMany(mappedBy = "emiMensaje")
-    private List<Mensaje> mEnviados;
-
-    @OneToMany(mappedBy = "recMensaje")
-    private List<Mensaje> mRecividos;
-
     @OneToMany(mappedBy = "emiBizum")
     private List<Bizum> bEnviados;
 
@@ -83,6 +76,28 @@ public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "recTransferencia")
     private List<Transferencia> tRecividas;
+
+    @OneToMany(mappedBy = "emiMensaje")
+    private List<MensajeEntity> mEnviados;
+
+    public List<MensajeEntity> getmEnviados() {
+        return mEnviados;
+    }
+
+    public void setmEnviados(List<MensajeEntity> mEnviados) {
+        this.mEnviados = mEnviados;
+    }
+
+    public List<MensajeEntity> getmRecividos() {
+        return mRecividos;
+    }
+
+    public void setmRecividos(List<MensajeEntity> mRecividos) {
+        this.mRecividos = mRecividos;
+    }
+
+    @OneToMany(mappedBy = "recMensaje")
+    private List<MensajeEntity> mRecividos;
 
     public Long getId() {
         return id;
@@ -255,34 +270,6 @@ public class Usuario implements Serializable {
      */
     public void setContactos(List<Usuario> contactos) {
         this.contactos = contactos;
-    }
-
-    /**
-     * @return the mEnviados
-     */
-    public List<Mensaje> getmEnviados() {
-        return mEnviados;
-    }
-
-    /**
-     * @param mEnviados the mEnviados to set
-     */
-    public void setmEnviados(List<Mensaje> mEnviados) {
-        this.mEnviados = mEnviados;
-    }
-
-    /**
-     * @return the mRecividos
-     */
-    public List<Mensaje> getmRecividos() {
-        return mRecividos;
-    }
-
-    /**
-     * @param mRecividos the mRecividos to set
-     */
-    public void setmRecividos(List<Mensaje> mRecividos) {
-        this.mRecividos = mRecividos;
     }
 
     /**

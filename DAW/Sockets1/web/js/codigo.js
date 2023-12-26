@@ -1,14 +1,16 @@
 
-const nick = "rafa";
-var ws;
+
 
 
 (function () {
     'use strict';
-    const nick = "rafa";
+    const numeroAleatorio = Math.floor(Math.random() * 1000);
+    const cadenaAleatoria = numeroAleatorio.toString();
+    let nick = "rafa";
+    nick += cadenaAleatoria;
     var url = 'ws://localhost:8080/Sockets1/chat';
 //    var url = 'ws://' + window.location.host + '/chat';
-    ws = new WebSocket(url);
+    const ws = new WebSocket(url);
 
     var mensajes = document.getElementById('conversacion');
     var boton = document.getElementById('btnEnviar');
@@ -17,19 +19,6 @@ var ws;
 
     ws.onopen = onOpen;
 
-    //envio mi nick
-//    (function () {
-//        if (nick === "" || nick === null) {
-//            console.log("no se puede enviar el nick");
-//        } else {
-//            var msg = {
-//                nEmisor: nick,
-//                nReceptor: "",
-//                mensaje: ""
-//            };
-//            ws.send(JSON.stringify(msg));
-//        }
-//    })();
     ws.onclose = onClose;
     ws.onmessage = onMessage;
     boton.addEventListener('click', enviar);
@@ -47,7 +36,8 @@ var ws;
 
     function enviar() {
         var msg = {
-            nombre: nombre.value,
+            nEmisor: nick,
+            nReceptor: nombre.value,
             mensaje: mensaje.value
         };
         ws.send(JSON.stringify(msg));
@@ -55,7 +45,7 @@ var ws;
     function onMessage(evt) {
         console.log(evt);
         var obj = JSON.parse(evt.data);
-        var msg =  'dice: ' + obj.mensaje; //  'Nombre: ' + obj.nReceptor +
+        var msg = 'dice: ' + obj.mensaje; //  'Nombre: ' + obj.nReceptor +
         mensajes.innerHTML += '<br/>' + msg;
     }
     function enviarNick(nick) {

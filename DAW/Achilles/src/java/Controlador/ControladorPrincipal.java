@@ -5,14 +5,18 @@
 package Controlador;
 
 import Modelo.Bizum;
+import Modelo.MensajeEntity;
 import Modelo.Transferencia;
 import Modelo.Usuario;
+import Socket.Mensaje;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +26,7 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -39,7 +44,8 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.Transaction;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -99,14 +105,9 @@ public class ControladorPrincipal extends HttpServlet {
         Query query;
         Usuario user, userRecBizum;
         List<Usuario> contactos;
-        String paramString, concepto;
+        String paramString;
         HttpSession session;
-        double cantidad;
-        Bizum bizum;
         long idUsuario;
-        LocalDate fechaActual;
-        DateTimeFormatter formatter;
-        String fechaFormateada;
         switch (accion) {
             case "/getDatosGraficas":
                 user = (Usuario) request.getAttribute("user");
@@ -128,7 +129,9 @@ public class ControladorPrincipal extends HttpServlet {
                 break;
 
             case "/main":
-                System.err.println("Entrando en accion main");
+                user = (Usuario) request.getAttribute("user");
+                request.setAttribute("nickUsuario", user.getNick());
+                System.out.println("Entrando en accion main");
                 vista = "/WEB-INF/main.jsp";
 
                 break;
@@ -235,14 +238,16 @@ public class ControladorPrincipal extends HttpServlet {
         String accion = request.getPathInfo();
         String vista = "/index.html";
         Query query;
-        Usuario user, userRecBizum;
+        Usuario user, userRecBizum, userRec;
         HttpSession session;
         double cantidad;
         Bizum bizum;
-        long idUsuario, idUsuarioRec;
+        long idUsuarioRec;
         LocalDate fechaActual;
         DateTimeFormatter formatter;
         String fechaFormateada, concepto;
+        ArrayList<Mensaje> mensajesYaPersistidos = new ArrayList<>();
+        StringBuilder requestBody;
 
         switch (accion) {
 
@@ -282,8 +287,67 @@ public class ControladorPrincipal extends HttpServlet {
 //                vista = "/WEB-INF/main.jsp";
                 response.sendRedirect("/Achilles/ControladorPrincipal/main");
                 break;
+            case "/persistirMensajes":
+                System.out.println("Persistir mensajes");
+                requestBody = new StringBuilder();
+
+                try ( BufferedReader reader = request.getReader()) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        requestBody.append(line);
+                    }
+                }
+
+                // En este punto, requestBody contiene el cuerpo de la solicitud como una cadena JSON
+//                String datosRecibidos = requestBody.toString();
+                JSONArray jsonArray = new JSONArray(requestBody.toString());
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Mensaje msj = new Mensaje();
+                    msj.setnEmisor(jsonObject.getString("nEmisor"));
+                    msj.setnReceptor(jsonObject.getString("nReceptor"));
+                    msj.setText(jsonObject.getString("text"));
+                    msj.setFecha(jsonObject.getString("fecha"));
+                    //si el mensaje ya se envio por otro usuario no se hace nada y se borra de ya enviados
+                    //ya que los mensajes se enviaran dos veces, por el emisor y por el receptor
+                    System.out.println(msj);
+                    if (mensajesYaPersistidos.contains(msj)) {
+                        System.out.println("Son iguales");
+                        mensajesYaPersistidos.remove(msj);
+                    } else { // si no se ha recivido todavia se persiste
+                        mensajesYaPersistidos.add(msj);
+                        MensajeEntity msjEntity = new MensajeEntity();
+                        query = em.createNamedQuery("Usuario.findByNick");
+                        query.setParameter("nick", msj.getnEmisor());
+                        user = (Usuario) query.getSingleResult();
+                        query = em.createNamedQuery("Usuario.findByNick");
+                        query.setParameter("nick", msj.getnReceptor());
+                        userRec = (Usuario) query.getSingleResult();
+                        msjEntity.setEmiMensaje(user);
+                        msjEntity.setRecMensaje(userRec);
+                        msjEntity.setText(msj.getText());
+                        msjEntity.setFecha(msj.getFecha());
+
+                        user.getmEnviados().add(msjEntity);
+                        userRec.getmRecividos().add(msjEntity);
+
+                        update(user);
+                        update(userRec);
+                        
+                        persist(msjEntity);
+
+                    }
+
+//                    for (Mensaje mensajesYaPersistido : mensajesYaPersistidos) {
+//                        System.out.println("hola mensaje ya persistido");
+//                        System.out.println(mensajesYaPersistido.toString());
+//                    }
+//                    System.out.println(mensajesYaPersistidos.size());
+                }
+                break;
         }
-        if (!accion.equals("/guardarBizum")) {
+        if (!accion.equals("/guardarBizum") || !accion.equals("/persistirMensajes")) {
             RequestDispatcher rd = request.getRequestDispatcher(vista);
             rd.forward(request, response);
         }
@@ -388,7 +452,6 @@ public class ControladorPrincipal extends HttpServlet {
                 }
             }
             if (i < bEnviados.size()) {
-                System.out.println("Bizum Enviado de " + bEnviados.get(i).getCantidad());
                 bizum = bEnviados.get(i);
                 fString = bizum.getFecha();
                 fecha = LocalDate.parse(fString, formatter);

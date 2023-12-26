@@ -278,7 +278,7 @@
                                 <% String userName = (String) request.getAttribute("nickUsuario");
                                     System.out.println(userName);
                                 %>
-                                <div class="text-sm font-medium"><%=userName%></div>
+                                <div id ="div_nick" class="text-sm font-medium"><%=userName%></div>
                             </div>
                             <button
                                 type="button"
@@ -447,6 +447,18 @@
                     </div>
                 </div>
             </article>
+            <!-- prueba chat -->
+            <article>
+                <label>Nombre:</label>
+                <input type="text" name="name" id="input_usuario" />
+
+                <label>Mensaje</label>
+                <textarea id="textarea_text"></textarea>
+
+                <button id="button_enviar">Enviar</button>
+
+                <div id="div_conversacion"></div>
+            </article>
         </main>
 
         <!-- Apache Echarts -->
@@ -460,5 +472,7 @@
         <!--<script src="/Achilles/dropdown_menu.js"></script>-->
         <script src="/Achilles/scripts/dropdown_menu.js"></script>
         <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
+        <!--socket-->
+        <script src="/Achilles/scripts/codigoSocket.js"></script>
     </body>
 </html>

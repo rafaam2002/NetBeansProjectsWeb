@@ -25,7 +25,6 @@ async function cargarDatos() {
         const capitalSemanaPasada = resp.capitalSemanaPasada;
         
         xAxisData = resp.ejeX;
-        console.log(resp);
         //Grafica Principal
         if (data.length < xAxisData.length) {
             const array14dias = Array(14).fill(0);
@@ -254,8 +253,8 @@ const initOpciones = () => {
                 },
                 data: [
                     {value: dataPie[0], name: "Capital", itemStyle: {color: "#808080"}}, // Gris un poco más oscuro
-                    {value: dataPie[1], name: "Gastos", itemStyle: {color: "#ff7f50"}}, // Rojo más intenso
-                    {value: dataPie[2], name: "Ingresos", itemStyle: {color: "#98fb98"}}, // Verde claro
+                    {value: dataPie[2], name: "Gastos", itemStyle: {color: "#ff7f50"}}, // Rojo más intenso
+                    {value: dataPie[1], name: "Ingresos", itemStyle: {color: "#98fb98"}}, // Verde claro
                 ],
             },
         ],

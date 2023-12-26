@@ -1,9 +1,7 @@
-
-package Objetos;
+package Socket;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.math.BigDecimal;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -23,7 +21,10 @@ public class EncoderMensaje implements Encoder.TextStream<Mensaje> {
         JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
         jsonBuilder.add("nEmisor", object.getnEmisor());
         jsonBuilder.add("nReceptor", object.getnReceptor());
-        jsonBuilder.add("mensaje", object.getMensaje());
+        jsonBuilder.add("text", object.getText());
+        jsonBuilder.add("fecha", object.getFecha());
+        jsonBuilder.add("identificador", object.getIdentificador());
+        
         JsonObject json = jsonBuilder.build();
         try ( JsonWriter jsonWriter = Json.createWriter(writer)) {
             jsonWriter.writeObject(json);

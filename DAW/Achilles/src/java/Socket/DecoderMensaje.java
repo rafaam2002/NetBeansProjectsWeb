@@ -1,5 +1,4 @@
-
-package Objetos;
+package Socket;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -23,14 +22,17 @@ public class DecoderMensaje implements Decoder.TextStream<Mensaje> {
             JsonObject json = jsonReader.readObject();
             mensaje.setnEmisor(json.getString("nEmisor"));
             mensaje.setnReceptor(json.getString("nReceptor"));
-            mensaje.setMensaje(json.getString("mensaje"));
+            mensaje.setText(json.getString("text"));
+            mensaje.setFecha(json.getString("fecha"));
+            mensaje.setIdentificador(json.getString("identificador"));
+
         }
         return mensaje;
     }
 
     @Override
     public void init(EndpointConfig config) {
-       
+
     }
 
     @Override

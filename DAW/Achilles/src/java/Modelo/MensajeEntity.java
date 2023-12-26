@@ -5,42 +5,72 @@
 package Modelo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 
 /**
  *
  * @author rafaa
  */
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Mensaje.findAll", query = "SELECT m FROM Mensaje m"),
-    @NamedQuery(name = "Mensaje.findById", query = "SELECT m FROM Mensaje m WHERE m.id = :id"),
-    @NamedQuery(name = "Mensaje.findSentMessagesByUserId", query = "SELECT m FROM Mensaje m WHERE m.emiMensaje.id = :userId"),
-    @NamedQuery(name = "Mensaje.findReceivedMessagesByUserId", query = "SELECT m FROM Mensaje m WHERE m.recMensaje.id = :userId")
-})
-public class Mensaje implements Serializable {
+public class MensajeEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String mensaje;
+
+    @Column(nullable = false)
+    String text;
     
+    private String fecha;
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
     @ManyToOne
     @JoinColumn(name = "Emisor")
-    private Usuario emiMensaje;
-    
+    Usuario emiMensaje;
+
     @ManyToOne
-    @JoinColumn (name = "Receptor")
-    private Usuario recMensaje;
+    @JoinColumn(name = "Receptor")
+    Usuario recMensaje;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Usuario getEmiMensaje() {
+        return emiMensaje;
+    }
+
+    public void setEmiMensaje(Usuario emiMensaje) {
+        this.emiMensaje = emiMensaje;
+    }
+
+    public Usuario getRecMensaje() {
+        return recMensaje;
+    }
+
+    public void setRecMensaje(Usuario recMensaje) {
+        this.recMensaje = recMensaje;
+    }
+
 
     public Long getId() {
         return id;
@@ -60,10 +90,10 @@ public class Mensaje implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Mensaje)) {
+        if (!(object instanceof MensajeEntity)) {
             return false;
         }
-        Mensaje other = (Mensaje) object;
+        MensajeEntity other = (MensajeEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -72,7 +102,7 @@ public class Mensaje implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelo.Mensaje[ id=" + id + " ]";
+        return "Modelo.MensajeEntity[ id=" + id + " ]";
     }
-    
+
 }
