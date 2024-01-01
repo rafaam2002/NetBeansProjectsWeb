@@ -103,7 +103,7 @@ public class ControladorPrincipal extends HttpServlet {
         String accion = request.getPathInfo();
         String vista = "/index.html";
         Query query;
-        Usuario user, userRecBizum;
+        Usuario user, userRec, otro;
         List<Usuario> contactos;
         String paramString;
         HttpSession session;
@@ -138,7 +138,7 @@ public class ControladorPrincipal extends HttpServlet {
 
             case "/getContactos":
                 user = (Usuario) request.getAttribute("user");
-
+                request.setAttribute("nickUsuario", user.getNick());
                 contactos = user.getContactos();
                 request.setAttribute("contactos", contactos);
                 vista = "/WEB-INF/contactos.jsp";
@@ -193,7 +193,7 @@ public class ControladorPrincipal extends HttpServlet {
                 break;
             case "/hacerBizum":
                 user = (Usuario) request.getAttribute("user");
-
+                request.setAttribute("nickUsuario", user.getNick());
                 contactos = user.getContactos();
                 request.setAttribute("contactos", contactos);
                 vista = "/WEB-INF/hacerBizum.jsp";
@@ -205,8 +205,8 @@ public class ControladorPrincipal extends HttpServlet {
                     idUsuario = Long.parseLong(paramString);
                     query = em.createNamedQuery("Usuario.findById", Usuario.class);
                     query.setParameter("id", idUsuario);
-                    userRecBizum = (Usuario) query.getSingleResult();
-                    if (userRecBizum.isBizumActive()) {
+                    userRec = (Usuario) query.getSingleResult();
+                    if (userRec.isBizumActive()) {
                         session = request.getSession();
                         session.setAttribute("idRecBizum", idUsuario);
                         vista = "/WEB-INF/cantidadBizum.jsp";
@@ -214,10 +214,66 @@ public class ControladorPrincipal extends HttpServlet {
                 }
                 break;
             case "/transferencia":
+                user = (Usuario) request.getAttribute("user");
+                request.setAttribute("nickUsuario", user.getNick());
                 vista = "/WEB-INF/transferencia.jsp";
                 break;
+
+            case "/conversaciones":
+                user = (Usuario) request.getAttribute("user");
+                request.setAttribute("nickUsuario", user.getNick());
+                request.setAttribute("user", user);
+                request.setAttribute("contactos", user.getContactos());
+                request.setAttribute("mensajesEnviados", user.getmEnviados());
+                request.setAttribute("mensajesRecividos", user.getmRecividos());
+
+                vista = "/WEB-INF/conversaciones.jsp";
+                break;
+            case "/getConversacion":
+                user = (Usuario) request.getAttribute("user");
+                paramString = request.getParameter("nick");
+                query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
+                query.setParameter("nick", paramString);
+                otro = (Usuario) query.getSingleResult();
+
+                JSONObject respuesta = new JSONObject();
+                JSONArray mEnviados = new JSONArray();
+                JSONArray mRecividos = new JSONArray();
+
+                for (MensajeEntity msjEntity : user.getmEnviados()) {
+                    if (msjEntity.getRecMensaje().equals(otro)) {
+                        JSONObject jsonEnviado = new JSONObject();
+                        jsonEnviado.put("text", msjEntity.getText());
+                        jsonEnviado.put("fecha", msjEntity.getFecha());
+                        mEnviados.put(jsonEnviado);
+
+                    }
+                }
+                for (MensajeEntity msjEntity : user.getmRecividos()) {
+                    if (msjEntity.getEmiMensaje().equals(otro)) {
+                        JSONObject jRecivido = new JSONObject();
+                        jRecivido.put("text", msjEntity.getText());
+                        jRecivido.put("fecha", msjEntity.getFecha());
+                        jRecivido.put("nEmisor", msjEntity.getEmiMensaje().getNick());
+                        mRecividos.put(jRecivido);
+                    }
+                }
+                respuesta.put("mEnviados", mEnviados);
+                respuesta.put("mRecividos", mRecividos);
+
+                // Configurar la respuesta del servlet
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                // Enviar el objeto JSON como respuesta
+                PrintWriter out = response.getWriter();
+                out.print(respuesta.toString());
+                out.flush();
+
+                break;
+
         }
-        if (!accion.equals("/addContacto") && !accion.equals("/getDatosGraficas")) {
+        if (!accion.equals("/addContacto") && !accion.equals("/getDatosGraficas") && !accion.equals("/getConversacion")) {
             RequestDispatcher rd = request.getRequestDispatcher(vista);
             rd.forward(request, response);
         }
@@ -246,7 +302,6 @@ public class ControladorPrincipal extends HttpServlet {
         LocalDate fechaActual;
         DateTimeFormatter formatter;
         String fechaFormateada, concepto;
-        ArrayList<Mensaje> mensajesYaPersistidos = new ArrayList<>();
         StringBuilder requestBody;
 
         switch (accion) {
@@ -284,10 +339,11 @@ public class ControladorPrincipal extends HttpServlet {
 
                 }
                 session.removeAttribute("idRecBizum");
-//                vista = "/WEB-INF/main.jsp";
-                response.sendRedirect("/Achilles/ControladorPrincipal/main");
+                vista = "/WEB-INF/main.jsp";
+//                response.sendRedirect("/Achilles/ControladorPrincipal/main");
                 break;
             case "/persistirMensajes":
+
                 System.out.println("Persistir mensajes");
                 requestBody = new StringBuilder();
 
@@ -301,49 +357,44 @@ public class ControladorPrincipal extends HttpServlet {
                 // En este punto, requestBody contiene el cuerpo de la solicitud como una cadena JSON
 //                String datosRecibidos = requestBody.toString();
                 JSONArray jsonArray = new JSONArray(requestBody.toString());
-
+                System.out.println("jsonArraylength: " + jsonArray.length());
+                
+                
                 for (int i = 0; i < jsonArray.length(); i++) {
+                   
+                    System.err.println("se mete en bucle for de jsonArray.length");
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                     if (i == 0) {
+//                        System.out.println("persiste: " + jsonObject.getString("nEmisor") );
+//
+//                    }
+                    System.out.println("jsonObject: " + jsonObject);
                     Mensaje msj = new Mensaje();
                     msj.setnEmisor(jsonObject.getString("nEmisor"));
                     msj.setnReceptor(jsonObject.getString("nReceptor"));
                     msj.setText(jsonObject.getString("text"));
                     msj.setFecha(jsonObject.getString("fecha"));
+                    System.out.println(msj);
                     //si el mensaje ya se envio por otro usuario no se hace nada y se borra de ya enviados
                     //ya que los mensajes se enviaran dos veces, por el emisor y por el receptor
-                    System.out.println(msj);
-                    if (mensajesYaPersistidos.contains(msj)) {
-                        System.out.println("Son iguales");
-                        mensajesYaPersistidos.remove(msj);
-                    } else { // si no se ha recivido todavia se persiste
-                        mensajesYaPersistidos.add(msj);
-                        MensajeEntity msjEntity = new MensajeEntity();
-                        query = em.createNamedQuery("Usuario.findByNick");
-                        query.setParameter("nick", msj.getnEmisor());
-                        user = (Usuario) query.getSingleResult();
-                        query = em.createNamedQuery("Usuario.findByNick");
-                        query.setParameter("nick", msj.getnReceptor());
-                        userRec = (Usuario) query.getSingleResult();
-                        msjEntity.setEmiMensaje(user);
-                        msjEntity.setRecMensaje(userRec);
-                        msjEntity.setText(msj.getText());
-                        msjEntity.setFecha(msj.getFecha());
+                    MensajeEntity msjEntity = new MensajeEntity();
+                    query = em.createNamedQuery("Usuario.findByNick");
+                    query.setParameter("nick", msj.getnEmisor());
+                    user = (Usuario) query.getSingleResult();
+                    query = em.createNamedQuery("Usuario.findByNick");
+                    query.setParameter("nick", msj.getnReceptor());
+                    userRec = (Usuario) query.getSingleResult();
+                    msjEntity.setEmiMensaje(user);
+                    msjEntity.setRecMensaje(userRec);
+                    msjEntity.setText(msj.getText());
+                    msjEntity.setFecha(msj.getFecha());
 
-                        user.getmEnviados().add(msjEntity);
-                        userRec.getmRecividos().add(msjEntity);
+                    persist(msjEntity);
 
-                        update(user);
-                        update(userRec);
-                        
-                        persist(msjEntity);
+//                    user.getmEnviados().add(msjEntity);
+//                    userRec.getmRecividos().add(msjEntity);
+//                    em.flush();
 
-                    }
-
-//                    for (Mensaje mensajesYaPersistido : mensajesYaPersistidos) {
-//                        System.out.println("hola mensaje ya persistido");
-//                        System.out.println(mensajesYaPersistido.toString());
-//                    }
-//                    System.out.println(mensajesYaPersistidos.size());
                 }
                 break;
         }

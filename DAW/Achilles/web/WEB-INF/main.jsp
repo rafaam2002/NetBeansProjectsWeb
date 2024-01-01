@@ -73,6 +73,9 @@
     </head>
     <body>
         <header>
+            <% String userName = (String) request.getAttribute("nickUsuario");
+                System.out.println(userName);
+            %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -107,16 +110,14 @@
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
                                     >Bizum</a
                                 >
+                                <a
+                                    href="/Achilles/ControladorPrincipal/conversaciones"
+                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
+                                    >Conversaciones</a
+                                >
                             </div>
                         </div>
                         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-                            <!-- <button type="button" class="relative rounded-full bg-zinc-800 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brotext-brown-200 focus:ring-offset-2">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                            </svg>
-                          </button> -->
 
                             <!-- Profile dropdown -->
                             <div class="relative ml-3">
@@ -163,24 +164,9 @@
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        >Tu Perfil</a
+                                        ><%=userName%></a
                                     >
-                                    <a
-                                        href="/Achilles/ControladorPrincipal/cargarChats"
-                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
-                                        role="menuitem"
-                                        tabindex="-1"
-                                        id="user-menu-item-1"
-                                        >Chats</a
-                                    >
-                                    <a
-                                        href="/Achilles/ControladorLogin/logout"
-                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
-                                        role="menuitem"
-                                        tabindex="-1"
-                                        id="user-menu-item-2"
-                                        >Log out</a
-                                    >
+
                                 </div>
                             </div>
                         </div>
@@ -264,6 +250,11 @@
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Bizum</a
                         >
+                        <a
+                            href="/Achilles/ControladorPrincipal/conversaciones"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            >Conversaciones</a
+                        >
                     </div>
                     <div class="border-t border-gray-200 pb-3 pt-4 text-zinc-300">
                         <div class="flex items-center px-4">
@@ -275,9 +266,6 @@
                                     />
                             </div>
                             <div class="ml-3">
-                                <% String userName = (String) request.getAttribute("nickUsuario");
-                                    System.out.println(userName);
-                                %>
                                 <div id ="div_nick" class="text-sm font-medium"><%=userName%></div>
                             </div>
                             <button
@@ -302,23 +290,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="mt-3 space-y-1">
-                            <a
-                                href="#"
-                                class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Tu perfil</a
-                            >
-                            <a
-                                href="/Achilles/ControladorPrincipal/cargarChats"
-                                class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Chats</a
-                            >
-                            <a
-                                href="/Achilles/ControladorLogin/logout"
-                                class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Log out</a
-                            >
-                        </div>
+                        
                     </div>
                 </div>
             </nav>
@@ -326,86 +298,16 @@
 
         <main class="grid lg:grid-cols-4 lg:grid-rows-3 lg:gap-5 sm:grid-cols-3 gap-4 sm:mx-8 mx-3 my-5">
             <!-- eChart grafica -->
-            <article class="lg:col-span-3 lg:row-span-2 sm:col-span-3 w-full sm:h-96 h-72  bg-zinc-700 rounded-md shadow-md shadow-black sm:pb-8"
+            <article class="lg:col-span-full lg:row-span-2 sm:col-span-3 w-full sm:h-96 h-72  bg-zinc-700 rounded-md shadow-md shadow-black sm:pb-8"
                      id="grafica"
                      >
             </article>
 
-            <!-- Conversaciones -->
-            <article
-                class="items-center lg:col-span-1 lg:row-span-3 sm:col-span-3 sm:row-start-3 text-zinc-200 bg-zinc-700 text-xs xl:text-sm 2xl:text-base rounded-md shadow-md shadow-black p-5"
-                >
-                <h2 class="pb-4">Chats</h2>
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
 
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
-                <!-- conversacion -->
-                <div class="flex py-3">
-                    <div>
-                        <img
-                            class="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            />
-                    </div>
-                    <div class="ml-4">
-                        <div class="font-medium">Lindsay Walton</div>
-                        <div class="mt-1 text-zinc-400">Hola, como estas?</div>
-                    </div>
-                </div>
-                <!-- divider -->
-                <div class="w-full h-0 bg-zinc-200 border-t border-zinc-500 my-0"></div>
-            </article>
 
             <!-- Capital -->
             <article
-                class="lg:col-span-1 lg:row-span-1 sm:col-span-1 text-zinc-200 w-full h-full bg-zinc-700 rounded-md shadow-md shadow-black pt-5 pl-5"
+                class="lg:col-span-2 lg:row-span-1 sm:col-span-1 text-zinc-200 w-full h-full bg-zinc-700 rounded-md shadow-md shadow-black pt-5 pl-5"
                 >
                 <div class="flex justify-between">
                     <div class="flex flex-col justify-between pb-4">
@@ -448,7 +350,7 @@
                 </div>
             </article>
             <!-- prueba chat -->
-            <article>
+<!--            <article>
                 <label>Nombre:</label>
                 <input type="text" name="name" id="input_usuario" />
 
@@ -458,21 +360,17 @@
                 <button id="button_enviar">Enviar</button>
 
                 <div id="div_conversacion"></div>
-            </article>
+            </article>-->
         </main>
 
         <!-- Apache Echarts -->
         <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
         <!-- Graficas -->
         <script src="/Achilles/scripts/graficas.js"></script>
-        <!--C:\Users\rafaa\Documents\NetBeansProjects\DAW\Achilles\web\scripts\dropdown_menu_movil.js-->
-        <!--<script src="/Achilles/scripts/graficas.js"></script>-->
-
         <!-- Dropdown menu --> 
-        <!--<script src="/Achilles/dropdown_menu.js"></script>-->
         <script src="/Achilles/scripts/dropdown_menu.js"></script>
         <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
         <!--socket-->
-        <script src="/Achilles/scripts/codigoSocket.js"></script>
+<!--        <script src="/Achilles/scripts/codigoSocket.js"></script>-->
     </body>
 </html>

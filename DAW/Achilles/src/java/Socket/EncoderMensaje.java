@@ -22,9 +22,7 @@ public class EncoderMensaje implements Encoder.TextStream<Mensaje> {
         jsonBuilder.add("nEmisor", object.getnEmisor());
         jsonBuilder.add("nReceptor", object.getnReceptor());
         jsonBuilder.add("text", object.getText());
-        jsonBuilder.add("fecha", object.getFecha());
-        jsonBuilder.add("identificador", object.getIdentificador());
-        
+        jsonBuilder.add("fecha", object.getFecha());        
         JsonObject json = jsonBuilder.build();
         try ( JsonWriter jsonWriter = Json.createWriter(writer)) {
             jsonWriter.writeObject(json);

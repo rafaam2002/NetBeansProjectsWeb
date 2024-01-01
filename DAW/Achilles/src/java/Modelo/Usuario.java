@@ -6,8 +6,10 @@ package Modelo;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -77,8 +79,12 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "recTransferencia")
     private List<Transferencia> tRecividas;
 
-    @OneToMany(mappedBy = "emiMensaje")
+//    @OneToMany(mappedBy = "emiMensaje", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "recMensaje", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<MensajeEntity> mEnviados;
+
+    @OneToMany(mappedBy = "recMensaje", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<MensajeEntity> mRecividos;
 
     public List<MensajeEntity> getmEnviados() {
         return mEnviados;
@@ -95,9 +101,6 @@ public class Usuario implements Serializable {
     public void setmRecividos(List<MensajeEntity> mRecividos) {
         this.mRecividos = mRecividos;
     }
-
-    @OneToMany(mappedBy = "recMensaje")
-    private List<MensajeEntity> mRecividos;
 
     public Long getId() {
         return id;

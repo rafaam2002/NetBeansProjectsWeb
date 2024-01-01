@@ -44,7 +44,7 @@ public class MensajeEntity implements Serializable {
     Usuario emiMensaje;
 
     @ManyToOne
-    @JoinColumn(name = "Receptor")
+    @JoinColumn(name = "Receptor" )
     Usuario recMensaje;
 
     public String getText() {

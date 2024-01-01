@@ -69,6 +69,9 @@
     <body class="bg-zinc-800">
 
         <header>
+            <% String userName = (String) request.getAttribute("nickUsuario");
+                System.out.println(userName);
+            %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -102,6 +105,11 @@
                                     href="/Achilles/ControladorPrincipal/hacerBizum"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
                                     >Bizum</a
+                                >
+                                <a
+                                    href="/Achilles/ControladorPrincipal/conversaciones"
+                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-zinc-300 hover:border-selective-yellow-200 hover:text-selective-yellow-200"
+                                    >Conversaciones</a
                                 >
                             </div>
                         </div>
@@ -159,23 +167,7 @@
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        >Tu Perfil</a
-                                    >
-                                    <a
-                                        href="/Achilles/ControladorPrincipal/cargarChats"
-                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
-                                        role="menuitem"
-                                        tabindex="-1"
-                                        id="user-menu-item-1"
-                                        >Chats</a
-                                    >
-                                    <a
-                                        href="/Achilles/ControladorLogin/logout"
-                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
-                                        role="menuitem"
-                                        tabindex="-1"
-                                        id="user-menu-item-2"
-                                        >Sign out</a
+                                        ><%=userName%></a
                                     >
                                 </div>
                             </div>
@@ -260,6 +252,11 @@
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Bizum</a
                         >
+                         <a
+                            href="/Achilles/ControladorPrincipal/conversaciones"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            >Conversaciones</a
+                        >
                     </div>
                     <div class="border-t border-gray-200 pb-3 pt-4 text-zinc-300">
                         <div class="flex items-center px-4">
@@ -271,7 +268,7 @@
                                     />
                             </div>
                             <div class="ml-3">
-                                <div class="text-sm font-medium">tom@example.com</div>
+                                <div class="text-sm font-medium"><%=userName%></div>
                             </div>
                             <button
                                 type="button"
@@ -294,23 +291,6 @@
                                     />
                                 </svg>
                             </button>
-                        </div>
-                        <div class="mt-3 space-y-1">
-                            <a
-                                href="#"
-                                class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Tu perfil</a
-                            >
-                            <a
-                                href="/Achilles/ControladorPrincipal/cargarChats"
-                                class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Chats</a
-                            >
-                            <a
-                                href="/Achilles/ControladorLogin/logout"
-                                class="block px-4 py-2 text-base font-medium hover:bg-zinc-600 hover:text-selective-yellow-500"
-                                >Sign out</a
-                            >
                         </div>
                     </div>
                 </div>

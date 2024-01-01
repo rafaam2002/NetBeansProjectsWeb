@@ -23,15 +23,13 @@ public class Chat {
 //    private EntityManager em;
 //    @Resource
 //    private javax.transaction.UserTransaction utx;
-
 //    private static final ArrayList<Session> conectados = new ArrayList<>();
     private static final Map<String, Session> conectadosMap = new HashMap();
 
     @OnOpen
     public void inicio(Session sesion) {
-        System.out.println("Conectado");
-//        conectados.add(sesion);
-        System.out.println(sesion);
+        System.out.println("Conectado " + sesion.getId());
+       
     }
 
     @OnClose
@@ -54,14 +52,19 @@ public class Chat {
             }
             conectadosMap.put(mensaje.getnEmisor(), session);
             System.out.println("Nombre nuevo Concectado: " + mensaje.getnEmisor());
-            System.out.println("Sesion nuevo Conectado: " + session.getId());
         } else {
             //intento pasarle el mensaje al receptor, si existe
             try {
+                
+//               
+//                System.out.println("mensaje desde: " + mensaje.getnEmisor() + "con sesion: " +
+//                   conectadosMap.get(mensaje.getnEmisor()).getId() + " hacia: " + mensaje.getnReceptor() +
+//                        " con sesion : " + conectadosMap.get(mensaje.getnReceptor()).getId());
+                
                 conectadosMap.get(mensaje.getnReceptor()).getBasicRemote().sendObject(mensaje);
-                //cojo las session del emisor y le paso el mensaje en caso de que el receptor exista
-                conectadosMap.get(mensaje.getnEmisor()).getBasicRemote().sendObject(mensaje);
 
+                //cojo las session del emisor y le paso el mensaje en caso de que el receptor exista
+//                conectadosMap.get(mensaje.getnEmisor()).getBasicRemote().sendObject(mensaje);
             } catch (IOException | EncodeException | NullPointerException e) {
                 System.out.println("El usuario Receptor no se encuentra conectado");
             }
@@ -69,14 +72,19 @@ public class Chat {
     }
 
     private void eliminarPorValor(Session session) {
-        Iterator<Map.Entry<String, Session>> iterator = conectadosMap.entrySet().iterator();
+        try {
+            Iterator<Map.Entry<String, Session>> iterator = conectadosMap.entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Map.Entry<String, Session> entrada = iterator.next();
-            if (session.equals(entrada.getValue())) {
-                iterator.remove(); // Eliminar la entrada por valor
+            while (iterator.hasNext()) {
+                Map.Entry<String, Session> entrada = iterator.next();
+                if (session.equals(entrada.getValue())) {
+                    iterator.remove(); // Eliminar la entrada por valor
+                }
             }
+        } catch (IllegalStateException e) {
+            System.err.println("nueva Sesion");
         }
+
     }
 
 }

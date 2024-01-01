@@ -24,8 +24,6 @@ public class DecoderMensaje implements Decoder.TextStream<Mensaje> {
             mensaje.setnReceptor(json.getString("nReceptor"));
             mensaje.setText(json.getString("text"));
             mensaje.setFecha(json.getString("fecha"));
-            mensaje.setIdentificador(json.getString("identificador"));
-
         }
         return mensaje;
     }
