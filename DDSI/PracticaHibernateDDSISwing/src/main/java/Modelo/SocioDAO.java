@@ -17,36 +17,40 @@ import org.hibernate.Session;
  */
 public class SocioDAO {
 
-
-    public ArrayList<Socio> getSociosHQL(Session s) throws Exception{
+    public ArrayList<Socio> getSociosHQL(Session s) throws Exception {
         Query consulta = s.createQuery("SELECT s FROM Socio s", Socio.class);
         return (ArrayList<Socio>) consulta.list();
     }
 
-    public ArrayList<Socio> getSociosSQL(Session s) throws Exception{
+    public ArrayList<Socio> getSociosSQL(Session s) throws Exception {
         Query consulta = s.createNativeQuery("SELECT * FROM SOCIO s", Socio.class);
         return (ArrayList<Socio>) consulta.list();
     }
 
-    public ArrayList<Socio> getSociosNamedQuery(Session s) throws Exception{
+    public ArrayList<Socio> getSociosNamedQuery(Session s) throws Exception {
         Query consulta = s.createNamedQuery("Socio.findAll", Socio.class);
         return (ArrayList<Socio>) consulta.list();
     }
 
-    public ArrayList<Object[]> getNomTelSocios(Session s) throws Exception{
+    public String DevolverUltimoCodigo(Session session) throws Exception {
+        Query consulta = session.createQuery("Select MAX(s.numeroSocio) from Socio s");
+        return (String) consulta.getSingleResult();
+    }
+
+    public ArrayList<Object[]> getNomTelSocios(Session s) throws Exception {
 
         Query consulta = s.createQuery("SELECT s.nombre,s.telefono FROM Socio s");
         return (ArrayList<Object[]>) consulta.list();
 
     }
-    
-    public ArrayList<Socio> getSociosSortByNumSocio (Session s) throws Exception {
+
+    public ArrayList<Socio> getSociosSortByNumSocio(Session s) throws Exception {
         Query consulta = s.createQuery("SELECT s FROM Socio s ORDER BY s.numeroSocio ASC");
         return (ArrayList<Socio>) consulta.getResultList();
-                
+
     }
 
-    public ArrayList<Object[]> getSociosCategoria(Session s, char c) throws Exception{
+    public ArrayList<Object[]> getSociosCategoria(Session s, char c) throws Exception {
         Query consulta = s.createQuery("SELECT s.nombre,s.categoria FROM Socio s where s.categoria = :categoria");
         consulta.setParameter("categoria", c);
         return (ArrayList<Object[]>) consulta.list();
@@ -63,7 +67,7 @@ public class SocioDAO {
         s.delete(socio);
     }
 
-    public void actualizarCategoria(Session s, String numSocio, char categoria) throws Exception{
+    public void actualizarCategoria(Session s, String numSocio, char categoria) throws Exception {
         Query consulta = s.createNamedQuery("Socio.findByNumeroSocio", Socio.class)
                 .setParameter("numeroSocio", numSocio);
 
@@ -74,7 +78,7 @@ public class SocioDAO {
         s.saveOrUpdate(socio);
     }
 
-    public void addActividad(Session s, String numSocio, String idActividad) throws Exception{
+    public void addActividad(Session s, String numSocio, String idActividad) throws Exception {
         Query consultaSocio = s.createNamedQuery("Socio.findByNumeroSocio", Socio.class)
                 .setParameter("numeroSocio", numSocio);
         Query consultaActividad = s.createNamedQuery("Actividad.findByIdActividad", Actividad.class)
@@ -86,7 +90,7 @@ public class SocioDAO {
         s.saveOrUpdate(socio);
     }
 
-    public void removeActividad(Session s, String numSocio, String idActividad) throws Exception{
+    public void removeActividad(Session s, String numSocio, String idActividad) throws Exception {
         Query consultaSocio = s.createNamedQuery("Socio.findByNumeroSocio", Socio.class)
                 .setParameter("numeroSocio", numSocio);
         Query consultaActividad = s.createNamedQuery("Actividad.findByIdActividad", Actividad.class)
@@ -98,11 +102,16 @@ public class SocioDAO {
         s.saveOrUpdate(socio);
     }
 
-    public Set<Actividad> getActividades(Session s, String numSocio) throws Exception{
+    public Set<Actividad> getActividades(Session s, String numSocio) throws Exception {
         Query consulta = s.createNamedQuery("Socio.findByNumeroSocio", Socio.class)
                 .setParameter("numeroSocio", numSocio);
 
         var socio = (Socio) consulta.getSingleResult();
         return (Set<Actividad>) socio.getActividades();
+    }
+    
+    public ArrayList<Socio> listSociosSortByNumSocio(Session session) throws Exception {
+        Query consulta = session.createQuery("SELECT s FROM Socio s ORDER BY s.numeroSocio ASC");
+        return (ArrayList<Socio>)consulta.getResultList();
     }
 }

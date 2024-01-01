@@ -43,7 +43,7 @@ public class JDialogInsertarMonitor extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jButtomInsertarMonitor = new javax.swing.JButton();
         jButtonCancelarMonitor = new javax.swing.JButton();
-        FechaNacMonitor = new com.toedter.calendar.JDateChooser();
+        FechaInicioMonitor = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -66,7 +66,7 @@ public class JDialogInsertarMonitor extends javax.swing.JDialog {
 
         jLabel7.setText("Nick");
 
-        jButtomInsertarMonitor.setText("Insertar");
+        jButtomInsertarMonitor.setText("Ok");
         jButtomInsertarMonitor.setActionCommand("InsertarMonitor");
 
         jButtonCancelarMonitor.setText("Cancelar");
@@ -111,11 +111,11 @@ public class JDialogInsertarMonitor extends javax.swing.JDialog {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(jLabel6)
                                     .addGap(18, 18, 18)
-                                    .addComponent(FechaNacMonitor, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(FechaInicioMonitor, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(correoMonitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(correoMonitor))))
                         .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
@@ -143,7 +143,7 @@ public class JDialogInsertarMonitor extends javax.swing.JDialog {
                             .addComponent(correoMonitor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(FechaNacMonitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FechaInicioMonitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +171,7 @@ public class JDialogInsertarMonitor extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField DNIMonitor;
-    public com.toedter.calendar.JDateChooser FechaNacMonitor;
+    public com.toedter.calendar.JDateChooser FechaInicioMonitor;
     public javax.swing.JTextField codigoMonitor;
     public javax.swing.JTextField correoMonitor;
     public javax.swing.JButton jButtomInsertarMonitor;

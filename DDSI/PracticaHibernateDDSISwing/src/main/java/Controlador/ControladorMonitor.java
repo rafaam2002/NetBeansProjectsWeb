@@ -78,7 +78,7 @@ public class ControladorMonitor implements ActionListener {
                     String codNuevoMonitor = "M";
                     if (numUltimoMonitor < 10) {
                         codNuevoMonitor += "00";
-                    } else {
+                    } else if (numUltimoMonitor < 100) {
                         codNuevoMonitor += "0";
                     }
 
@@ -89,11 +89,8 @@ public class ControladorMonitor implements ActionListener {
                     dialogoInsertaMonitor.setVisible(true);
                 } catch (Exception ex) {
                     vMensaje.MensajeInfo(pMonitores, ex.getMessage());
-                } finally {
-                    if (session != null && session.isOpen()) {
-                        session.close();
-                    }
                 }
+
 
             }
             case "InsertarMonitor" -> {
@@ -105,26 +102,32 @@ public class ControladorMonitor implements ActionListener {
                     String nombre = dialogoInsertaMonitor.nombreMonitor.getText();
                     String DNI = dialogoInsertaMonitor.DNIMonitor.getText();
                     String telefono = dialogoInsertaMonitor.telefonoMonitor.getText();
-                    String correo = dialogoInsertaMonitor.codigoMonitor.getText();
+                    String correo = dialogoInsertaMonitor.correoMonitor.getText();
                     String nick = dialogoInsertaMonitor.nickMonitor.getText();
                     String fecha = "";
 
-                    if (dialogoInsertaMonitor.FechaNacMonitor.getDate() != null) {
-                        fecha = Establecerfecha(dialogoInsertaMonitor.FechaNacMonitor.getDate().toString());
+                    if (dialogoInsertaMonitor.FechaInicioMonitor.getDate() != null) {
+                        fecha = Establecerfecha(dialogoInsertaMonitor.FechaInicioMonitor.getDate().toString());
+
                     }
                     //campos opigatorios
                     DNI = DNI.toUpperCase();
-                    System.out.println(DNI);
                     if (!nombre.isEmpty() && DNIValido(DNI) && fechaValida(fecha)) {
                         Monitor m = new Monitor(codigo, nombre, DNI, fecha); //creamos el monitor con los campos obligatorios
                         if (telefonoValido(telefono)) {
                             m.setTelefono(telefono);
+                        } else {
+                            VistaMensaje.mensajeConsola("El telefono no es valido");
                         }
                         if (!correo.isEmpty()) {
                             m.setCorreo(correo);
+                        } else {
+                            VistaMensaje.mensajeConsola("El correo no esta relleno");
                         }
                         if (!nick.isEmpty()) {
                             m.setNick(nick);
+                        } else {
+                            VistaMensaje.mensajeConsola("El nick no es valido");
                         }
                         monitorDAO.insertarActualizarMonitor(session, m);
                     } else {
@@ -147,8 +150,8 @@ public class ControladorMonitor implements ActionListener {
             }
 
             case "BajaMonitor" -> {
-                int filaMoniror = pMonitores.jTableMonitores.getSelectedRow();
-                if (filaMoniror != -1) {
+                int filaMonitor = pMonitores.jTableMonitores.getSelectedRow();
+                if (filaMonitor != -1) {
                     int confirm = BajaDialog(pMonitores);
                     if (confirm == JOptionPane.YES_OPTION) {
                         try {
@@ -156,7 +159,7 @@ public class ControladorMonitor implements ActionListener {
                             tr = session.beginTransaction();
 
                             List<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
-                            monitorDAO.eliminarMonitor(session, monitores.get(filaMoniror).getCodMonitor());
+                            monitorDAO.eliminarMonitor(session, monitores.get(filaMonitor).getCodMonitor());
                             tr.commit();
                             VistaMensaje.mensajeConsola("El monitor se ha eliminado con exito");
 //                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
@@ -175,14 +178,14 @@ public class ControladorMonitor implements ActionListener {
             }
 
             case "ActualizarMonitor" -> {
-                int filaMoniror = pMonitores.jTableMonitores.getSelectedRow();
-                if (filaMoniror != -1) {
+                int filaMonitor = pMonitores.jTableMonitores.getSelectedRow();
+                if (filaMonitor != -1) {
                     try {
                         session = sessionFactory.openSession();
                         tr = session.beginTransaction();
 
                         List<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
-                        Monitor monitor = monitores.get(filaMoniror);
+                        Monitor monitor = monitores.get(filaMonitor);
 
                         dialogoInsertaMonitor.codigoMonitor.setText(monitor.getCodMonitor());
                         dialogoInsertaMonitor.nombreMonitor.setText(monitor.getNombre());
@@ -190,11 +193,12 @@ public class ControladorMonitor implements ActionListener {
                         dialogoInsertaMonitor.telefonoMonitor.setText(monitor.getTelefono());
                         dialogoInsertaMonitor.correoMonitor.setText(monitor.getCorreo());
                         dialogoInsertaMonitor.nickMonitor.setText(monitor.getNick());
+                        dialogoInsertaMonitor.FechaInicioMonitor.setDate(stringToDate(monitor.getFechaEntrada()));
                         dialogoInsertaMonitor.codigoMonitor.setEditable(false);
                         dialogoInsertaMonitor.setVisible(true);
 
                         tr.commit();
-                        VistaMensaje.mensajeConsola("El monitor se ha modificado con exito");
+//                        VistaMensaje.mensajeConsola("El monitor se ha modificado con exito");
 //                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
                     } catch (Exception ex) {
                         tr.rollback();
@@ -206,8 +210,7 @@ public class ControladorMonitor implements ActionListener {
                         }
                         dibujarTabla();
                     }
-                }
-                else{
+                } else {
                     vMensaje.MensajeInfo(pMonitores, "Para Actualizar un monitor debes seleccionarlo primero");
                 }
 
@@ -297,7 +300,11 @@ public class ControladorMonitor implements ActionListener {
     //comprueba que el dni tiene 9 caracteres y que el ultimo es una letra
     private boolean DNIValido(String DNI) {
         char letra = DNI.charAt(DNI.length() - 1);
-
+        if (DNI.length() == 9 && Character.isLetter(letra)) {
+            VistaMensaje.mensajeConsola("DNI valido");
+        } else {
+            VistaMensaje.mensajeConsola("DNI no valido");
+        }
         return DNI.length() == 9 && Character.isLetter(letra);
     }
 
@@ -312,7 +319,7 @@ public class ControladorMonitor implements ActionListener {
     private void vaciarDatos() {
         dialogoInsertaMonitor.nombreMonitor.setText("");
         dialogoInsertaMonitor.DNIMonitor.setText("");
-        dialogoInsertaMonitor.FechaNacMonitor.setDate(null);
+        dialogoInsertaMonitor.FechaInicioMonitor.setDate(null);
         dialogoInsertaMonitor.correoMonitor.setText("");
         dialogoInsertaMonitor.nickMonitor.setText("");
         dialogoInsertaMonitor.telefonoMonitor.setText("");
@@ -323,6 +330,11 @@ public class ControladorMonitor implements ActionListener {
                 "Atención", JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
         return opcion;
+    }
+
+    private Date stringToDate(String fechaString) throws ParseException {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        return formatoFecha.parse(fechaString);
     }
 
 }
