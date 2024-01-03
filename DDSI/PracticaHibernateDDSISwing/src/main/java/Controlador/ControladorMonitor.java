@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -91,7 +93,6 @@ public class ControladorMonitor implements ActionListener {
                     vMensaje.MensajeInfo(pMonitores, ex.getMessage());
                 }
 
-
             }
             case "InsertarMonitor" -> {
                 try {
@@ -118,11 +119,13 @@ public class ControladorMonitor implements ActionListener {
                             m.setTelefono(telefono);
                         } else {
                             VistaMensaje.mensajeConsola("El telefono no es valido");
+                            vMensaje.MensajeInfo(pMonitores, "El telefono no tiene los dígitos necesarios");
                         }
-                        if (!correo.isEmpty()) {
+                        if (correoValido(correo)) {
                             m.setCorreo(correo);
                         } else {
                             VistaMensaje.mensajeConsola("El correo no esta relleno");
+                            vMensaje.MensajeInfo(pMonitores, "El correo no cumple un patón válido");
                         }
                         if (!nick.isEmpty()) {
                             m.setNick(nick);
@@ -130,10 +133,14 @@ public class ControladorMonitor implements ActionListener {
                             VistaMensaje.mensajeConsola("El nick no es valido");
                         }
                         monitorDAO.insertarActualizarMonitor(session, m);
+                        tr.commit();
+                        dialogoInsertaMonitor.dispose();
+                        dibujarTabla();
+                        vaciarDatos();
                     } else {
                         vMensaje.MensajeInfo(pMonitores, "Debe rellenar todos los campos obligatorios correctamente");
                     }
-                    tr.commit();
+
                 } catch (Exception ex) {
                     tr.rollback();
                     vMensaje.MensajeInfo(pMonitores, ex.getMessage());
@@ -142,9 +149,7 @@ public class ControladorMonitor implements ActionListener {
                     if (session != null && session.isOpen()) {
                         session.close();
                     }
-                    dialogoInsertaMonitor.dispose();
-                    dibujarTabla();
-                    vaciarDatos();
+
                 }
 
             }
@@ -174,6 +179,8 @@ public class ControladorMonitor implements ActionListener {
                             dibujarTabla();
                         }
                     }
+                } else {
+                    vMensaje.MensajeInfo(pMonitores, "Debe seleccionar un monitor");
                 }
             }
 
@@ -197,18 +204,10 @@ public class ControladorMonitor implements ActionListener {
                         dialogoInsertaMonitor.codigoMonitor.setEditable(false);
                         dialogoInsertaMonitor.setVisible(true);
 
-                        tr.commit();
-//                        VistaMensaje.mensajeConsola("El monitor se ha modificado con exito");
-//                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
                     } catch (Exception ex) {
-                        tr.rollback();
-                        VistaMensaje.mensajeConsola("Error en la modificacion de un monitor " + ex.getMessage());
-                        vMensaje.MensajeInfo(pMonitores, "Error al modificar monitor " + ex.getMessage());
-                    } finally {
-                        if (session != null && session.isOpen()) {
-                            session.close();
-                        }
-                        dibujarTabla();
+
+                        VistaMensaje.mensajeConsola("Error al mostrar desplegable " + ex.getMessage());
+                        vMensaje.MensajeError(pMonitores, "Error al mostrar desplegable " + ex.getMessage());
                     }
                 } else {
                     vMensaje.MensajeInfo(pMonitores, "Para Actualizar un monitor debes seleccionarlo primero");
@@ -300,11 +299,6 @@ public class ControladorMonitor implements ActionListener {
     //comprueba que el dni tiene 9 caracteres y que el ultimo es una letra
     private boolean DNIValido(String DNI) {
         char letra = DNI.charAt(DNI.length() - 1);
-        if (DNI.length() == 9 && Character.isLetter(letra)) {
-            VistaMensaje.mensajeConsola("DNI valido");
-        } else {
-            VistaMensaje.mensajeConsola("DNI no valido");
-        }
         return DNI.length() == 9 && Character.isLetter(letra);
     }
 
@@ -335,6 +329,19 @@ public class ControladorMonitor implements ActionListener {
     private Date stringToDate(String fechaString) throws ParseException {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         return formatoFecha.parse(fechaString);
+    }
+
+    /**
+     * Valida la forma de una dirección de correo
+     *
+     * @param email cadena de texto con el email a validar
+     * @return
+     */
+    private static boolean correoValido(String correo) {
+        String patronCorreo = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(patronCorreo);
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
     }
 
 }

@@ -4,10 +4,14 @@
  */
 package Controlador;
 
+import Modelo.Actividad;
+import Modelo.ActividadDAO;
 import Modelo.Socio;
 import Modelo.SocioDAO;
 import Vista.JDialogInsertarMonitor;
 import Vista.JDialogInsertarSocio;
+import Vista.JDialogSocioAltaActividad;
+import Vista.JDialogSocioBajaActividad;
 import Vista.PanelSocios;
 import Vista.VMensaje;
 import Vista.VistaMensaje;
@@ -17,9 +21,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,12 +41,21 @@ public class ControladorSocios implements ActionListener {
 
     private final PanelSocios pSocios;
     private final UtilTablasSocio uTablasS;
+    private final UtilTablasSocioAltaActividad uTablasSocioAltaActividad;
+    private final UtilTablasSocioBajaActividad uTablasSocioBajaActividad;
     private final SessionFactory sessionFactory;
     private Session session;
     private Transaction tr;
     private final SocioDAO socioDAO;
+    private final ActividadDAO actividadDAO;
     private final VMensaje vMensaje;
     private final JDialogInsertarSocio dialogoInsertarSocio;
+    private final JDialogSocioAltaActividad dialogoSocioAltaActividad;
+    private final JDialogSocioBajaActividad dialogoSocioBajaActividad;
+    private Socio socioAltaActividad;
+    private Socio socioBajaActividad;
+    private ArrayList<Actividad> actNoAlta;
+    private ArrayList<Actividad> actAlta;
 
     public ControladorSocios(PanelSocios pSocios, SessionFactory sessionFactory) {
         vMensaje = new VMensaje();
@@ -51,8 +68,15 @@ public class ControladorSocios implements ActionListener {
         dialogoInsertarSocio.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         dialogoInsertarSocio.setResizable(false);
 
+        dialogoSocioAltaActividad = new JDialogSocioAltaActividad();
+        dialogoSocioBajaActividad = new JDialogSocioBajaActividad();
+
+        uTablasSocioAltaActividad = new UtilTablasSocioAltaActividad(dialogoSocioAltaActividad);
+        uTablasSocioBajaActividad = new UtilTablasSocioBajaActividad(dialogoSocioBajaActividad);
+
         this.sessionFactory = sessionFactory;
         socioDAO = new SocioDAO();
+        actividadDAO = new ActividadDAO();
 
         addListeners();
 
@@ -68,6 +92,12 @@ public class ControladorSocios implements ActionListener {
         pSocios.jButtonActualizarSocio.addActionListener(this);
         dialogoInsertarSocio.jButtonOkSocio.addActionListener(this);
         dialogoInsertarSocio.jButtonCancelarSocio.addActionListener(this);
+        pSocios.jButtonSocioAltaActividad.addActionListener(this);
+        pSocios.jButtonSocioBajaActividad.addActionListener(this);
+        dialogoSocioAltaActividad.jButtonOkSocioAlta.addActionListener(this);
+        dialogoSocioAltaActividad.jButtonCancelarSocioAlta.addActionListener(this);
+        dialogoSocioBajaActividad.jButtonOkSocioBaja.addActionListener(this);
+        dialogoSocioBajaActividad.jButtonCancelarSocioBaja.addActionListener(this);
     }
 
     @Override
@@ -109,37 +139,45 @@ public class ControladorSocios implements ActionListener {
                     String DNI = dialogoInsertarSocio.DNISocio.getText();
                     String telefono = dialogoInsertarSocio.telefonoSocio.getText();
                     String correo = dialogoInsertarSocio.correoSocio.getText();
-                    String categoriaString = dialogoInsertarSocio.categoriaSocio.getText();
-                    String fecha = "";
+                    String categoriaString = (String) dialogoInsertarSocio.jComboBoxCategoria.getSelectedItem();
+                    String fechaEntrada = "";
+                    String fechaNacimiento = "";
 
                     if (dialogoInsertarSocio.FechaInicioSocio.getDate() != null) {
-                        fecha = Establecerfecha(dialogoInsertarSocio.FechaInicioSocio.getDate().toString());
+                        fechaEntrada = Establecerfecha(dialogoInsertarSocio.FechaInicioSocio.getDate().toString());
 
                     }
+
+                    if (dialogoInsertarSocio.FechaNacimientoSocio.getDate() != null) {
+                        fechaNacimiento = Establecerfecha(dialogoInsertarSocio.FechaNacimientoSocio.getDate().toString());
+
+                    }
+
                     //campos opigatorios
                     DNI = DNI.toUpperCase();
                     char categoria = categoriaString.charAt(0);
-                    if (!nombre.isEmpty() && DNIValido(DNI) && fechaValida(fecha)) {
-                        Socio s = new Socio(numeroSocio, nombre, DNI, fecha, categoria); //creamos el monitor con los campos obligatorios
+                    if (!nombre.isEmpty() && DNIValido(DNI) && fechaEntradaValida(fechaEntrada) && fechaNacimientoValida(fechaNacimiento)) {
+                        Socio s = new Socio(numeroSocio, nombre, DNI, fechaEntrada, categoria); //creamos el monitor con los campos obligatorios
                         if (telefonoValido(telefono)) {
                             s.setTelefono(telefono);
                         } else {
                             VistaMensaje.mensajeConsola("El telefono no es valido");
-
+                            vMensaje.MensajeInfo(pSocios, "El telefono no tiene los dígitos necesarios");
                         }
-                        if (!correo.isEmpty()) {
+                        if (correoValido(correo)) {
                             s.setCorreo(correo);
-
                         } else {
-                            VistaMensaje.mensajeConsola("El correo no esta relleno");
-
+                            vMensaje.MensajeInfo(pSocios, "El correo no cumple un patón válido");
                         }
-
                         socioDAO.insertarSocio(session, s);
+                        tr.commit();
+                        dialogoInsertarSocio.dispose();
+                        dibujarTabla();
+                        vaciarDatosDInsertarSocio();
                     } else {
                         vMensaje.MensajeInfo(pSocios, "Debe rellenar todos los campos obligatorios correctamente");
                     }
-                    tr.commit();
+
                 } catch (Exception ex) {
                     tr.rollback();
                     vMensaje.MensajeInfo(pSocios, ex.getMessage());
@@ -148,11 +186,15 @@ public class ControladorSocios implements ActionListener {
                     if (session != null && session.isOpen()) {
                         session.close();
                     }
-                    dialogoInsertarSocio.dispose();
-                    dibujarTabla();
-                    vaciarDatos();
+
                 }
 
+            }
+
+            case "CancelarSocio" -> {
+                dialogoInsertarSocio.dispose();
+                dibujarTabla();
+                vaciarDatosDInsertarSocio();
             }
 
             case "BajaSocio" -> {
@@ -199,13 +241,9 @@ public class ControladorSocios implements ActionListener {
                         dialogoInsertarSocio.telefonoSocio.setText(socio.getTelefono());
                         dialogoInsertarSocio.correoSocio.setText(socio.getCorreo());
                         dialogoInsertarSocio.FechaInicioSocio.setDate(stringToDate(socio.getFechaEntrada()));
-                        dialogoInsertarSocio.categoriaSocio.setText(socio.getCategoria().toString());
+                        dialogoInsertarSocio.jComboBoxCategoria.setSelectedItem(socio.getCategoria().toString());
                         dialogoInsertarSocio.codigoSocio.setEditable(false);
                         dialogoInsertarSocio.setVisible(true);
-
-//                        tr.commit();
-//                        VistaMensaje.mensajeConsola("El socio se ha modificado con exito");
-//                            vMensaje.MensajeInfo(pSocios, "Socio dado de baja con exito");
                     } catch (Exception ex) {
                         VistaMensaje.mensajeConsola("Error no se puede mostrar panel para"
                                 + " modificar socio " + ex.getMessage());
@@ -215,6 +253,151 @@ public class ControladorSocios implements ActionListener {
                     vMensaje.MensajeInfo(pSocios, "Para Actualizar un monitor debes seleccionarlo primero");
                 }
 
+            }
+
+            case "SocioAltaActividad" -> {
+                int filaSocio = pSocios.jTableSocios.getSelectedRow();
+                if (filaSocio != -1) {
+                    try {
+                        session = sessionFactory.openSession();
+                        tr = session.beginTransaction();
+
+                        List<Socio> socios = socioDAO.listSociosSortByNumSocio(session);
+                        socioAltaActividad = socios.get(filaSocio);
+                        Set<Actividad> actividadesSocio = socioAltaActividad.getActividades();
+
+                        actNoAlta = new ArrayList<>();
+                        List<Actividad> actividadesTotales = actividadDAO.getActividades(session);
+//                        int i = 0;
+//                        Actividad[] actividadesSocioArray = actividadesSocio.toArray(Actividad[]::new);
+                        for (Actividad actividad : actividadesTotales) {
+                            if (!actividadesSocio.contains(actividad)) {
+                                actNoAlta.add(actividad);
+                            }
+                        }
+                        if (!actNoAlta.isEmpty()) {
+                            dibujarTablaAltaActividad(actNoAlta);
+                            dialogoSocioAltaActividad.setLocationRelativeTo(pSocios);
+                            dialogoSocioAltaActividad.setVisible(true);
+                        } else {
+                            vMensaje.MensajeInfo(pSocios, "El socio está dado de alta en todas las actividades posibles");
+
+                        }
+
+                    } catch (Exception ex) {
+                        VistaMensaje.mensajeConsola(ex.getMessage());
+                    } finally {
+                    }
+
+                } else {
+                    vMensaje.MensajeError(pSocios, "Debe seleccionar un cliente primero");
+                }
+
+            }
+
+            case "OkSocioAlta" -> {
+
+                session = sessionFactory.openSession();
+                tr = session.beginTransaction();
+
+                //puede seleccionar mas de una actividad
+                int[] filaActividad = dialogoSocioAltaActividad.jTableSocioAlta.getSelectedRows();
+
+                try {
+                    //asigno todas las act seleccionadas al socio
+                    for (int i : filaActividad) {
+                        socioDAO.addActividad(session, socioAltaActividad.getNumeroSocio(), actNoAlta.get(i).getIdActividad());
+                    }
+                    tr.commit();
+                } catch (Exception ex) {
+                    tr.rollback();
+                    vMensaje.MensajeInfo(pSocios, ex.getMessage());
+                } finally {
+                    if (session != null && session.isOpen()) {
+                        session.close();
+                    }
+                    dialogoSocioAltaActividad.dispose();
+                    dibujarTabla();
+                    vaciarDatosDInsertarSocio();
+                }
+
+            }
+
+            case "CancelarSocioAlta" -> {
+                dialogoSocioAltaActividad.dispose();
+                dibujarTabla();
+            }
+
+            case "SocioBajaActividad" -> {
+                int filaSocio = pSocios.jTableSocios.getSelectedRow();
+                if (filaSocio != -1) {
+                    try {
+                        session = sessionFactory.openSession();
+                        tr = session.beginTransaction();
+
+                        List<Socio> socios = socioDAO.listSociosSortByNumSocio(session);
+                        socioBajaActividad = socios.get(filaSocio);
+                        Set<Actividad> actividadesSocio = socioBajaActividad.getActividades();
+                        if (actividadesSocio.size() > 0) {
+                            actAlta = new ArrayList<>();
+
+                            List<Actividad> actividadesTotales = actividadDAO.getActividades(session);
+//                        int i = 0;
+//                        Actividad[] actividadesSocioArray = actividadesSocio.toArray(Actividad[]::new);
+                            for (Actividad actividad : actividadesTotales) {
+                                if (actividadesSocio.contains(actividad)) {
+                                    actAlta.add(actividad);
+                                }
+                            }
+                            dibujarTablaBajaActividad(actAlta);
+                            dialogoSocioBajaActividad.setLocationRelativeTo(pSocios);
+                            dialogoSocioBajaActividad.setVisible(true);
+                        } else {
+                            vMensaje.MensajeInfo(pSocios, "El socio no está dado de alta en ninguna actividad");
+                        }
+
+                    } catch (Exception ex) {
+                        VistaMensaje.mensajeConsola(ex.getMessage());
+                    } finally {
+                    }
+
+                } else {
+                    vMensaje.MensajeError(pSocios, "Debe seleccionar un cliente primero");
+                }
+
+            }
+
+            case "OkSocioBaja" -> {
+
+                session = sessionFactory.openSession();
+                tr = session.beginTransaction();
+
+                //puede seleccionar mas de una actividad
+                int[] filaActividad = dialogoSocioBajaActividad.jTableSocioBaja.getSelectedRows();
+
+                try {
+                    //asigno todas las act seleccionadas al socio
+                    for (int i : filaActividad) {
+                        socioDAO.removeActividad(session, socioBajaActividad.getNumeroSocio(), actAlta.get(i).getIdActividad());
+                    }
+                    tr.commit();
+                } catch (Exception ex) {
+                    tr.rollback();
+                    vMensaje.MensajeInfo(pSocios, ex.getMessage());
+                } finally {
+                    if (session != null && session.isOpen()) {
+                        session.close();
+                    }
+                    dialogoSocioBajaActividad.dispose();
+                    dibujarTabla();
+                    vaciarDatosDInsertarSocio();
+                }
+
+            }
+
+            case "CancelarSocioBaja" -> {
+                dialogoSocioBajaActividad.dispose();
+                dibujarTabla();
             }
 
             default ->
@@ -291,7 +474,7 @@ public class ControladorSocios implements ActionListener {
         return DNI.length() == 9 && Character.isLetter(letra);
     }
 
-    private boolean fechaValida(String fechaString) {
+    private boolean fechaEntradaValida(String fechaString) {
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -308,6 +491,27 @@ public class ControladorSocios implements ActionListener {
         }
     }
 
+    public boolean fechaNacimientoValida(String fechaString) {
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            // Convertir el String a un objeto Date
+            Date fecha = formatoFecha.parse(fechaString);
+            Date fechaActual = new Date();
+
+            // Convertir los objetos Date a LocalDate
+            LocalDate localDateFecha = fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDateFechaActual = fechaActual.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+
+             return localDateFecha.plusYears(18).isBefore(localDateFechaActual);
+        } catch (ParseException ex) {
+            System.out.println("Error al convertir la fecha: " + ex.getMessage());
+            return false;
+        }
+
+    }
+
     private boolean telefonoValido(String telefono) {
         if (!telefono.isEmpty()) {
             return telefono.length() == 9;
@@ -321,13 +525,68 @@ public class ControladorSocios implements ActionListener {
         return formatoFecha.parse(fechaString);
     }
 
-    private void vaciarDatos() {
+    private void dibujarTablaAltaActividad(ArrayList<Actividad> actNoAlta) {
+        uTablasSocioAltaActividad.dibujarTablaSocioAlta();
+        session = sessionFactory.openSession();
+
+        tr = session.beginTransaction();
+
+        try {
+
+            uTablasSocioAltaActividad.vaciarTablaSocioAlta();
+            uTablasSocioAltaActividad.rellenarTablaSocioAlta(actNoAlta);
+            tr.commit();
+        } catch (Exception ex) {
+            tr.rollback();
+            VistaMensaje.mensajeConsola("Error " + ex.getMessage());
+        } finally {
+            if (session != null & session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    private void vaciarDatosDInsertarSocio() {
         dialogoInsertarSocio.nombreSocio.setText("");
         dialogoInsertarSocio.DNISocio.setText("");
         dialogoInsertarSocio.FechaInicioSocio.setDate(null);
         dialogoInsertarSocio.correoSocio.setText("");
         dialogoInsertarSocio.telefonoSocio.setText("");
-        dialogoInsertarSocio.categoriaSocio.setText("");
+
+    }
+
+    private void dibujarTablaBajaActividad(ArrayList<Actividad> actNoAlta) {
+        uTablasSocioBajaActividad.dibujarTablaSocioBaja();
+        session = sessionFactory.openSession();
+
+        tr = session.beginTransaction();
+
+        try {
+
+            uTablasSocioBajaActividad.vaciarTablaSocioBaja();
+            uTablasSocioBajaActividad.rellenarTablaSocioBaja(actNoAlta);
+            tr.commit();
+        } catch (Exception ex) {
+            tr.rollback();
+            VistaMensaje.mensajeConsola("Error " + ex.getMessage());
+        } finally {
+            if (session != null & session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    /**
+     * Valida la forma de una dirección de correo
+     *
+     * @param email cadena de texto con el email a validar
+     * @return
+     */
+    private static boolean correoValido(String correo) {
+        String patronCorreo = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(patronCorreo);
+        Matcher matcher = pattern.matcher(correo);
+        return matcher.matches();
     }
 
 }

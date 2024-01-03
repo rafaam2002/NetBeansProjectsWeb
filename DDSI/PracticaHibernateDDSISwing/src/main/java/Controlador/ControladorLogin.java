@@ -6,6 +6,7 @@ package Controlador;
 
 import Config.HibernateUtilMariaDB;
 import Config.HibernateUtilOracle;
+import Vista.VMensaje;
 import Vista.VistaMensaje;
 import Vista.vistaLogin;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ public class ControladorLogin implements ActionListener {
 
     private SessionFactory sessionFactory;
     private final vistaLogin vLogin;
+    private final VMensaje vMensaje;
 
     public ControladorLogin() {
         vLogin = new vistaLogin();
@@ -30,17 +32,28 @@ public class ControladorLogin implements ActionListener {
 
         vLogin.SelectDB.setSelectedIndex(0);
 
+        vMensaje = new VMensaje();
     }
 
     private void conectarBD(String DB) throws ExceptionInInitializerError {
         switch (DB) {
             case "Oracle" -> {
-                sessionFactory = HibernateUtilOracle.getSessionFactory();
-                VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
+                try {
+                    sessionFactory = HibernateUtilOracle.getSessionFactory();
+                    VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
+                } catch (Exception e) {
+                    VistaMensaje.mensajeConsola(e.getMessage());
+                }
+
             }
             case "MariaDB" -> {
-                sessionFactory = HibernateUtilMariaDB.getSessionFactory();
-                VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
+                try {
+                    sessionFactory = HibernateUtilMariaDB.getSessionFactory();
+                    VistaMensaje.mensajeConsola("Conexión Correcta con Hibernate");
+                } catch (Exception e) {
+                    VistaMensaje.mensajeConsola(e.getMessage());
+                }
+
             }
             default ->
                 VistaMensaje.mensajeConsola("Introduce un nombre correcto");
@@ -64,6 +77,7 @@ public class ControladorLogin implements ActionListener {
                 } catch (ExceptionInInitializerError ex) {
                     Throwable cause = ex.getCause();
                     System.out.println("Error en la conexión. Revise el fichero .cfg.xml: " + cause.getMessage());
+                    vMensaje.MensajeError(vLogin, "Imposible conectarse con la Base de Datos");
                 }
 
             }

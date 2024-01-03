@@ -30,12 +30,15 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         GestionMonitores = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         GestionSocios = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        VolverPrincipal = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         SalirAplicacion = new javax.swing.JMenuItem();
 
@@ -46,6 +49,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         jMenu5.setText("Edit");
         jMenuBar2.add(jMenu5);
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de Gimnasio \"Body Perfect\"");
@@ -74,10 +79,18 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenu3.setText("Actividades");
         jMenuBar1.add(jMenu3);
 
+        jMenu7.setText("Volver");
+
+        VolverPrincipal.setText("Volver a la pagina Principal");
+        VolverPrincipal.setActionCommand("VolverPrincipal");
+        jMenu7.add(VolverPrincipal);
+
+        jMenuBar1.add(jMenu7);
+
         jMenu6.setText("Salir");
 
         SalirAplicacion.setText("Salir de la Aplicación");
-        SalirAplicacion.setActionCommand("SalirAplicación");
+        SalirAplicacion.setActionCommand("SalirAplicacion");
         jMenu6.add(SalirAplicacion);
 
         jMenuBar1.add(jMenu6);
@@ -107,14 +120,17 @@ public class vistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JMenuItem GestionMonitores;
     public javax.swing.JMenuItem GestionSocios;
     public javax.swing.JMenuItem SalirAplicacion;
+    public javax.swing.JMenuItem VolverPrincipal;
     public javax.swing.JMenu jMenu1;
     public javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     public javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }

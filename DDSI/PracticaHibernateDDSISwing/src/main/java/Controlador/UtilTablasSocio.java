@@ -1,4 +1,5 @@
 /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -36,7 +37,7 @@ class UtilTablasSocio {
 
     public void dibujarTablaSocios() {
         String[] columnasTabla = {"Código", "Nombre", "DNI", "Telefono", "Correo",
-            "Fecha Incorporación", "Nick"};
+            "Fecha Incorporación", "Categoria"};
         modeloTablaSocios.setColumnIdentifiers(columnasTabla);
 
         //Para no permitir redimensiones con el raton

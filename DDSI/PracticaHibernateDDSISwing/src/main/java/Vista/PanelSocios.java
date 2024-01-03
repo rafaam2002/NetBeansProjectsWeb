@@ -32,6 +32,8 @@ public class PanelSocios extends javax.swing.JPanel {
         jButtonNuevoSocio = new javax.swing.JButton();
         jButtonActualizarSocio = new javax.swing.JButton();
         jButtonBajaSocio = new javax.swing.JButton();
+        jButtonSocioAltaActividad = new javax.swing.JButton();
+        jButtonSocioBajaActividad = new javax.swing.JButton();
 
         jTableSocios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -50,19 +52,25 @@ public class PanelSocios extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 51, 0));
         jLabel1.setText("Gestión de Socios");
 
-        jButtonNuevoSocio.setText("Nuevo Socio");
+        jButtonNuevoSocio.setText("Alta");
         jButtonNuevoSocio.setActionCommand("NuevoSocio");
 
-        jButtonActualizarSocio.setText("Actualización de Socio");
+        jButtonActualizarSocio.setText("Actualización");
         jButtonActualizarSocio.setActionCommand("ActualizarSocio");
 
-        jButtonBajaSocio.setText("Baja Socio");
+        jButtonBajaSocio.setText("Baja");
         jButtonBajaSocio.setActionCommand("BajaSocio");
         jButtonBajaSocio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBajaSocioActionPerformed(evt);
             }
         });
+
+        jButtonSocioAltaActividad.setText("Dar de alta en actividad");
+        jButtonSocioAltaActividad.setActionCommand("SocioAltaActividad");
+
+        jButtonSocioBajaActividad.setText("Dar de baja en actividad");
+        jButtonSocioBajaActividad.setActionCommand("SocioBajaActividad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -72,19 +80,25 @@ public class PanelSocios extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonNuevoSocio)
-                        .addGap(41, 41, 41)
-                        .addComponent(jButtonBajaSocio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonActualizarSocio)
-                        .addGap(18, 18, 18))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonSocioAltaActividad)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonNuevoSocio)
+                                .addGap(36, 36, 36)
+                                .addComponent(jButtonBajaSocio)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonSocioBajaActividad)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 139, Short.MAX_VALUE)
+                                .addComponent(jButtonActualizarSocio)
+                                .addGap(30, 30, 30))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,14 +106,17 @@ public class PanelSocios extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonActualizarSocio)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonNuevoSocio)
-                        .addComponent(jButtonBajaSocio)))
-                .addGap(18, 18, 18))
+                    .addComponent(jButtonActualizarSocio, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonBajaSocio, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonNuevoSocio, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSocioAltaActividad)
+                    .addComponent(jButtonSocioBajaActividad))
+                .addGap(12, 12, 12))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -112,6 +129,8 @@ public class PanelSocios extends javax.swing.JPanel {
     public javax.swing.JButton jButtonActualizarSocio;
     public javax.swing.JButton jButtonBajaSocio;
     public javax.swing.JButton jButtonNuevoSocio;
+    public javax.swing.JButton jButtonSocioAltaActividad;
+    public javax.swing.JButton jButtonSocioBajaActividad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTableSocios;

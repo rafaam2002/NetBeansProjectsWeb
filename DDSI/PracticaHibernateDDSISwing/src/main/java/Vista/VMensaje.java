@@ -28,9 +28,13 @@ public class VMensaje {
 
         dialog.setLocationRelativeTo(null); // También puedes usar C en lugar de null
         dialog.setVisible(true);
+    }
+    public void MensajeError(Component C, String texto) {
 
-//        JOptionPane.showMessageDialog(C, texto, "Información",
-//                JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane optionPane = new JOptionPane(texto, JOptionPane.ERROR_MESSAGE);
+        JDialog dialog = optionPane.createDialog(C, "Error");
 
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }
 }

@@ -19,24 +19,33 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="1" pref="388" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jButtonSocioAltaActividad" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jButtonNuevoSocio" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="jButtonBajaSocio" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jButtonSocioBajaActividad" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="0" pref="139" max="32767" attributes="0"/>
+                              <Component id="jButtonActualizarSocio" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jButtonNuevoSocio" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                      <Component id="jButtonBajaSocio" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButtonActualizarSocio" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -47,16 +56,19 @@
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="275" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="238" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButtonActualizarSocio" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButtonNuevoSocio" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonBajaSocio" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jButtonActualizarSocio" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonBajaSocio" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonNuevoSocio" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonSocioAltaActividad" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonSocioBajaActividad" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -99,7 +111,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonNuevoSocio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nuevo Socio"/>
+        <Property name="text" type="java.lang.String" value="Alta"/>
         <Property name="actionCommand" type="java.lang.String" value="NuevoSocio"/>
       </Properties>
       <AuxValues>
@@ -108,7 +120,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonActualizarSocio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Actualizaci&#xf3;n de Socio"/>
+        <Property name="text" type="java.lang.String" value="Actualizaci&#xf3;n"/>
         <Property name="actionCommand" type="java.lang.String" value="ActualizarSocio"/>
       </Properties>
       <AuxValues>
@@ -117,12 +129,30 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonBajaSocio">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Baja Socio"/>
+        <Property name="text" type="java.lang.String" value="Baja"/>
         <Property name="actionCommand" type="java.lang.String" value="BajaSocio"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBajaSocioActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonSocioAltaActividad">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dar de alta en actividad"/>
+        <Property name="actionCommand" type="java.lang.String" value="SocioAltaActividad"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonSocioBajaActividad">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dar de baja en actividad"/>
+        <Property name="actionCommand" type="java.lang.String" value="SocioBajaActividad"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>

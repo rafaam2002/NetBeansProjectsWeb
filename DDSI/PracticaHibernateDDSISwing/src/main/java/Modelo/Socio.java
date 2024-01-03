@@ -48,6 +48,7 @@ public class Socio implements Serializable {
     @Basic(optional = false)
     @Column(name = "dni")
     private String dni;
+    @Basic(optional = false)
     @Column(name = "fechaNacimiento")
     private String fechaNacimiento;
     @Column(name = "telefono")

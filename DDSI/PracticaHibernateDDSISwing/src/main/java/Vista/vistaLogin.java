@@ -40,7 +40,7 @@ public class vistaLogin extends javax.swing.JFrame {
         jButton1Conectar.setText("Conectar");
         jButton1Conectar.setActionCommand("jButtonConectar");
 
-        SelectDB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MariaDB", "Oracle" }));
+        SelectDB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Oracle", "MariaDB" }));
 
         jButton2SalirDialogoConexion.setText("Salir");
         jButton2SalirDialogoConexion.setActionCommand("jButtonSalir");

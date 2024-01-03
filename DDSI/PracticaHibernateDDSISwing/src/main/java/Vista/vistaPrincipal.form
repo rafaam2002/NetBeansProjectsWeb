@@ -25,6 +25,11 @@
         </Menu>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JMenuItem" name="jMenuItem2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jMenuItem2"/>
+      </Properties>
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -76,6 +81,22 @@
             <Property name="text" type="java.lang.String" value="Actividades"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu7">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Volver"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="VolverPrincipal">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Volver a la pagina Principal"/>
+                <Property name="actionCommand" type="java.lang.String" value="VolverPrincipal"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu6">
           <Properties>
             <Property name="text" type="java.lang.String" value="Salir"/>
@@ -84,7 +105,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="SalirAplicacion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir de la Aplicaci&#xf3;n"/>
-                <Property name="actionCommand" type="java.lang.String" value="SalirAplicaci&#xf3;n"/>
+                <Property name="actionCommand" type="java.lang.String" value="SalirAplicacion"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
