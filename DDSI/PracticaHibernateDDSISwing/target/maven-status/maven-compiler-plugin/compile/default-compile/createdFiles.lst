@@ -1,4 +1,5 @@
 Vista\JDialogInsertarMonitor.class
+Vista\JDialogInsertarSocio$2.class
 Modelo\ActividadDAO.class
 Vista\PanelPrincipal.class
 Controlador\UtilTablasSocio.class

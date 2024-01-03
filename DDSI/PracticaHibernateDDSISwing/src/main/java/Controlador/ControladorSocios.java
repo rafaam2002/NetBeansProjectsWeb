@@ -157,7 +157,7 @@ public class ControladorSocios implements ActionListener {
                     DNI = DNI.toUpperCase();
                     char categoria = categoriaString.charAt(0);
                     if (!nombre.isEmpty() && DNIValido(DNI) && fechaEntradaValida(fechaEntrada) && fechaNacimientoValida(fechaNacimiento)) {
-                        Socio s = new Socio(numeroSocio, nombre, DNI, fechaEntrada, categoria); //creamos el monitor con los campos obligatorios
+                        Socio s = new Socio(numeroSocio, nombre, DNI, fechaEntrada, categoria,fechaNacimiento); //creamos el monitor con los campos obligatorios
                         if (telefonoValido(telefono)) {
                             s.setTelefono(telefono);
                         } else {
