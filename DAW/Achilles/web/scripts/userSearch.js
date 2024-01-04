@@ -1,9 +1,23 @@
-const input = document.querySelector('#userSearch');
+const input = document.querySelector("#userSearch");
+const arrayContenido = document.querySelectorAll(".contenido");
 let i = 0;
-let nameUser = new String("");
+var patron = /pe.*/;
 
+input.addEventListener("input", (e) => {
+  let nombre = e.target.value.toLowerCase();
+  let expresion = new RegExp("^" + nombre + ".*");
 
-input.addEventListener("input",(e)=>{
-    nameUser = e.target.value;
-//    console.log(nameUser);
+  arrayContenido.forEach((contenido) => {
+    const divNick = contenido.querySelector(".div_nick");
+    nick = divNick.innerHTML.toLowerCase();
+    if(expresion.test(nick)){
+      if(contenido.classList.contains("hidden")){
+        contenido.classList.remove("hidden");
+      }  
+    } else {
+      if(!contenido.classList.contains("hidden")){
+        contenido.classList.add("hidden");
+      }
+    }
+  });
 });

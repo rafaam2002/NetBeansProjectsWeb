@@ -13,7 +13,7 @@ async function getConversacion(e) {
     if (response.ok) {
         let data = await response.json();
 
-//        console.log(data);
+       console.log(data);
 
         let indexEnviados = 0;
         let indexRecividos = 0;
@@ -202,7 +202,7 @@ async function getConversacion(e) {
 
 
         let date;
-//        let i = 0;
+        let i = 0;
         ws.onopen = onOpen;
         ws.onclose = onClose;
         ws.onmessage = onMessage;
@@ -248,12 +248,12 @@ async function getConversacion(e) {
             ws.send(JSON.stringify(msg));
             console.log(JSON.stringify(msg));
 
-            localStorage.setItem(i,JSON.stringify(msg));
+            localStorage.setItem(i, JSON.stringify(msg));
 //            if (i >= 1) {
-                //si no se han mandado mas de 40 mensajes no hago nada
-                persistirMensajes();
+            //si no se han mandado mas de 40 mensajes no hago nada
+            persistirMensajes();
 //            }
-//            i++;
+            i++;
 
             const nuevoDiv = document.createElement("div");
             nuevoDiv.innerHTML = `
@@ -337,8 +337,8 @@ async function getConversacion(e) {
         }
 
         async function persistirMensajes() {
-            
-        console.log("persistiendo");
+
+            console.log("persistiendo");
             let arrayMensajes = [];
             for (let i = 0; i < localStorage.length; i++) {
                 let mensaje = JSON.parse(localStorage.getItem(i));
@@ -358,7 +358,7 @@ async function getConversacion(e) {
                         console.log('Solicitud POST completada con éxito');
                         //limpio el localStorage
                         localStorage.clear();
-//                        i = 0;
+                        i = 0;
                     })
                     .catch(function (error) {
                         console.error('Error al realizar la solicitud POST:', error);

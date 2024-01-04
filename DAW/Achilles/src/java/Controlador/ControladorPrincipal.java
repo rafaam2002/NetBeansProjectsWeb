@@ -12,11 +12,9 @@ import Socket.Mensaje;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +24,6 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -358,10 +355,9 @@ public class ControladorPrincipal extends HttpServlet {
 //                String datosRecibidos = requestBody.toString();
                 JSONArray jsonArray = new JSONArray(requestBody.toString());
                 System.out.println("jsonArraylength: " + jsonArray.length());
-                
-                
+
                 for (int i = 0; i < jsonArray.length(); i++) {
-                   
+
                     System.err.println("se mete en bucle for de jsonArray.length");
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 //                     if (i == 0) {
@@ -374,7 +370,7 @@ public class ControladorPrincipal extends HttpServlet {
                     msj.setnReceptor(jsonObject.getString("nReceptor"));
                     msj.setText(jsonObject.getString("text"));
                     msj.setFecha(jsonObject.getString("fecha"));
-                    System.out.println(msj);
+//                    System.out.println(msj);
                     //si el mensaje ya se envio por otro usuario no se hace nada y se borra de ya enviados
                     //ya que los mensajes se enviaran dos veces, por el emisor y por el receptor
                     MensajeEntity msjEntity = new MensajeEntity();
@@ -389,11 +385,11 @@ public class ControladorPrincipal extends HttpServlet {
                     msjEntity.setText(msj.getText());
                     msjEntity.setFecha(msj.getFecha());
 
+                    user.getmEnviados().add(msjEntity);
+                    userRec.getmRecividos().add(msjEntity);
                     persist(msjEntity);
-
-//                    user.getmEnviados().add(msjEntity);
-//                    userRec.getmRecividos().add(msjEntity);
-//                    em.flush();
+                    update(user);
+                    update(userRec);
 
                 }
                 break;

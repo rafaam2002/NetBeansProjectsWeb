@@ -372,7 +372,7 @@
                                 out.println("                     alt=''/>");
                                 out.println("            </div>");
                                 out.println("            <div class='ml-4'>");
-                                out.println("                <div class='font-medium'>" + contacto.getNick() + "</div>");
+                                out.println("                <div class='font-medium div_nick'>" + contacto.getNick() + "</div>");
                                 out.println("                <div class='mt-1 text-zinc-400'>");
                                 out.println(contacto.getNombre() + " " + contacto.getApellido());
                                 out.println("                </div>");

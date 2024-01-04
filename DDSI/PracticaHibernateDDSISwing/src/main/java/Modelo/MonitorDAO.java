@@ -5,7 +5,6 @@
 package Modelo;
 
 import java.util.ArrayList;
-import java.util.List;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 
@@ -28,6 +27,26 @@ public class MonitorDAO {
 
         Query consulta = session.createQuery("SELECT m FROM Monitor m", Monitor.class);
         return (ArrayList<Monitor>) consulta.list();
+    }
+    
+     /**
+     * Recupera una lista de socios cuyos nombres cumplen con una expresión
+     * dada ordenados de menor a mayor por codMonitor.
+     *
+     * @param s La sesión de Hibernate.
+     * @param expresionNombre La expresión que se utilizará para filtrar los
+     * socios por nombre.
+     * @return Un ArrayList de socios cuyos nombres cumplen con la expresión
+     * dada.
+     * @throws java.lang.Exception
+     */
+    public ArrayList<Monitor> getMonitoresPorExpresion(Session s, String expresionNombre) throws Exception {
+
+        Query consulta = s.createQuery("FROM Monitor m WHERE m.nombre LIKE :expresionNombre "
+                + "ORDER BY m.codMonitor ASC", Monitor.class);
+        consulta.setParameter("expresionNombre", expresionNombre + "%");
+
+        return (ArrayList<Monitor>) consulta.getResultList();
     }
 
     /**

@@ -63,6 +63,25 @@ public class SocioDAO {
     }
 
     /**
+     * Recupera una lista de socios cuyos nombres cumplen con una expresión
+     * dada ordenado por numeroSocio.
+     *
+     * @param s La sesión de Hibernate.
+     * @param expresionNombre La expresión que se utilizará para filtrar los
+     * socios por nombre.
+     * @return Un ArrayList de socios cuyos nombres cumplen con la expresión
+     * dada.
+     */
+    public ArrayList<Socio> getSociosPorExpresion(Session s, String expresionNombre) throws Exception {
+
+        Query consulta = s.createQuery("FROM Socio s WHERE s.nombre LIKE :expresionNombre "
+                + "ORDER BY s.numeroSocio ASC", Socio.class);
+        consulta.setParameter("expresionNombre", expresionNombre + "%");
+
+        return (ArrayList<Socio>) consulta.getResultList();
+    }
+
+    /**
      * Devuelve el último número de socio almacenado en la base de datos.
      *
      * @param session La sesión de Hibernate a utilizar para la consulta.
@@ -249,6 +268,7 @@ public class SocioDAO {
     /**
      * Obtiene una lista de todos los socios almacenados en la base de datos
      * ordenados por número de socio.
+     *
      * @param session La sesión de Hibernate a utilizar para la consulta.
      * @return Una lista de objetos Socio ordenados por número de socio, o una
      * lista vacía si no hay socios.

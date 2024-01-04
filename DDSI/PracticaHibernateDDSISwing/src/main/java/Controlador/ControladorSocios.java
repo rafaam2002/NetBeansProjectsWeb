@@ -19,6 +19,8 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -83,7 +85,7 @@ public class ControladorSocios implements ActionListener {
     }
 
     public void init() {
-        dibujarTabla();
+        dibujarTabla("");
     }
 
     private void addListeners() {
@@ -98,6 +100,30 @@ public class ControladorSocios implements ActionListener {
         dialogoSocioAltaActividad.jButtonCancelarSocioAlta.addActionListener(this);
         dialogoSocioBajaActividad.jButtonOkSocioBaja.addActionListener(this);
         dialogoSocioBajaActividad.jButtonCancelarSocioBaja.addActionListener(this);
+        pSocios.jTextFieldBuscar.addActionListener(this);
+        pSocios.jTextFieldBuscar.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String nSocio = pSocios.jTextFieldBuscar.getText();
+                if (nSocio.length() > 0) {
+                    //Transformo la primera en mayuscula ya que todos los nombres empiezan por mayuscula
+                    char primeraLetra = Character.toUpperCase(nSocio.charAt(0));
+                    nSocio = Character.toString(primeraLetra) + nSocio.substring(1);
+                }
+                dibujarTabla(nSocio);
+            }
+
+        });
     }
 
     @Override
@@ -157,7 +183,7 @@ public class ControladorSocios implements ActionListener {
                     DNI = DNI.toUpperCase();
                     char categoria = categoriaString.charAt(0);
                     if (!nombre.isEmpty() && DNIValido(DNI) && fechaEntradaValida(fechaEntrada) && fechaNacimientoValida(fechaNacimiento)) {
-                        Socio s = new Socio(numeroSocio, nombre, DNI, fechaEntrada, categoria,fechaNacimiento); //creamos el monitor con los campos obligatorios
+                        Socio s = new Socio(numeroSocio, nombre, DNI, fechaEntrada, categoria, fechaNacimiento); //creamos el monitor con los campos obligatorios
                         if (telefonoValido(telefono)) {
                             s.setTelefono(telefono);
                         } else {
@@ -172,7 +198,7 @@ public class ControladorSocios implements ActionListener {
                         socioDAO.insertarSocio(session, s);
                         tr.commit();
                         dialogoInsertarSocio.dispose();
-                        dibujarTabla();
+                        dibujarTabla("");
                         vaciarDatosDInsertarSocio();
                     } else {
                         vMensaje.MensajeInfo(pSocios, "Debe rellenar todos los campos obligatorios correctamente");
@@ -193,7 +219,7 @@ public class ControladorSocios implements ActionListener {
 
             case "CancelarSocio" -> {
                 dialogoInsertarSocio.dispose();
-                dibujarTabla();
+                dibujarTabla("");
                 vaciarDatosDInsertarSocio();
             }
 
@@ -220,7 +246,7 @@ public class ControladorSocios implements ActionListener {
                                 session.close();
                             }
 
-                            dibujarTabla();
+                            dibujarTabla("");
                         }
                     }
                 }
@@ -317,7 +343,7 @@ public class ControladorSocios implements ActionListener {
                         session.close();
                     }
                     dialogoSocioAltaActividad.dispose();
-                    dibujarTabla();
+                    dibujarTabla("");
                     vaciarDatosDInsertarSocio();
                 }
 
@@ -325,7 +351,7 @@ public class ControladorSocios implements ActionListener {
 
             case "CancelarSocioAlta" -> {
                 dialogoSocioAltaActividad.dispose();
-                dibujarTabla();
+                dibujarTabla("");
             }
 
             case "SocioBajaActividad" -> {
@@ -389,7 +415,7 @@ public class ControladorSocios implements ActionListener {
                         session.close();
                     }
                     dialogoSocioBajaActividad.dispose();
-                    dibujarTabla();
+                    dibujarTabla("");
                     vaciarDatosDInsertarSocio();
                 }
 
@@ -397,22 +423,28 @@ public class ControladorSocios implements ActionListener {
 
             case "CancelarSocioBaja" -> {
                 dialogoSocioBajaActividad.dispose();
-                dibujarTabla();
+                dibujarTabla("");
             }
 
+//            case "BuscarSocio" -> {
+//                String nSocio = pSocios.jTextFieldBuscar.getText();
+//
+//                dibujarTabla(nSocio);
+//            }
             default ->
                 VistaMensaje.mensajeConsola("El boton pulsado no tiene una opcion definida");
         }
     }
 
-    private void dibujarTabla() {
+    private void dibujarTabla(String expresionNombre) {
         uTablasS.dibujarTablaSocios();
         session = sessionFactory.openSession();
 
         tr = session.beginTransaction();
 
         try {
-            ArrayList<Socio> socios = socioDAO.getSociosSortByNumSocio(session);
+            ArrayList<Socio> socios = socioDAO.getSociosPorExpresion(session, expresionNombre);
+//            ArrayList<Socio> socios = socioDAO.getSociosSortByNumSocio(session);
             uTablasS.vaciarTablaSocios();
             uTablasS.rellenarTablaSocios(socios);
             tr.commit();
@@ -504,7 +536,7 @@ public class ControladorSocios implements ActionListener {
             LocalDate localDateFecha = fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
             LocalDate localDateFechaActual = fechaActual.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
 
-             return localDateFecha.plusYears(18).isBefore(localDateFechaActual);
+            return localDateFecha.plusYears(18).isBefore(localDateFechaActual);
         } catch (ParseException ex) {
             System.out.println("Error al convertir la fecha: " + ex.getMessage());
             return false;

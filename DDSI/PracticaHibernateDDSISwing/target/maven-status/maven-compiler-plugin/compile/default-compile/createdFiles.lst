@@ -3,7 +3,9 @@ Vista\JDialogInsertarSocio$2.class
 Modelo\ActividadDAO.class
 Vista\PanelPrincipal.class
 Controlador\UtilTablasSocio.class
+Vista\PanelSocios$2.class
 Controlador\UtilTablasSocioAltaActividad.class
+Vista\PanelMonitores$3.class
 Controlador\ControladorSocios.class
 Vista\VMensaje.class
 Modelo\SocioDAO.class
@@ -14,6 +16,7 @@ Modelo\Socio.class
 Vista\VistaMensaje.class
 Vista\vistaPrincipal.class
 Aplicacion\PracticaHibernateDDSI.class
+Controlador\ControladorMonitor$1.class
 Config\HibernateUtilOracle.class
 Controlador\UtilTablasSocioBajaActividad$1.class
 Vista\VistaMonitor.class
@@ -22,6 +25,7 @@ Config\HibernateUtilMariaDB.class
 Vista\VistaSocio.class
 Vista\JDialogInsertarSocio$1.class
 Vista\PanelSocios.class
+Controlador\ControladorSocios$1.class
 Vista\JDialogInsertarMonitor$1.class
 Modelo\Actividad.class
 Controlador\UtilTablasSocioBajaActividad.class

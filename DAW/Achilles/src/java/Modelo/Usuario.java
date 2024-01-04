@@ -80,10 +80,10 @@ public class Usuario implements Serializable {
     private List<Transferencia> tRecividas;
 
 //    @OneToMany(mappedBy = "emiMensaje", fetch = FetchType.EAGER)
-    @OneToMany(mappedBy = "recMensaje", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "emiMensaje")
     private List<MensajeEntity> mEnviados;
 
-    @OneToMany(mappedBy = "recMensaje", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recMensaje")
     private List<MensajeEntity> mRecividos;
 
     public List<MensajeEntity> getmEnviados() {

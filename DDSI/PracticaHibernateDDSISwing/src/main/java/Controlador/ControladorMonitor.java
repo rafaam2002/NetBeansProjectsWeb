@@ -15,6 +15,8 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +66,29 @@ public class ControladorMonitor implements ActionListener {
         pMonitores.jButtonActualizacionMonitor.addActionListener(this);
         dialogoInsertaMonitor.jButtomInsertarMonitor.addActionListener(this);
         dialogoInsertaMonitor.jButtonCancelarMonitor.addActionListener(this);
+        pMonitores.jTextFieldBuscar.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String nMonitor = pMonitores.jTextFieldBuscar.getText();
+                if (nMonitor.length() > 0) {
+                    //Transformo la primera en mayuscula ya que todos los nombres empiezan por mayuscula
+                    char primeraLetra = Character.toUpperCase(nMonitor.charAt(0));
+                    nMonitor = Character.toString(primeraLetra) + nMonitor.substring(1);
+                }
+                dibujarTabla(nMonitor);
+            }
+
+        });
 
     }
 
@@ -135,7 +160,7 @@ public class ControladorMonitor implements ActionListener {
                         monitorDAO.insertarActualizarMonitor(session, m);
                         tr.commit();
                         dialogoInsertaMonitor.dispose();
-                        dibujarTabla();
+                        dibujarTabla("");
                         vaciarDatos();
                     } else {
                         vMensaje.MensajeInfo(pMonitores, "Debe rellenar todos los campos obligatorios correctamente");
@@ -176,7 +201,7 @@ public class ControladorMonitor implements ActionListener {
                             if (session != null && session.isOpen()) {
                                 session.close();
                             }
-                            dibujarTabla();
+                            dibujarTabla("");
                         }
                     }
                 } else {
@@ -222,15 +247,15 @@ public class ControladorMonitor implements ActionListener {
     }
 
     public void init() {
-        dibujarTabla();
+        dibujarTabla("");
     }
 
-    private void dibujarTabla() {
+    private void dibujarTabla(String expresionNombre) {
         uTablasM.dibujarTablaMonitores();
         session = sessionFactory.openSession();
         tr = session.beginTransaction();
         try {
-            ArrayList<Monitor> monitores = monitorDAO.listMonitoresSortByNumMonitor(session);
+            ArrayList<Monitor> monitores = monitorDAO.getMonitoresPorExpresion(session,expresionNombre);
             uTablasM.vaciarTablaMonitores();
             uTablasM.rellenarTablaMonitores(monitores);
             tr.commit();
