@@ -24,7 +24,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "Transferencia.findAll", query = "SELECT t FROM Transferencia t"),
     @NamedQuery(name = "Transferencia.findById", query = "SELECT t FROM Transferencia t WHERE t.id = :id"),
     @NamedQuery(name = "Transferencia.findSentTransfersByUserId", query = "SELECT t FROM Transferencia t WHERE t.emiTransferencia.id = :userId"),
-    @NamedQuery(name = "Transferencia.findReceivedTransfersByUserId", query = "SELECT t FROM Transferencia t WHERE t.recTransferencia.id = :userId")
+    @NamedQuery(name = "Transferencia.findReceivedTransfersByUserId", query = "SELECT t FROM Transferencia t WHERE t.recTransferencia.id = :userId"),
 })
 public class Transferencia implements Serializable {
 
@@ -36,17 +36,17 @@ public class Transferencia implements Serializable {
     public Long getId() {
         return id;
     }
-    
+
     @Column(nullable = false)
     private String fecha;
-    
+
     @Column(nullable = false)
     private double cantidad;
-    
+
     @ManyToOne
     @JoinColumn(name = "Emisor")
     private Usuario emiTransferencia;
-    
+
     @ManyToOne
     @JoinColumn(name = "Receptor")
     private Usuario recTransferencia;
@@ -149,5 +149,5 @@ public class Transferencia implements Serializable {
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
-    
+
 }

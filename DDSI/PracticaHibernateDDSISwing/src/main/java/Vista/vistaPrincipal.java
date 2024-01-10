@@ -37,6 +37,9 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         GestionSocios = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        GestionActividades = new javax.swing.JMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        CuotaSocios = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         VolverPrincipal = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -77,7 +80,20 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Actividades");
+
+        GestionActividades.setText("Gestión de actividades");
+        GestionActividades.setActionCommand("GestionActividades");
+        jMenu3.add(GestionActividades);
+
         jMenuBar1.add(jMenu3);
+
+        jMenu8.setText("Ampliación");
+
+        CuotaSocios.setText("Cuota Socios");
+        CuotaSocios.setActionCommand("CuotaSocios");
+        jMenu8.add(CuotaSocios);
+
+        jMenuBar1.add(jMenu8);
 
         jMenu7.setText("Volver");
 
@@ -117,6 +133,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JMenuItem CuotaSocios;
+    public javax.swing.JMenuItem GestionActividades;
     public javax.swing.JMenuItem GestionMonitores;
     public javax.swing.JMenuItem GestionSocios;
     public javax.swing.JMenuItem SalirAplicacion;
@@ -128,6 +146,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     public javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;

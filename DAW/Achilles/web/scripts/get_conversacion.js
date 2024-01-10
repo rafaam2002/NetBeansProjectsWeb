@@ -13,7 +13,7 @@ async function getConversacion(e) {
     if (response.ok) {
         let data = await response.json();
 
-       console.log(data);
+        console.log(data);
 
         let indexEnviados = 0;
         let indexRecividos = 0;
@@ -21,8 +21,8 @@ async function getConversacion(e) {
         let fRecivido;
         let mEnviado;
         let mRecivido;
-
-
+        let contR = 0;
+        let contE = 0;
 
         while (indexEnviados < data.mEnviados.length && indexRecividos < data.mRecividos.length) {
             const nuevoDiv = document.createElement("div");
@@ -31,161 +31,81 @@ async function getConversacion(e) {
             fEnviado = new Date(mEnviado.fecha);
             fRecivido = new Date(mRecivido.fecha);
             if (fEnviado < fRecivido) { //mayor indica mas reciente
-
+                contE++;
+                contR = 0;
+                nuevoDiv.classList.add("self-end");
                 nuevoDiv.innerHTML = `
-                    <div class="float-right mr-2 pt-1">
-                      <div class="flex items-start gap-2.5">
-                        <div class="w-8 h-8 rounded-full">Yo</div>
-                        <div
-                          class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-zinc-900 rounded-e-xl rounded-es-xl"
-                        >
-                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-normal text-gray-400">${mEnviado.fecha}</span>
+                        <div class="py-1.5 px-2 border-gray-200 bg-zinc-900 ${contE === 1 ? 'rounded-s-xl rounded-ee-xl' : 'rounded-xl'}">
+                          <div class="flex items-end gap-2">
+                           <p class="text-sm font-normal py-2.5 text-white">${mEnviado.text}</p>
+                           <span class="text-xs font-normal text-gray-400">${mEnviado.fecha}</span>
                           </div>
-                          <p class="text-sm font-normal py-2.5 text-white">
-                            ${mEnviado.text}
-                          </p>
                         </div>
-                      </div>
-                    </div>
                   `;
-
                 indexEnviados++;
             } else {
-
-
-
+                contR++;
+                contE = 0;
+                nuevoDiv.classList.add("self-start");
                 nuevoDiv.innerHTML = `
-                    <div class="float-left pt-1">
-                      <div class="flex items-start gap-2.5">
-                        <img
-                          class="w-8 h-8 rounded-full"
-                          src="/Achilles/images/usuario.png"
-                          alt="user image"
-                        />
-                        <div
-                          class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-zinc-600 rounded-e-xl rounded-es-xl"
-                        >
-                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-semibold dark:text-white">${mRecivido.nEmisor}</span>
-                            <span class="text-sm font-normal text-gray-400">${mRecivido.fecha}</span>
-                          </div>
-                          <p class="text-sm font-normal py-2.5 text-white">
-                           ${mRecivido.text}
-                          </p>
+                        <div class=" py-1.5 px-4 border-gray-200 bg-zinc-600 ${contR === 1 ? 'rounded-e-xl rounded-es-xl' : 'rounded-xl'}">
+                           <div class="flex items-end gap-2">
+                                <p class="text-sm font-normal py-2.5 text-white">${mRecivido.text}</p>
+                                <span class="text-xs font-normal text-gray-400">${mRecivido.fecha}</span>
+                           </div>
                         </div>
-                      </div>
-                    </div>
                   `;
-
                 indexRecividos++;
             }
-            const clearDiv = document.createElement("div");
-            clearDiv.classList.add("clear-both");
-
             div_chat.appendChild(nuevoDiv);
-            div_chat.appendChild(clearDiv);
-
         }
 
-
-
-
         while (indexEnviados < data.mEnviados.length) {
+            contE++;
             mEnviado = data.mEnviados[indexEnviados];
             const nuevoDiv = document.createElement("div");
-
-            nuevoDiv.innerHTML = `
-                    <div class="float-right mr-2 pt-1">
-                      <div class="flex items-start gap-2.5">
-                        <div class="w-8 h-8 rounded-full">Yo</div>
-                        <div
-                          class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-zinc-900 rounded-e-xl rounded-es-xl"
-                        >
-                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-normal text-gray-400">${mEnviado.fecha}</span>
+            nuevoDiv.classList.add("self-end");
+            nuevoDiv.innerHTML = `  
+                        <div class="py-1.5 px-2 border-gray-200 bg-zinc-900 ${contE === 1 ? 'rounded-s-xl rounded-ee-xl' : 'rounded-xl'}">
+                          <div class="flex items-end gap-2">
+                           <p class="text-sm font-normal py-2.5 text-white">${mEnviado.text}</p>
+                           <span class="text-xs font-normal text-gray-400">${mEnviado.fecha}</span>
                           </div>
-                          <p class="text-sm font-normal py-2.5 text-white">
-                            ${mEnviado.text}
-                          </p>
                         </div>
-                      </div>
-                    </div>
                   `;
 
 
-            const clearDiv = document.createElement("div");
-            clearDiv.classList.add("clear-both");
-
             div_chat.appendChild(nuevoDiv);
-            div_chat.appendChild(clearDiv);
             indexEnviados++;
         }
         while (indexRecividos < data.mRecividos.length) {
+            contR++;
             mRecivido = data.mRecividos[indexRecividos];
             const nuevoDiv = document.createElement("div");
+            nuevoDiv.classList.add("self-start");
             nuevoDiv.innerHTML = `
-                    <div class="float-left pt-1">
-                      <div class="flex items-start gap-2.5">
-                        <img
-                          class="w-8 h-8 rounded-full"
-                          src="/Achilles/images/usuario.png"
-                          alt="user image"
-                        />
-                        <div
-                          class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-zinc-600 rounded-e-xl rounded-es-xl"
-                        >
-                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-semibold dark:text-white">${mRecivido.nEmisor}</span>
-                            <span class="text-sm font-normal text-gray-400">${mRecivido.fecha}</span>
-                          </div>
-                          <p class="text-sm font-normal py-2.5 text-white">
-                           ${mRecivido.text}
-                          </p>
+                        <div class=" py-1.5 px-4 border-gray-200 bg-zinc-600 ${contR === 1 ? 'rounded-e-xl rounded-es-xl' : 'rounded-xl'}">
+                           <div class="flex items-end gap-2">
+                                <p class="text-sm font-normal py-2.5 text-white">${mRecivido.text}</p>
+                                <span class="text-xs font-normal text-gray-400">${mRecivido.fecha}</span>
+                           </div>
                         </div>
-                      </div>
-                    </div>
                   `;
-            const clearDiv = document.createElement("div");
-            clearDiv.classList.add("clear-both");
 
             div_chat.appendChild(nuevoDiv);
-            div_chat.appendChild(clearDiv);
             indexRecividos++;
         }
 
-        divInput = document.createElement("div");
-        divInput.innerHTML = `
-            <label for="chat" class="sr-only">Your message</label>
-            <div class="flex items-center px-3 py-2 rounded-lg bg-zinc-700">
-              <textarea
-                id="textarea_text"
-                rows="1"
-                class="block mx-4 p-2.5 w-full text-sm rounded-lg border focus:ring-selective-yellow-500 focus:border-selective-yellow-500 bg-zinc-800 border-gray-600 placeholder-gray-400 text-white"
-                placeholder="Your message..."
-              ></textarea>
-              <button
-                type="submit"
-                id = "button_enviar"
-                class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
-              >
-                <svg
-                  class="w-5 h-5 rotate-90 rtl:-rotate-90 text-selective-yellow-500"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 18 20"
-                >
-                  <path
-                    d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"
-                  />
-                </svg>
-                <span class="sr-only">Send message</span>
-              </button>
-            </div>
-            <div id = "div_nickContacto" class = "hidden">${nickContacto}</div>
-          `;
-        div_chat.appendChild(divInput);
+        const divNickContacto = document.createElement("div");
+        divNickContacto.id = "div_nickContacto";
+        divNickContacto.classList.add("hidden");
+        divNickContacto.innerHTML = nickContacto;
+
+        div_chat.appendChild(divNickContacto);
+
+        div_chat.scrollTop = div_chat.scrollHeight;
+
+//<div id = "div_nickContacto" class = "hidden">${nickContacto}</div>
 
 
 //        codigo Socket
@@ -214,7 +134,28 @@ async function getConversacion(e) {
 ////                persistirMensajes();
 ////            }
 //        });
+        const chat = document.querySelector('#chat');
+        let chatRows = 1;
 
+        chat?.addEventListener("keydown", function (event) {
+            const txtarea = event.target;
+            if (event.shiftKey && event.key === "Enter") {
+                chatRows++;
+                if (chatRows < 6)
+                    txtarea.rows = chatRows;
+            } else {
+                const lineas = chat.value.split("\n");
+                chatRows = lineas.length;
+
+                for (let i = lineas.length - 1; i >= 0; i--) {
+                    if (lineas[i].trim() === '') {
+                        chat.rows = chatRows--;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        })
 
         function onOpen() {
             console.log('Conectado');
@@ -254,30 +195,24 @@ async function getConversacion(e) {
             persistirMensajes();
 //            }
             i++;
+            contE++;
+            contR = 0;
 
             const nuevoDiv = document.createElement("div");
-            nuevoDiv.innerHTML = `
-                    <div class="float-right mr-2 pt-1">
-                      <div class="flex items-start gap-2.5">
-                        <div class="w-8 h-8 rounded-full">Yo</div>
-                        <div
-                          class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-zinc-900 rounded-e-xl rounded-es-xl"
-                        >
-                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-normal text-gray-400">${msg.fecha}</span>
+            nuevoDiv.classList.add("self-end");
+
+            nuevoDiv.innerHTML = `  
+                        <div class="py-1.5 px-2 border-gray-200 bg-zinc-900 ${contE === 1 ? 'rounded-s-xl rounded-ee-xl' : 'rounded-xl'}">
+                          <div class="flex items-end gap-2">
+                           <p class="text-sm font-normal py-2.5 text-white">${msg.text}</p>
+                           <span class="text-xs font-normal text-gray-400">${msg.fecha}</span>
                           </div>
-                          <p class="text-sm font-normal py-2.5 text-white">
-                            ${msg.text}
-                          </p>
                         </div>
-                      </div>
-                    </div>
                   `;
-            const clearDiv = document.createElement("div");
-            clearDiv.classList.add("clear-both");
 
             div_chat.insertBefore(nuevoDiv, divInput);
-            div_chat.insertBefore(clearDiv, divInput);
+            div_chat.scrollTop = div_chat.scrollHeight;
+            mensaje.value = "";
         }
         function onMessage(evt) {
 
@@ -290,35 +225,24 @@ async function getConversacion(e) {
 //            i++;
             var msg = JSON.parse(evt.data);
 
+            contR++;
+            contE = 0;
+
             const nuevoDiv = document.createElement("div");
+
+            nuevoDiv.classList.add("self-start");
             nuevoDiv.innerHTML = `
-                    <div class="float-left pt-1">
-                      <div class="flex items-start gap-2.5">
-                        <img
-                          class="w-8 h-8 rounded-full"
-                          src="/Achilles/images/usuario.png"
-                          alt="user image"
-                        />
-                        <div
-                          class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-zinc-600 rounded-e-xl rounded-es-xl"
-                        >
-                          <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-semibold dark:text-white">${msg.nEmisor}</span>
-                            <span class="text-sm font-normal text-gray-400">${msg.fecha}</span>
-                          </div>
-                          <p class="text-sm font-normal py-2.5 text-white">
-                           ${msg.text}
-                          </p>
+                        <div class=" py-1.5 px-4 border-gray-200 bg-zinc-600 ${contR === 1 ? 'rounded-e-xl rounded-es-xl' : 'rounded-xl'}">
+                           <div class="flex items-end gap-2">
+                                <p class="text-sm font-normal py-2.5 text-white">${msg.text}</p>
+                                <span class="text-xs font-normal text-gray-400">${msg.fecha}</span>
+                           </div>
                         </div>
-                      </div>
-                    </div>
                   `;
 
-            const clearDiv = document.createElement("div");
-            clearDiv.classList.add("clear-both");
+
 
             div_chat.insertBefore(nuevoDiv, divInput);
-            div_chat.insertBefore(clearDiv, divInput);
 
         }
         function enviarNick(nick) {

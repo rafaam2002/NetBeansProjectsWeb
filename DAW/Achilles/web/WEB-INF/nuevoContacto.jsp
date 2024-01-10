@@ -70,7 +70,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body class="bg-zinc-800">
         <header>
             <% String userName = (String) request.getAttribute("nickUsuario");
-                System.out.println(userName);
+                String numCuenta = (String) request.getAttribute("numCuenta");
+
             %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -136,7 +137,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <span class="sr-only">Open user menu</span>
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="/Achilles/images/usuario.png"
                                             alt=""
                                             />
                                     </button>
@@ -169,7 +170,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         id="user-menu-item-0"
                                         ><%=userName%></a
                                     >
-                                   
+                                    <a
+                                        href="#"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        ><%=numCuenta%></a
+                                    >
+
                                 </div>
                             </div>
                         </div>
@@ -234,13 +243,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="space-y-1 pb-3 pt-2">
                         <!-- Current: "bg-indigo-50 border-brotext-brown-200 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-zinc-400" -->
                         <a
-                            href="general.html"
-                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
+                            href="/Achilles/ControladorPrincipal/main"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >General</a
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/getContactos"
-                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
                             >Contactos</a
                         >
                         <a
@@ -253,7 +262,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Bizum</a
                         >
-                         <a
+                        <a
                             href="/Achilles/ControladorPrincipal/conversaciones"
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Conversaciones</a

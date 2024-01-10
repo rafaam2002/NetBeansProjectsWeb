@@ -11,7 +11,7 @@
 <%@page import="Modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html class="bg-zinc-800 h-screen overflow-hidden">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -72,13 +72,40 @@
                 }
             };
         </script>
+        <style>
+            /* Para el scrollbar en general */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
 
-        <title>General</title>
+            ::-webkit-scrollbar-track {
+                border-radius: 8px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 8px
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+            .p0s8B {
+                position: absolute;
+                z-index: 100;
+                display: block;
+                width: 8px;
+                height: 13px;
+            }
+        </style>
+
+        <title>Conversaciones</title>
     </head>
-    <body class ="bg-zinc-800">
+    <body class ="h-full">
         <header>
             <% String userName = (String) request.getAttribute("nickUsuario");
-                System.out.println(userName);
+                String numCuenta = (String) request.getAttribute("numCuenta");
             %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -144,7 +171,7 @@
                                         <span class="sr-only">Open user menu</span>
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="/Achilles/images/usuario.png"
                                             alt=""
                                             />
                                     </button>
@@ -176,6 +203,14 @@
                                         tabindex="-1"
                                         id="user-menu-item-0"
                                         ><%=userName%></a
+                                    >
+                                    <a
+                                        href="#"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        ><%=numCuenta%></a
                                     >
 
                                 </div>
@@ -242,8 +277,8 @@
                     <div class="space-y-1 pb-3 pt-2">
                         <!-- Current: "bg-indigo-50 border-brotext-brown-200 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-zinc-400" -->
                         <a
-                            href="general.html"
-                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
+                            href="/Achilles/ControladorPrincipal/main"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >General</a
                         >
                         <a
@@ -263,7 +298,7 @@
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/conversaciones"
-                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
                             >Conversaciones</a
                         >
                     </div>
@@ -306,19 +341,18 @@
             </nav>
         </header>
 
-        <main class="flex max-w-7xl mt-4 mx-6 min-h-screen">
-            <!-- contactos -->
-            <article
-                class="w-1/3 items-center text-zinc-200 bg-zinc-700 text-xs xl:text-sm 2xl:text-base rounded-md shadow-md shadow-black p-5"
-                >
-                <!-- conversacion -->
 
+
+
+        <main class="flex flex-row max-w-7xl mx-5 mt-3 p-4 md:p-2 h-5/6 overflow-hidden">
+            <!-- contactos -->
+            <div class="md:w-1/4 w-full md:col-span-3 items-center text-zinc-200 bg-zinc-700 text-xs xl:text-sm 2xl:text-base rounded-md shadow-md shadow-black p-5 overflow-auto">
                 <%
                     List<Usuario> contactos = (List<Usuario>) request.getAttribute("contactos");
 
                     if (!contactos.isEmpty()) {
                         for (Usuario contacto : contactos) {
-                            out.println("<div class='flex py-3 hover:bg-zinc-600 transition ease-in border-b border-zinc-500' onclick = 'getConversacion(event)'  id = '" + contacto.getNick() + "'>");
+                            out.println("<div class='flex py-3 article_chat hover:bg-zinc-600 transition ease-in border-b border-zinc-500' onclick = 'getConversacion(event)'  id = '" + contacto.getNick() + "'>");
                             out.println("    <div>");
                             out.println("        <img class='h-11 w-11 rounded-full' src='/Achilles/images/usuario.png' alt='' />");
                             out.println("    </div>");
@@ -329,17 +363,66 @@
                         }
 
                     }
-                %>
-            </article>
-            <article
-                class="w-2/3 bg-zinc-700 ml-1 rounded-md shadow-md shadow-black flex flex-col justify-between"
-                >
-                <div class="pt-2 overflow-y-auto h-full" id="div_chat">
-                    <h1 class="mx-auto mt-32 text-selective-yellow-500 ml-56">Selecciona una conversacion </h1>
+                %>             
+            </div>
+            <div class="w-full hidden md:flex bg-zinc-700 ml-1 rounded-md shadow-md shadow-black flex-col justify-between "
+                 >
+                <!-- campo para los mensajes -->
+                <div id="div_chat" class="pt-2 px-8 flex flex-col gap-1.5 !overflow-auto">
+                         <img
+                                    class="h-56 w-56 mx-auto mb-10 mt-12"
+                                    src="/Achilles/images/elija_conversacion.png"
+                                    alt="Elija conversacion image"
+                                    />
+                         <p class="mx-auto text-xl text-selective-yellow-500">Elija una conversación</p>
                 </div>
-
-            </article>
+                   
+               
+                <!--Campo de texto para chat-->
+                <div class="">
+                    <form>
+                       
+                        <div
+                            class="flex items-center px-3 py-2 rounded-lg bg-zinc-700 w-full"
+                            >
+                            <textarea
+                                id="textarea_text"
+                                rows="1"
+                                class="block mx-4 p-2.5 w-full text-sm resize-none rounded-lg border focus:ring-selective-yellow-500 focus:border-selective-yellow-500 bg-zinc-800 border-gray-600 placeholder-gray-400 text-white"
+                                placeholder="Your message..."
+                                ></textarea>
+                            <button
+                                type="button"
+                                id="button_enviar"
+                                class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
+                                >
+                                <svg
+                                    class="w-5 h-5 rotate-90 rtl:-rotate-90 text-selective-yellow-500"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 18 20"
+                                    >
+                                <path
+                                    d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"
+                                    />
+                                </svg>
+                                <span class="sr-only">Send message</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </main>
+
+
+
+
+
+
+
+
+
 
         <!-- Dropdown menu --> 
         <script src="/Achilles/scripts/dropdown_menu.js"></script>

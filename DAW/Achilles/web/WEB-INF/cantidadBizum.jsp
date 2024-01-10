@@ -80,7 +80,7 @@
     <body class = "bg-zinc-800">
         <header>
             <% String userName = (String) request.getAttribute("nickUsuario");
-                System.out.println(userName);
+                String numCuenta = (String) request.getAttribute("numCuenta");
             %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -146,7 +146,7 @@
                                         <span class="sr-only">Open user menu</span>
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="/Achilles/images/usuario.png"
                                             alt=""
                                             />
                                     </button>
@@ -178,6 +178,14 @@
                                         tabindex="-1"
                                         id="user-menu-item-0"
                                         ><%=userName%></a
+                                    >
+                                    <a
+                                        href="#"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        ><%=numCuenta%></a
                                     >
                                 </div>
                             </div>
@@ -243,8 +251,8 @@
                     <div class="space-y-1 pb-3 pt-2">
                         <!-- Current: "bg-indigo-50 border-brotext-brown-200 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-zinc-400" -->
                         <a
-                            href="general.html"
-                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
+                            href="/Achilles/ControladorPrincipal/main"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >General</a
                         >
                         <a
@@ -259,7 +267,7 @@
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/hacerBizum"
-                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
                             >Bizum</a
                         >
                         <a
@@ -320,11 +328,11 @@
                             aria-current="step"
                             >
                             <span
-                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-selective-yellow-500"
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400"
                                 >
-                                <span class="text-selective-yellow-500">01</span>
+                                <span class="text-zinc-300 group-hover:text-zinc-500">01</span>
                             </span>
-                            <span class="ml-4 text-sm font-medium text-selective-yellow-500"
+                            <span class="ml-4 text-sm font-medium text-zinc-300 group-hover:text-zinc-500"
                                   >Contacto</span
                             >
                         </a>
@@ -352,14 +360,14 @@
                         <!-- Upcoming Step -->
                         <span class="flex items-center px-6 py-4 text-sm font-medium">
                             <span
-                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400"
+                                class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-selective-yellow-500"
                                 >
-                                <span class="text-zinc-300 group-hover:text-zinc-500"
+                                <span class="text-selective-yellow-500"
                                       >02</span
                                 >
                             </span>
                             <span
-                                class="ml-4 text-sm font-medium text-zinc-300 group-hover:text-zinc-500"
+                                class="ml-4 text-sm font-medium text-selective-yellow-500"
                                 >Cantidad</span
                             >
                         </span>

@@ -8,6 +8,7 @@ import Modelo.Actividad;
 import Modelo.ActividadDAO;
 import Modelo.Socio;
 import Modelo.SocioDAO;
+import Vista.JDialogCuotaSocios;
 import Vista.JDialogInsertarMonitor;
 import Vista.JDialogInsertarSocio;
 import Vista.JDialogSocioAltaActividad;
@@ -151,7 +152,11 @@ public class ControladorSocios implements ActionListener {
                 } catch (Exception ex) {
                     vMensaje.MensajeInfo(pSocios, ex.getMessage());
 
-                    VistaMensaje.mensajeConsola("Error en la insercion de un nuevo socio " + ex.getMessage());
+                    VistaMensaje.mensajeConsola("Error al mostar dialogo de Nuevo Socio " + ex.getMessage());
+                } finally {
+                    if (session != null && session.isOpen()) {
+                        session.close();
+                    }
                 }
             }
 

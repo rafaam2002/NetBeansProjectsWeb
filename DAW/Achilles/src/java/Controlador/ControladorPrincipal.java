@@ -102,7 +102,7 @@ public class ControladorPrincipal extends HttpServlet {
         Query query;
         Usuario user, userRec, otro;
         List<Usuario> contactos;
-        String paramString;
+        String paramString, numCuenta;
         HttpSession session;
         long idUsuario;
         switch (accion) {
@@ -128,6 +128,8 @@ public class ControladorPrincipal extends HttpServlet {
             case "/main":
                 user = (Usuario) request.getAttribute("user");
                 request.setAttribute("nickUsuario", user.getNick());
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 System.out.println("Entrando en accion main");
                 vista = "/WEB-INF/main.jsp";
 
@@ -136,13 +138,19 @@ public class ControladorPrincipal extends HttpServlet {
             case "/getContactos":
                 user = (Usuario) request.getAttribute("user");
                 request.setAttribute("nickUsuario", user.getNick());
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
+
                 contactos = user.getContactos();
                 request.setAttribute("contactos", contactos);
                 vista = "/WEB-INF/contactos.jsp";
                 break;
 
             case "/nuevoContacto":
-
+                user = (Usuario) request.getAttribute("user");
+                request.setAttribute("nickUsuario", user.getNick());
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 vista = "/WEB-INF/nuevoContacto.jsp";
 
                 break;
@@ -150,6 +158,8 @@ public class ControladorPrincipal extends HttpServlet {
             case "/addContacto":
                 String nick = request.getParameter("nick");
                 user = (Usuario) request.getAttribute("user");
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
                 query.setParameter("nick", nick);
                 JsonObject textJson;
@@ -191,6 +201,8 @@ public class ControladorPrincipal extends HttpServlet {
             case "/hacerBizum":
                 user = (Usuario) request.getAttribute("user");
                 request.setAttribute("nickUsuario", user.getNick());
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 contactos = user.getContactos();
                 request.setAttribute("contactos", contactos);
                 vista = "/WEB-INF/hacerBizum.jsp";
@@ -206,18 +218,26 @@ public class ControladorPrincipal extends HttpServlet {
                     if (userRec.isBizumActive()) {
                         session = request.getSession();
                         session.setAttribute("idRecBizum", idUsuario);
+                        user = (Usuario) request.getAttribute("user");
+                        request.setAttribute("nickUsuario", user.getNick());
+                        numCuenta = Long.toString(user.getNumCuenta());
+                        request.setAttribute("numCuenta", numCuenta);
                         vista = "/WEB-INF/cantidadBizum.jsp";
                     }
                 }
                 break;
             case "/transferencia":
                 user = (Usuario) request.getAttribute("user");
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 request.setAttribute("nickUsuario", user.getNick());
                 vista = "/WEB-INF/transferencia.jsp";
                 break;
 
             case "/conversaciones":
                 user = (Usuario) request.getAttribute("user");
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 request.setAttribute("nickUsuario", user.getNick());
                 request.setAttribute("user", user);
                 request.setAttribute("contactos", user.getContactos());
@@ -298,7 +318,7 @@ public class ControladorPrincipal extends HttpServlet {
         long idUsuarioRec;
         LocalDate fechaActual;
         DateTimeFormatter formatter;
-        String fechaFormateada, concepto;
+        String fechaFormateada, concepto,numCuenta;
         StringBuilder requestBody;
 
         switch (accion) {
@@ -306,6 +326,8 @@ public class ControladorPrincipal extends HttpServlet {
             case "/guardarBizum":
 
                 user = (Usuario) request.getAttribute("user");
+                numCuenta = Long.toString(user.getNumCuenta());
+                request.setAttribute("numCuenta", numCuenta);
                 cantidad = Double.parseDouble(request.getParameter("cantidad"));
                 concepto = request.getParameter("concepto");
                 System.out.println(cantidad + " " + concepto);

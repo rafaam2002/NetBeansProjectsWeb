@@ -70,7 +70,8 @@
 
         <header>
             <% String userName = (String) request.getAttribute("nickUsuario");
-                System.out.println(userName);
+                String numCuenta = (String) request.getAttribute("numCuenta");
+
             %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -136,7 +137,7 @@
                                         <span class="sr-only">Open user menu</span>
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="/Achilles/images/usuario.png"
                                             alt=""
                                             />
                                     </button>
@@ -168,6 +169,14 @@
                                         tabindex="-1"
                                         id="user-menu-item-0"
                                         ><%=userName%></a
+                                    >
+                                    <a
+                                        href="#"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        ><%=numCuenta%></a
                                     >
                                 </div>
                             </div>
@@ -233,13 +242,13 @@
                     <div class="space-y-1 pb-3 pt-2">
                         <!-- Current: "bg-indigo-50 border-brotext-brown-200 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-zinc-400" -->
                         <a
-                            href="general.html"
-                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
+                            href="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400   "
                             >General</a
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/getContactos"
-                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
                             >Contactos</a
                         >
                         <a
@@ -406,175 +415,6 @@
                             out.println("<h1 class = 'py-10 px-5 text-selective-yellow-500'> Aún no tienes ningun contacto! </h1>");
                         }
                     %>
-
-                    <!-- Tabla Estatica-->
-                    <!--                    <div class="mt-3 flow-root">
-                                            <div class="-my-2 w-full overflow-x-auto">
-                                                <div class="inline-block w-full align-middle">
-                                                    <table class="min-w-full contactos">
-                                                        <thead class="text-zinc-100">
-                                                            <tr>
-                                                                <th
-                                                                    scope="col"
-                                                                    class="py-3.5 px-4 text-left text-sm font-semibold"
-                                                                    >
-                                                                    Name
-                                                                </th>
-                    
-                                                                <th
-                                                                    scope="col"
-                                                                    class="px-3 py-3.5 text-left text-sm font-semibold"
-                                                                    >
-                                                                    Number
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    class="px-3 py-3.5 text-left text-sm font-semibold"
-                                                                    >
-                                                                    Status
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                             divider 
-                                                            <tr>
-                                                                <td colspan="3" class="py-0">
-                                                                    <div
-                                                                        class="ml-16 mr-4 first-letter:h-0 bg-zinc-800 border-t border-zinc-600 my-0"
-                                                                        ></div>
-                                                                </td>
-                                                            </tr>
-                                                             contenido 
-                                                            <tr
-                                                                class="contenido text-zinc-200 transition duration-100 ease-linear hover:bg-zinc-600"
-                                                                >
-                                                                <td class="whitespace-nowrap py-5 px-4 pr-3 text-sm">
-                                                                    <div class="flex items-center">
-                                                                        <div class="h-11 w-11 flex-shrink-0">
-                                                                            <img
-                                                                                class="h-11 w-11 rounded-full"
-                                                                                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                                                alt=""
-                                                                                />
-                                                                        </div>
-                                                                        <div class="ml-4">
-                                                                            <div class="font-medium">Lindsay Walton</div>
-                                                                            <div class="mt-1 text-zinc-400">
-                                                                                lindsay.walton@example.com
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="whitespace-nowrap px-3 py-5 text-sm">
-                                                                    112112112
-                                                                </td>
-                                                                <td
-                                                                    class="whitespace-nowrap px-3 py-5 text-sm text-gray-500"
-                                                                    >
-                                                                    <span
-                                                                        class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-500 ring-1 ring-inset ring-green-500/70"
-                                                                        >Active</span
-                                                                    >
-                                                                </td>
-                                                            </tr>
-                    
-                                                             divider 
-                                                            <tr>
-                                                                <td colspan="3" class="py-0">
-                                                                    <div
-                                                                        class="ml-16 mr-4 h-0 bg-zinc-800 border-t border-zinc-600"
-                                                                        ></div>
-                                                                </td>
-                                                            </tr>
-                                                             contenido 
-                                                            <tr
-                                                                class="contenido text-zinc-200 transition duration-100 ease-linear hover:bg-zinc-600"
-                                                                >
-                                                                <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                                                    <div class="flex items-center">
-                                                                        <div class="h-11 w-11 flex-shrink-0">
-                                                                            <img
-                                                                                class="h-11 w-11 rounded-full"
-                                                                                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                                                alt=""
-                                                                                />
-                                                                        </div>
-                                                                        <div class="ml-4">
-                                                                            <div class="font-medium">Lindsay Walton</div>
-                                                                            <div class="mt-1 text-zinc-400">
-                                                                                lindsay.walton@example.com
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="whitespace-nowrap px-3 py-5 text-sm">
-                                                                    112112112
-                                                                </td>
-                                                                <td
-                                                                    class="whitespace-nowrap px-3 py-5 text-sm text-gray-500"
-                                                                    >
-                                                                    <span
-                                                                        class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-500 ring-1 ring-inset ring-green-500/70"
-                                                                        >Active</span
-                                                                    >
-                                                                </td>
-                                                            </tr>
-                                                             divider 
-                                                            <tr>
-                                                                <td colspan="3" class="py-0">
-                                                                    <div
-                                                                        class="ml-16 mr-4 h-0 bg-zinc-800 border-t border-zinc-600"
-                                                                        ></div>
-                                                                </td>
-                                                            </tr>
-                                                             contenido 
-                                                            <tr
-                                                                class="contenido text-zinc-200 transition duration-100 ease-linear hover:bg-zinc-600"
-                                                                >
-                                                                <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                                                    <div class="flex items-center">
-                                                                        <div class="h-11 w-11 flex-shrink-0">
-                                                                            <img
-                                                                                class="h-11 w-11 rounded-full"
-                                                                                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                                                alt=""
-                                                                                />
-                                                                        </div>
-                                                                        <div class="ml-4">
-                                                                            <div class="font-medium">Lindsay Walton</div>
-                                                                            <div class="mt-1 text-zinc-400">
-                                                                                lindsay.walton@example.com
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="whitespace-nowrap px-3 py-5 text-sm">
-                                                                    112112112
-                                                                </td>
-                                                                <td
-                                                                    class="whitespace-nowrap px-3 py-5 text-sm text-gray-500"
-                                                                    >
-                                                                    <span
-                                                                        class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-500 ring-1 ring-inset ring-green-500/70"
-                                                                        >Active</span
-                                                                    >
-                                                                </td>
-                                                                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                                                      Member
-                                                                    </td> 
-                                                                 <td
-                                                                      class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
-                                                                    >
-                                                                      <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                                                                        >Edit<span class="sr-only">, Lindsay Walton</span></a
-                                                                      >
-                                                                    </td> 
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>-->
                 </div>
             </article>
         </main>

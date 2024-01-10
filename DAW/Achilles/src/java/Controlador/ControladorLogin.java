@@ -120,7 +120,7 @@ public class ControladorLogin extends HttpServlet {
 //        processRequest(request, response);
 //        System.out.println("Entra en controladorLogin doPost");
         String accion = request.getPathInfo();
-        String vista, nick, password;
+        String vista, nick, password,numCuenta;
         Usuario user;
         Query query;
 
@@ -141,7 +141,7 @@ public class ControladorLogin extends HttpServlet {
                         user.setApellido(apellidos);
                         user.setNick(nick);
                         user.setNumTel(numTel);
-                        user.setPassword(cifrarPassword(password)); 
+                        user.setPassword(cifrarPassword(password));
                         user.setDineroDouble(3000.0);
                         user.setBizumActive(false);
                         user.setNumCuenta(generarNumCuenta());
@@ -184,16 +184,18 @@ public class ControladorLogin extends HttpServlet {
                         );
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
-                        if (checkearPassword(password,user.getPassword())) { //checkearPassword(password,user.getPassword())
+                        if (checkearPassword(password, user.getPassword())) { //checkearPassword(password,user.getPassword())
                             HttpSession session = request.getSession();
                             session.setAttribute("idUsuario", user.getId());
                             request.setAttribute("nickUsuario", nick);
+                            numCuenta = Long.toString(user.getNumCuenta());
+                            request.setAttribute("numCuenta", numCuenta);
                             vista = "/WEB-INF/main.jsp";
                         } else {
                             System.out.println("password incorrecta");
                             vista = "/index.html";
                         }
-                    } catch (NoResultException | NoSuchAlgorithmException  ex) {
+                    } catch (NoResultException | NoSuchAlgorithmException ex) {
                         System.out.println("El usuario no existe " + ex.getMessage());
                         vista = "/index.html";
                     }
@@ -272,14 +274,23 @@ public class ControladorLogin extends HttpServlet {
         return query.getResultList().isEmpty();
     }
 
+//    private long generarNumCuenta() {
+//        long nuevoNumCuenta;
+//        do {
+//            nuevoNumCuenta = Math.abs(rdm.nextLong());  // Genera número aleatorio de 64 bits
+//        } while (numeroCuentaExistente(nuevoNumCuenta));
+//
+//        return nuevoNumCuenta;
+//
+//    }
     private long generarNumCuenta() {
         long nuevoNumCuenta;
         do {
-            nuevoNumCuenta = Math.abs(rdm.nextLong());  // Genera número aleatorio de 64 bits
+            // Generar un número aleatorio de 20 dígitos
+            nuevoNumCuenta = (long) (Math.random() * 9_000_000_000_000_000_000L) + 1_000_000_000_000_000_000L;
         } while (numeroCuentaExistente(nuevoNumCuenta));
 
         return nuevoNumCuenta;
-
     }
 
     private boolean numeroCuentaExistente(long nuevoNumCuenta) {
@@ -301,10 +312,9 @@ public class ControladorLogin extends HttpServlet {
         }
         return sb.toString();
     }
-    
-    private boolean checkearPassword(String password,String userPassword) throws NoSuchAlgorithmException{
-        return (cifrarPassword(password).equals(userPassword)); 
+
+    private boolean checkearPassword(String password, String userPassword) throws NoSuchAlgorithmException {
+        return (cifrarPassword(password).equals(userPassword));
     }
-    
 
 }

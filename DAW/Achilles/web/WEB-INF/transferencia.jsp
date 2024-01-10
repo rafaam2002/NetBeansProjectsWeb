@@ -73,7 +73,7 @@
     <body class = "bg-zinc-800">
         <header>
             <% String userName = (String) request.getAttribute("nickUsuario");
-                System.out.println(userName);
+                String numCuenta = (String) request.getAttribute("numCuenta");
             %>
             <nav class="bg-zinc-800 shadow-md shadow-zinc-900">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,7 +133,7 @@
                                         <span class="sr-only">Open user menu</span>
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src="/Achilles/images/usuario.png"
                                             alt=""
                                             />
                                     </button>
@@ -166,7 +166,15 @@
                                         id="user-menu-item-0"
                                         ><%=userName%></a
                                     >
-                                    
+                                    <a
+                                        href="#"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        ><%=numCuenta%></a
+                                    >
+
                                 </div>
                             </div>
                         </div>
@@ -231,8 +239,8 @@
                     <div class="space-y-1 pb-3 pt-2">
                         <!-- Current: "bg-indigo-50 border-brotext-brown-200 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-zinc-400" -->
                         <a
-                            href="general.html"
-                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
+                            href="/Achilles/ControladorPrincipal/main"
+                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >General</a
                         >
                         <a
@@ -242,7 +250,7 @@
                         >
                         <a
                             href="/Achilles/ControladorPrincipal/transferencia"
-                            class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
+                            class="block border-l-4 border-selective-yellow-500 py-2 pl-3 pr-4 text-base font-medium text-selective-yellow-500"
                             >Transferencia</a
                         >
                         <a
@@ -250,7 +258,7 @@
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Bizum</a
                         >
-                         <a
+                        <a
                             href="/Achilles/ControladorPrincipal/conversaciones"
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Conversaciones</a
@@ -313,7 +321,7 @@
                             <div class="mt-2">
                                 <input
                                     type="text"
-                                    name="first-name"
+                                    name="nombre_destinatario"
                                     id="first-name"
                                     autocomplete="given-name"
                                     class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black font-normal ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-600 sm:text-sm sm:leading-6"
@@ -328,7 +336,7 @@
                             <div class="mt-2">
                                 <input
                                     type="text"
-                                    name="last-name"
+                                    name="apellidos_destinatario"
                                     id="last-name"
                                     autocomplete="family-name"
                                     class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
@@ -366,7 +374,7 @@
                             </div>
                         </div>
 
-                        <div class="col-span-full">
+<!--                        <div class="col-span-full">
                             <label for="concepto" class="block text-sm font-medium leading-6"
                                    >Concepto</label
                             >
@@ -378,9 +386,9 @@
                                     class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
                                     ></textarea>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <div class="sm:col-span-full">
+<!--                        <div class="sm:col-span-full">
                             <label for="fecha" class="block text-sm font-medium leading-6"
                                    >Fecha</label
                             >
@@ -392,7 +400,7 @@
                                     class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
                                     />
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="mt-6 flex items-center justify-end gap-x-6">
                         <button

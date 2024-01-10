@@ -63,8 +63,8 @@ public class SocioDAO {
     }
 
     /**
-     * Recupera una lista de socios cuyos nombres cumplen con una expresión
-     * dada ordenado por numeroSocio.
+     * Recupera una lista de socios cuyos nombres cumplen con una expresión dada
+     * ordenado por numeroSocio.
      *
      * @param s La sesión de Hibernate.
      * @param expresionNombre La expresión que se utilizará para filtrar los
@@ -278,5 +278,12 @@ public class SocioDAO {
     public ArrayList<Socio> listSociosSortByNumSocio(Session session) throws Exception {
         Query consulta = session.createQuery("SELECT s FROM Socio s ORDER BY s.numeroSocio ASC");
         return (ArrayList<Socio>) consulta.getResultList();
+    }
+
+    public Socio getSocioByNumSocio(Session session, String numSocio) throws Exception {
+        Query consulta = session.createNamedQuery("Socio.findByNumeroSocio", Socio.class);
+        consulta.setParameter("numeroSocio", numSocio);
+        return (Socio) consulta.getSingleResult();
+        
     }
 }

@@ -15,12 +15,14 @@ C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\ma
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogInsertarMonitor.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Socio.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasSocioBajaActividad.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\PanelActividades.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\PanelSocios.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\ActividadDAO.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasSocio.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogSocioAltaActividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasSocioAltaActividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\vistaLogin.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorActividades.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Actividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\VistaSocio.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Aplicacion\PracticaHibernateDDSI.java
@@ -28,3 +30,5 @@ C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\ma
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Config\HibernateUtilMariaDB.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorPrincipal.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogInsertarSocio.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogCuotaSocios.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasActividad.java
