@@ -187,18 +187,19 @@ public class ControladorSocios implements ActionListener {
                     //campos opigatorios
                     DNI = DNI.toUpperCase();
                     char categoria = categoriaString.charAt(0);
+                    //la fecha de nacimiento no puede ser NULL y debe ser válida (el socio debe ser menor de edad)
                     if (!nombre.isEmpty() && DNIValido(DNI) && fechaEntradaValida(fechaEntrada) && fechaNacimientoValida(fechaNacimiento)) {
                         Socio s = new Socio(numeroSocio, nombre, DNI, fechaEntrada, categoria, fechaNacimiento); //creamos el monitor con los campos obligatorios
                         if (telefonoValido(telefono)) {
                             s.setTelefono(telefono);
                         } else {
                             VistaMensaje.mensajeConsola("El telefono no es valido");
-                            vMensaje.MensajeInfo(pSocios, "El telefono no tiene los dígitos necesarios");
+                            vMensaje.MensajeInfo(dialogoInsertarSocio, "El telefono no tiene los dígitos necesarios");
                         }
                         if (correoValido(correo)) {
                             s.setCorreo(correo);
                         } else {
-                            vMensaje.MensajeInfo(pSocios, "El correo no cumple un patón válido");
+                            vMensaje.MensajeInfo(dialogoInsertarSocio, "El correo no cumple un patón válido");
                         }
                         socioDAO.insertarSocio(session, s);
                         tr.commit();
@@ -206,7 +207,7 @@ public class ControladorSocios implements ActionListener {
                         dibujarTabla("");
                         vaciarDatosDInsertarSocio();
                     } else {
-                        vMensaje.MensajeInfo(pSocios, "Debe rellenar todos los campos obligatorios correctamente");
+                        vMensaje.MensajeInfo(dialogoInsertarSocio, "Debe rellenar todos los campos obligatorios correctamente");
                     }
 
                 } catch (Exception ex) {
@@ -256,6 +257,7 @@ public class ControladorSocios implements ActionListener {
                     }
                 }
             }
+            //creo el dialogo
             case "ActualizarSocio" -> {
                 int filaSocio = pSocios.jTableSocios.getSelectedRow();
                 if (filaSocio != -1) {
@@ -278,10 +280,10 @@ public class ControladorSocios implements ActionListener {
                     } catch (Exception ex) {
                         VistaMensaje.mensajeConsola("Error no se puede mostrar panel para"
                                 + " modificar socio " + ex.getMessage());
-                        vMensaje.MensajeInfo(pSocios, "Error al modificar monitor " + ex.getMessage());
+                        vMensaje.MensajeInfo(pSocios, "Error al mostrar panel modificas socio " + ex.getMessage());
                     }
                 } else {
-                    vMensaje.MensajeInfo(pSocios, "Para Actualizar un monitor debes seleccionarlo primero");
+                    vMensaje.MensajeInfo(pSocios, "Para Actualizar un Socio debes seleccionarlo primero");
                 }
 
             }
@@ -342,7 +344,7 @@ public class ControladorSocios implements ActionListener {
                     tr.commit();
                 } catch (Exception ex) {
                     tr.rollback();
-                    vMensaje.MensajeInfo(pSocios, ex.getMessage());
+                    vMensaje.MensajeInfo(dialogoSocioAltaActividad, ex.getMessage());
                 } finally {
                     if (session != null && session.isOpen()) {
                         session.close();

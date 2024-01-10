@@ -229,7 +229,7 @@ public class ControladorPrincipal implements ActionListener {
 
             }
             case "SubirCategorias" -> {
-                int confirm = BajaDialog(vistaP);
+                int confirm = BajaDialog(dialogoCuotaActividad);
                 if (confirm == JOptionPane.YES_OPTION) {
                     try {
                         session = sessionFactory.openSession();
@@ -266,7 +266,7 @@ public class ControladorPrincipal implements ActionListener {
 
             }
             case "BajarCategorias" -> {
-                int confirm = BajaDialog(vistaP);
+                int confirm = BajaDialog(dialogoCuotaActividad);
                 if (confirm == JOptionPane.YES_OPTION) {
                     try {
                         session = sessionFactory.openSession();

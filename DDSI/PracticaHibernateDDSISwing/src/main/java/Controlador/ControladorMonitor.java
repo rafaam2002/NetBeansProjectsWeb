@@ -144,13 +144,13 @@ public class ControladorMonitor implements ActionListener {
                             m.setTelefono(telefono);
                         } else {
                             VistaMensaje.mensajeConsola("El telefono no es valido");
-                            vMensaje.MensajeInfo(pMonitores, "El telefono no tiene los dígitos necesarios");
+                            vMensaje.MensajeInfo(dialogoInsertaMonitor, "El telefono no tiene los dígitos necesarios");
                         }
                         if (correoValido(correo)) {
                             m.setCorreo(correo);
                         } else {
                             VistaMensaje.mensajeConsola("El correo no esta relleno");
-                            vMensaje.MensajeInfo(pMonitores, "El correo no cumple un patón válido");
+                            vMensaje.MensajeInfo(dialogoInsertaMonitor, "El correo no cumple un patón válido");
                         }
                         if (!nick.isEmpty()) {
                             m.setNick(nick);
@@ -163,12 +163,12 @@ public class ControladorMonitor implements ActionListener {
                         dibujarTabla("");
                         vaciarDatos();
                     } else {
-                        vMensaje.MensajeInfo(pMonitores, "Debe rellenar todos los campos obligatorios correctamente");
+                        vMensaje.MensajeInfo(dialogoInsertaMonitor, "Debe rellenar todos los campos obligatorios correctamente");
                     }
 
                 } catch (Exception ex) {
                     tr.rollback();
-                    vMensaje.MensajeInfo(pMonitores, ex.getMessage());
+                    vMensaje.MensajeInfo(dialogoInsertaMonitor, ex.getMessage());
 
                 } finally {
                     if (session != null && session.isOpen()) {
