@@ -6,6 +6,7 @@ C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\ma
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorSocios.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\PanelPrincipal.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorMonitor.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogCuotaActividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Monitor.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogSocioBajaActividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\vistaPrincipal.java
@@ -21,7 +22,9 @@ C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\ma
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasSocio.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogSocioAltaActividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasSocioAltaActividad.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\JDialogActualizacionCategorias.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\vistaLogin.java
+C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\UtilTablasActualizacionCategorias.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Controlador\ControladorActividades.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Modelo\Actividad.java
 C:\Users\rafaa\Documents\NetBeansProjects\DDSI\PracticaHibernateDDSISwing\src\main\java\Vista\VistaSocio.java

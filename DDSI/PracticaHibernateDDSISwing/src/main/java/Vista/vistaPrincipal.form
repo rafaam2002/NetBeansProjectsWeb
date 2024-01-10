@@ -97,6 +97,24 @@
             <Property name="text" type="java.lang.String" value="Ampliaci&#xf3;n"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemActualizacionCategorias">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Actualizaci&#xf3;n de Categorias"/>
+                <Property name="actionCommand" type="java.lang.String" value="ActualizacionCategorias"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCuotaActividad">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cuota Actividad"/>
+                <Property name="actionCommand" type="java.lang.String" value="CuotaActividad"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="CuotaSocios">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cuota Socios"/>

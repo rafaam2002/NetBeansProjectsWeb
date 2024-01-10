@@ -1,9 +1,12 @@
 package Controlador;
 
 import Modelo.Actividad;
+import Modelo.ActividadDAO;
 import Modelo.MonitorDAO;
 import Modelo.Socio;
 import Modelo.SocioDAO;
+import Vista.JDialogActualizacionCategorias;
+import Vista.JDialogCuotaActividad;
 import Vista.JDialogCuotaSocios;
 import Vista.PanelActividades;
 import Vista.VistaMensaje;
@@ -16,11 +19,14 @@ import Vista.PanelPrincipal;
 import Vista.PanelSocios;
 import Vista.VMensaje;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +38,7 @@ public class ControladorPrincipal implements ActionListener {
     private Session session;
     private Transaction tr;
     private final SocioDAO socioDAO;
+    private final ActividadDAO actividadDAO;
     private final vistaPrincipal vistaP;
     private final PanelMonitores pMonitores;
     private final PanelPrincipal pPrincipal;
@@ -42,6 +49,9 @@ public class ControladorPrincipal implements ActionListener {
     private final ControladorMonitor controladorM;
     private final ControladorActividades controladorA;
     private final JDialogCuotaSocios dialogoCuotaSocios;
+    private final JDialogActualizacionCategorias dialogoCategorias;
+    private final JDialogCuotaActividad dialogoCuotaActividad;
+    private final UtilTablasActualizacionCategorias uTablasActCategorias;
 
 //    private final vistaLogin vLoginMenu;
     public ControladorPrincipal(SessionFactory s) {
@@ -77,9 +87,15 @@ public class ControladorPrincipal implements ActionListener {
 
         //inicializo DAOs
         socioDAO = new SocioDAO();
+        actividadDAO = new ActividadDAO();
 
         //inicializo ventanas de dialogo
         dialogoCuotaSocios = new JDialogCuotaSocios();
+        dialogoCategorias = new JDialogActualizacionCategorias();
+        dialogoCuotaActividad = new JDialogCuotaActividad();
+
+        //inicilizo utilTablas
+        uTablasActCategorias = new UtilTablasActualizacionCategorias(dialogoCategorias);
 
         //Los listeners siempre lo ultimo
         addListeners();
@@ -92,10 +108,14 @@ public class ControladorPrincipal implements ActionListener {
         vistaP.VolverPrincipal.addActionListener(this);
         vistaP.GestionActividades.addActionListener(this);
         vistaP.CuotaSocios.addActionListener(this);
+        vistaP.jMenuItemActualizacionCategorias.addActionListener(this);
+        vistaP.jMenuItemCuotaActividad.addActionListener(this);
         dialogoCuotaSocios.jButtonVerCuotaSocio.addActionListener(this);
         dialogoCuotaSocios.jButtonCerrarCuotaSocio.addActionListener(this);
         dialogoCuotaSocios.jButtonVerCuotaSocio.addActionListener(this);
-
+        dialogoCategorias.jButtonSubirCategoria.addActionListener(this);
+        dialogoCategorias.jButtonBajarCategoria.addActionListener(this);
+        dialogoCuotaActividad.jButtonVerCuotaActividad.addActionListener(this);
     }
 
     @Override
@@ -172,7 +192,7 @@ public class ControladorPrincipal implements ActionListener {
                     dialogoCuotaSocios.jLabelLabelCuotaMensualSocio.setText("Cuota Mensual");
                     dialogoCuotaSocios.jLabelCuotaMensualSocio.setText(Double.toString(cuotaMensualConDescuento));
                     dialogoCuotaSocios.jLabelNumActividadesSocio.setText(Integer.toString(socio.getActividades().size()));
-                    
+
                 } catch (Exception ex) {
                     tr.rollback();
                     vMensaje.MensajeInfo(pSocios, ex.getMessage());
@@ -183,6 +203,168 @@ public class ControladorPrincipal implements ActionListener {
 
                 }
 
+            }
+            //Muestra dialogo ActCategorias
+            case "ActualizacionCategorias" -> {
+                try {
+                    session = sessionFactory.openSession();
+                    tr = session.beginTransaction();
+                    List<Socio> socios = socioDAO.listSociosSortByNumSocio(session);
+                    tr.commit();
+                    if (!socios.isEmpty()) {
+                        dibujarTablaActualizacionCategorias(socios);
+                        uTablasActCategorias.dibujarTablaActualizacionCategorias();
+                        dialogoCategorias.setLocationRelativeTo(vistaP);
+                        dialogoCategorias.setVisible(true);
+                    }
+
+                } catch (Exception ex) {
+                    tr.rollback();
+                    vMensaje.MensajeInfo(pPrincipal, ex.getMessage());
+                } finally {
+                    if (session != null && session.isOpen()) {
+                        session.close();
+                    }
+                }
+
+            }
+            case "SubirCategorias" -> {
+                int confirm = BajaDialog(vistaP);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        session = sessionFactory.openSession();
+                        tr = session.beginTransaction();
+                        List<Socio> socios = socioDAO.listSociosSortByNumSocio(session);
+                        for (Socio socio : socios) {
+                            switch (socio.getCategoria()) {
+                                case 'B' ->
+                                    socio.setCategoria('A');
+                                case 'C' ->
+                                    socio.setCategoria('B');
+                                case 'D' ->
+                                    socio.setCategoria('C');
+                                case 'E' ->
+                                    socio.setCategoria('D');
+                            }
+                            socioDAO.actualizarCategoria(session, socio.getNumeroSocio(), socio.getCategoria());
+//                          if(!socio.getCategoria().equals( 'A')){
+//                              
+//                          }
+                        }
+                        tr.commit();
+                        dibujarTablaActualizacionCategorias(socios);
+                        uTablasActCategorias.dibujarTablaActualizacionCategorias();
+                    } catch (Exception ex) {
+                        tr.rollback();
+                        vMensaje.MensajeInfo(pPrincipal, ex.getMessage());
+                    } finally {
+                        if (session != null && session.isOpen()) {
+                            session.close();
+                        }
+                    }
+                }
+
+            }
+            case "BajarCategorias" -> {
+                int confirm = BajaDialog(vistaP);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        session = sessionFactory.openSession();
+                        tr = session.beginTransaction();
+                        List<Socio> socios = socioDAO.listSociosSortByNumSocio(session);
+                        for (Socio socio : socios) {
+                            switch (socio.getCategoria()) {
+                                case 'A' ->
+                                    socio.setCategoria('B');
+                                case 'B' ->
+                                    socio.setCategoria('C');
+                                case 'C' ->
+                                    socio.setCategoria('D');
+                                case 'D' ->
+                                    socio.setCategoria('E');
+                            }
+                            socioDAO.actualizarCategoria(session, socio.getNumeroSocio(), socio.getCategoria());
+//                          if(!socio.getCategoria().equals( 'A')){
+//                              
+//                          }
+                        }
+                        tr.commit();
+                        dibujarTablaActualizacionCategorias(socios);
+                        uTablasActCategorias.dibujarTablaActualizacionCategorias();
+                    } catch (Exception ex) {
+                        tr.rollback();
+                        vMensaje.MensajeInfo(pPrincipal, ex.getMessage());
+                    } finally {
+                        if (session != null && session.isOpen()) {
+                            session.close();
+                        }
+                    }
+                }
+
+            }
+            //muestra dialogo
+            case "CuotaActividad" -> {
+                dialogoCuotaActividad.jLabelNomMonitor.setText("");
+                dialogoCuotaActividad.jLabelNumSocios.setText("");
+                dialogoCuotaActividad.jLabelPrecioBase.setText("");
+                dialogoCuotaActividad.jLabelCuotaMensualBase.setText("");
+                dialogoCuotaActividad.jLabelCuotaMensualDescuentos.setText("");
+
+                dialogoCuotaActividad.setLocationRelativeTo(vistaP);
+                dialogoCuotaActividad.setVisible(true);
+            }
+            //recoje el codigo de actividad
+            case "VerCuotaActividad" -> {
+                try {
+                    session = sessionFactory.openSession();
+                    tr = session.beginTransaction();
+                    String idActividad = dialogoCuotaActividad.codigoActividad.getText();
+                    Actividad actividad = actividadDAO.getActividad(session, idActividad);
+                    tr.commit();
+                    dialogoCuotaActividad.jLabelNomMonitor.setText(actividad.getMonitorResponsable().getNombre());
+                    if (!actividad.getSocios().isEmpty()) {
+                        dialogoCuotaActividad.jLabelNumSocios.setText(Integer.toString(actividad.getSocios().size()));
+                        dialogoCuotaActividad.jLabelCuotaMensualBase.setText(Integer.toString(actividad.getSocios().size() * actividad.getPrecioBaseMes()));
+                        double cuotaMensualDescuentos = 0;
+                        double descuento = 1;
+                        for (Socio socio : actividad.getSocios()) {
+                            switch (socio.getCategoria()) {
+                                case 'A' -> {
+                                    descuento = 1;
+                                }
+                                case 'B' -> {
+                                    descuento = 0.9;
+                                }
+                                case 'C' -> {
+                                    descuento = 0.8;
+                                }
+                                case 'D' -> {
+                                    descuento = 0.7;
+
+                                }
+                                case 'E' -> {
+                                    descuento = 0.6;
+
+                                }
+                            }
+                            cuotaMensualDescuentos += actividad.getPrecioBaseMes() * descuento;
+                            dialogoCuotaActividad.jLabelCuotaMensualDescuentos.setText(Double.toString(cuotaMensualDescuentos));
+                        }
+                    } else {
+                        dialogoCuotaActividad.jLabelNumSocios.setText("0");
+                        dialogoCuotaActividad.jLabelCuotaMensualBase.setText("0");
+                        dialogoCuotaActividad.jLabelCuotaMensualDescuentos.setText("0");
+                    }
+                    dialogoCuotaActividad.jLabelPrecioBase.setText(Integer.toString(actividad.getPrecioBaseMes()));
+
+                } catch (Exception ex) {
+                    tr.rollback();
+                    vMensaje.MensajeInfo(pPrincipal, ex.getMessage());
+                } finally {
+                    if (session != null && session.isOpen()) {
+                        session.close();
+                    }
+                }
             }
             default -> {
                 VistaMensaje.mensajeConsola("No se ha reconocido el evento, revisa los nombres de las variables de las vista");
@@ -215,6 +397,34 @@ public class ControladorPrincipal implements ActionListener {
                 VistaMensaje.mensajeConsola("El panel indicado no existe");
             }
         }
+    }
+
+    private void dibujarTablaActualizacionCategorias(List<Socio> socios) {
+        uTablasActCategorias.dibujarTablaActualizacionCategorias();
+        session = sessionFactory.openSession();
+
+        tr = session.beginTransaction();
+
+        try {
+
+            uTablasActCategorias.vaciarTablaActualizacionCategorias();
+            uTablasActCategorias.rellenarTablaActualizacionCategorias(socios);
+            tr.commit();
+        } catch (Exception ex) {
+            tr.rollback();
+            VistaMensaje.mensajeConsola("Error " + ex.getMessage());
+        } finally {
+            if (session != null & session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    public int BajaDialog(Component C) {
+        int opcion = JOptionPane.showConfirmDialog(C, "¿Deseas actualizar las categorias?",
+                "Atención", JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+        return opcion;
     }
 
 }

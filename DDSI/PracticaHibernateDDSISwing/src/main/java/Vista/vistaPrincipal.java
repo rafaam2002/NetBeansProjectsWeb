@@ -39,6 +39,8 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         GestionActividades = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
+        jMenuItemActualizacionCategorias = new javax.swing.JMenuItem();
+        jMenuItemCuotaActividad = new javax.swing.JMenuItem();
         CuotaSocios = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         VolverPrincipal = new javax.swing.JMenuItem();
@@ -88,6 +90,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu8.setText("Ampliación");
+
+        jMenuItemActualizacionCategorias.setText("Actualización de Categorias");
+        jMenuItemActualizacionCategorias.setActionCommand("ActualizacionCategorias");
+        jMenu8.add(jMenuItemActualizacionCategorias);
+
+        jMenuItemCuotaActividad.setText("Cuota Actividad");
+        jMenuItemCuotaActividad.setActionCommand("CuotaActividad");
+        jMenu8.add(jMenuItemCuotaActividad);
 
         CuotaSocios.setText("Cuota Socios");
         CuotaSocios.setActionCommand("CuotaSocios");
@@ -151,5 +161,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    public javax.swing.JMenuItem jMenuItemActualizacionCategorias;
+    public javax.swing.JMenuItem jMenuItemCuotaActividad;
     // End of variables declaration//GEN-END:variables
 }

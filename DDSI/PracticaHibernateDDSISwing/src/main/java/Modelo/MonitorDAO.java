@@ -103,4 +103,5 @@ public class MonitorDAO {
         Query consulta = session.createNamedQuery("Monitor.findByCodMonitor", Monitor.class).setParameter("codMonitor", codMonitor);
         session.delete((Monitor) consulta.getSingleResult());
     }
+    
 }

@@ -60,5 +60,11 @@ public class ActividadDAO {
         Query consulta = session.createNamedQuery("Actividad.findAll", Actividad.class);
         return consulta.getResultList();
     }
+    
+    public Actividad getActividad(Session session, String idActividad){
+          Query consulta = session.createNamedQuery("Actividad.findByIdActividad", Actividad.class);
+          consulta.setParameter("idActividad", idActividad);
+        return (Actividad) consulta.getSingleResult();
+    }
 
 }

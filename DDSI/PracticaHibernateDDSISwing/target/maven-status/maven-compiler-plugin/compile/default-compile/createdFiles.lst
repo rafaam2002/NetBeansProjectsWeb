@@ -1,6 +1,7 @@
 Vista\JDialogInsertarMonitor.class
 Controlador\UtilTablasSocio.class
 Vista\PanelMonitores$3.class
+Controlador\UtilTablasActualizacionCategorias$1.class
 Vista\VMensaje.class
 Vista\JDialogCuotaSocios.class
 Controlador\UtilTablasMonitor.class
@@ -8,11 +9,14 @@ Vista\vistaPrincipal.class
 Controlador\ControladorMonitor$1.class
 Controlador\UtilTablasSocioBajaActividad.class
 Controlador\ControladorMonitor.class
+Controlador\UtilTablasActualizacionCategorias.class
+Vista\JDialogCuotaActividad$2.class
 Controlador\UtilTablasSocio$1.class
 Vista\PanelActividades$2.class
 Vista\PanelMonitores$2.class
 Vista\PanelActividades.class
 Vista\PanelMonitores.class
+Vista\JDialogCuotaActividad.class
 Vista\vistaPrincipal$1.class
 Controlador\UtilTablasMonitor$1.class
 Controlador\ControladorPrincipal.class
@@ -26,6 +30,7 @@ Controlador\UtilTablasSocioAltaActividad.class
 Controlador\ControladorSocios.class
 Vista\PanelActividades$3.class
 Vista\JDialogCuotaSocios$1.class
+Vista\JDialogActualizacionCategorias.class
 Modelo\SocioDAO.class
 Vista\JDialogSocioBajaActividad.class
 Vista\vistaLogin.class
@@ -46,6 +51,7 @@ Controlador\ControladorSocios$1.class
 Vista\JDialogInsertarMonitor$1.class
 Modelo\Actividad.class
 Vista\JDialogCuotaSocios$2.class
+Vista\JDialogCuotaActividad$1.class
 Vista\JDialogSocioAltaActividad.class
 Vista\JDialogInsertarSocio.class
 Vista\PanelActividades$1.class
