@@ -243,6 +243,8 @@ async function getConversacion(e) {
 
 
             div_chat.insertBefore(nuevoDiv, divInput);
+            div_chat.scrollTop = div_chat.scrollHeight;
+            
 
         }
         function enviarNick(nick) {

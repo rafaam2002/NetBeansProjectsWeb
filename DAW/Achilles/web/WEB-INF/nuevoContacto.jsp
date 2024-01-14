@@ -162,22 +162,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     tabindex="-1"
                                     >
                                     <!-- Active: "bg-zinc-700", Not Active: "" -->
-                                    <a
-                                        href="#"
+                                    <div
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        ><%=userName%></a
+                                        ><%=userName%></div
                                     >
-                                    <a
-                                        href="#"
+                                    <div
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        ><%=numCuenta%></a
+                                        ><%=numCuenta%></div
                                     >
+                                    <a
+                                        href="/Achilles/ControladorLogin/logout"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-red-600 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        >Salir</a
+
 
                                 </div>
                             </div>
@@ -269,39 +275,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         >
                     </div>
                     <div class="border-t border-gray-200 pb-3 pt-4 text-zinc-300">
-                        <div class="flex items-center px-4">
-                            <div class="flex-shrink-0">
-                                <img
-                                    class="h-10 w-10 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt=""
-                                    />
-                            </div>
-                            <div class="ml-3">
-                                <div class="text-sm font-medium"><%=userName%></div>
-                            </div>
-                            <button
-                                type="button"
-                                class="relative ml-auto flex-shrink-0 rounded-full bg-zinc-800 p-1 text-gray-200 hover:text-selective-yellow-500 focus:outline-none focus:ring-2 focus:ring-brotext-brown-200 focus:ring-offset-2"
-                                >
-                                <span class="absolute -inset-1.5"></span>
-                                <span class="sr-only">View notifications</span>
-                                <svg
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
-                                    >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
+                       
+                            <div class = "flex justify-between" >
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img
+                                            class="h-10 w-10 rounded-full"
+                                            src="/Achilles/images/usuario.png"
+                                            alt=""
+                                            />
+                                    </div>
+
+                                    <div id ="div_nick" class="ml-3 text-sm font-medium"><%=userName%></div>
+
+
+                                    <div  class="ml-3 text-sm font-medium">IBAN: <%=numCuenta%></div>
+                                </div>
+                                
+                                    <a class="mr-4 pt-2.5 text-sm text-red-600 font-medium" href="/Achilles/ControladorLogin/logout">Salir</a>         
+                            </div>    
                     </div>
                 </div>
             </nav>
@@ -330,25 +322,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 >Nombre de Usuario</label
                             >
                         </div>
-                        <!--                        <div class="relative z-0 w-full mb-6 group">
-                                                    <label
-                                                        class="relative inline-flex items-center mb-4 cursor-pointer"
-                                                        >
-                                                        <input
-                                                            type="checkbox"
-                                                            value="active"
-                                                            class="sr-only peer"
-                                                            name="bizum"
-                                                            checked
-                                                            />
-                                                        <div
-                                                            class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-selective-yellow-500"
-                                                            ></div>
-                                                        <span class="ml-3 text-sm font-medium text-zinc-400"
-                                                              >Habilitar Bizum</span
-                                                        >
-                                                    </label>
-                                                </div>-->
+                       
                     </div>
                     <button
                         id ="submit_button"

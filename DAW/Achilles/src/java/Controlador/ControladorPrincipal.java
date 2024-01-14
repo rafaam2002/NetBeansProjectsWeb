@@ -348,7 +348,7 @@ public class ControladorPrincipal extends HttpServlet {
                     bizum.setEmiBizum(user);
                     bizum.setRecBizum(userRecBizum);
                     user.setDineroDouble(user.getDineroDouble() - cantidad);
-                    userRecBizum.setDineroDouble(userRecBizum.getDineroDouble() - cantidad);
+                    userRecBizum.setDineroDouble(userRecBizum.getDineroDouble() + cantidad);
                     user.getbEnviados().add(bizum);
                     userRecBizum.getbRecividos().add(bizum);
 
@@ -505,7 +505,7 @@ public class ControladorPrincipal extends HttpServlet {
                 //graficaPe
                 //Posteriormente ajustar los dias con una funcion dependiendo del mes (30 o 31 o 28)
                 if (difDiasEntreIniAppYHoy - difDias < 30) {
-                    gastosMes -= trans.getCantidad();
+                    gastosMes += trans.getCantidad();
                 }
             }
             if (i < tRecividas.size()) {
@@ -529,7 +529,7 @@ public class ControladorPrincipal extends HttpServlet {
 
                 //graficaPe
                 if (difDiasEntreIniAppYHoy - difDias < 30) {
-                    ingresosMes -= bizum.getCantidad();
+                    gastosMes += bizum.getCantidad();
                 }
             }
             if (i < bRecividos.size()) {
@@ -555,7 +555,7 @@ public class ControladorPrincipal extends HttpServlet {
         }
 
         if (difDiasEntreIniAppYHoy >= 7) {
-            capitalSemanaPasada = datosXdia[datosXdia.length - 7];
+            capitalSemanaPasada = seguimientoTotal[seguimientoTotal.length - 7];
         } else {
             capitalSemanaPasada = 0;
         }

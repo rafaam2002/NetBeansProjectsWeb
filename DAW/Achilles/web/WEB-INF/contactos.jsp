@@ -162,21 +162,27 @@
                                     tabindex="-1"
                                     >
                                     <!-- Active: "bg-zinc-700", Not Active: "" -->
-                                    <a
-                                        href="#"
+                                    <div
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        ><%=userName%></a
+                                        ><%=userName%></div
                                     >
-                                    <a
-                                        href="#"
+                                    <div
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        ><%=numCuenta%></a
+                                        ><%=numCuenta%></div
+                                    >
+                                     <a
+                                        href="/Achilles/ControladorLogin/logout"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-red-600 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        >Salir</a
                                     >
                                 </div>
                             </div>
@@ -261,46 +267,32 @@
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Bizum</a
                         >
-                         <a
+                        <a
                             href="/Achilles/ControladorPrincipal/conversaciones"
                             class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-200 hover:border-zinc-400 hover:bg-zinc-600 hover:text-zinc-400"
                             >Conversaciones</a
                         >
                     </div>
-                    <div class="border-t border-gray-200 pb-3 pt-4 text-zinc-300">
-                        <div class="flex items-center px-4">
-                            <div class="flex-shrink-0">
-                                <img
-                                    class="h-10 w-10 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt=""
-                                    />
-                            </div>
-                            <div class="ml-3">
-                                <div class="text-sm font-medium"><%=userName%></div>
-                            </div>
-                            <button
-                                type="button"
-                                class="relative ml-auto flex-shrink-0 rounded-full bg-zinc-800 p-1 text-gray-200 hover:text-selective-yellow-500 focus:outline-none focus:ring-2 focus:ring-brotext-brown-200 focus:ring-offset-2"
-                                >
-                                <span class="absolute -inset-1.5"></span>
-                                <span class="sr-only">View notifications</span>
-                                <svg
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
-                                    >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
+                     <div class="border-t border-gray-200 pb-3 pt-4 text-zinc-300">
+                       
+                            <div class = "flex justify-between" >
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img
+                                            class="h-10 w-10 rounded-full"
+                                            src="/Achilles/images/usuario.png"
+                                            alt=""
+                                            />
+                                    </div>
+
+                                    <div id ="div_nick" class="ml-3 text-sm font-medium"><%=userName%></div>
+
+
+                                    <div  class="ml-3 text-sm font-medium">IBAN: <%=numCuenta%></div>
+                                </div>
+                                
+                                    <a class="mr-4 pt-2.5 text-sm text-red-600 font-medium" href="/Achilles/ControladorLogin/logout">Salir</a>         
+                            </div>    
                     </div>
                 </div>
             </nav>
@@ -356,9 +348,10 @@
                                     + "            <table class='min-w-full contactos'>\n"
                                     + "                <thead class='text-zinc-100'>\n"
                                     + "                    <tr>\n"
-                                    + "                        <th scope='col' class='py-3.5 px-4 text-left text-sm font-semibold'>Name</th>\n"
-                                    + "                        <th scope='col' class='px-3 py-3.5 text-left text-sm font-semibold'>Number</th>\n"
-                                    + "                        <th scope='col' class='px-3 py-3.5 text-left text-sm font-semibold'>Status</th>\n"
+                                    + "                        <th scope='col' class='py-3.5 px-4 text-left text-sm font-semibold'>Nombre</th>\n"
+                                    + "                        <th scope='col' class='px-5 py-3.5 text-left text-sm font-semibold'>Teléfono</th>\n"
+                                    + "                        <th scope='col' class='px-16 py-3.5 text-left text-sm font-semibold'>IBAN</th>\n"
+                                    + "                        <th scope='col' class='px-3 py-3.5 text-left text-sm font-semibold'>Bizum</th>\n"
                                     + "                    </tr>\n"
                                     + "                </thead>\n"
                                     + "                <tbody>\n");
@@ -367,7 +360,7 @@
 //                                divider
                                 out.println(""
                                         + "<tr>\n"
-                                        + "    <td colspan='3' class='py-0'>\n"
+                                        + "    <td colspan='4' class='py-0'>\n"
                                         + "        <div class='ml-16 mr-4 first-letter:h-0 bg-zinc-800 border-t border-zinc-600 my-0'></div>\n"
                                         + "    </td>\n"
                                         + "</tr>");
@@ -390,6 +383,9 @@
                                 out.println("    </td>");
                                 out.println("    <td class='whitespace-nowrap px-3 py-5 text-sm'>");
                                 out.println(contacto.getNumTel());
+                                out.println("    </td>");
+                                out.println("    <td class='whitespace-nowrap px-3 py-5 text-sm'>");
+                                out.println(contacto.getNumCuenta());
                                 out.println("    </td>");
                                 out.println("    <td class='whitespace-nowrap px-3 py-5 text-sm text-gray-500'>");
                                 if (contacto.isBizumActive()) {

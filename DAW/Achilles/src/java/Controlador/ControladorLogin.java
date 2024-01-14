@@ -41,6 +41,9 @@ public class ControladorLogin extends HttpServlet {
 
     private final Random rdm = new Random();
 
+    String campoIncorrecto = "";
+    String motivoCampoIncorrecto;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -120,7 +123,7 @@ public class ControladorLogin extends HttpServlet {
 //        processRequest(request, response);
 //        System.out.println("Entra en controladorLogin doPost");
         String accion = request.getPathInfo();
-        String vista, nick, password,numCuenta;
+        String vista, nick, password, numCuenta, banner, oldPwd;
         Usuario user;
         Query query;
 
@@ -157,6 +160,8 @@ public class ControladorLogin extends HttpServlet {
                                 );
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
+                        numCuenta = Long.toString(user.getNumCuenta());
+                        request.setAttribute("numCuenta", numCuenta);
                         HttpSession session = request.getSession();
                         session.setAttribute("idUsuario", user.getId());
                         request.setAttribute("nickUsuario", nick);
@@ -170,7 +175,20 @@ public class ControladorLogin extends HttpServlet {
                     }
 
                 } else {
-                    vista = "/nuevoUsuario.html";
+                    if (campoIncorrecto.isEmpty()) {
+                        campoIncorrecto = "Contraseña";
+                        motivoCampoIncorrecto = "La contraseña repetida con coincide";
+                    }
+                    banner = "<div class=\"flex justify-center gap-x-6 bg-zinc-900 px-6 py-2.5\">\n"
+                            + "            <p class=\" text-sm leading-6 text-red-500\">\n"
+                            + "                <a href=\"#\">\n"
+                            + "                    <strong class=\"font-semibold\">Campo " + campoIncorrecto + " no válido</strong><svg viewBox=\"0 0 2 2\" class=\"mx-2 inline h-0.5 w-0.5 fill-current\" aria-hidden=\"true\"><circle cx=\"1\" cy=\"1\" r=\"1\" /></svg>" + motivoCampoIncorrecto + "\n"
+                            + "                </a>\n"
+                            + "            </p>\n"
+                            + "        </div>";
+                    campoIncorrecto = "";
+                    request.setAttribute("banner", banner);
+                    vista = "/nuevoUsuario.jsp";
                 }
 
                 break;
@@ -180,8 +198,7 @@ public class ControladorLogin extends HttpServlet {
 
                 if (password != null && nick != null) {
                     try {
-                        query = em.createNamedQuery("Usuario.findByNick", Usuario.class
-                        );
+                        query = em.createNamedQuery("Usuario.findByNick", Usuario.class);
                         query.setParameter("nick", nick);
                         user = (Usuario) query.getSingleResult();
                         if (checkearPassword(password, user.getPassword())) { //checkearPassword(password,user.getPassword())
@@ -205,12 +222,7 @@ public class ControladorLogin extends HttpServlet {
                     vista = "/index.html";
                 }
                 break;
-//            case "/logout":
-//                System.out.println("Esta hacienod logout");
-//                HttpSession session = request.getSession();
-//                session.removeAttribute("idUsuario");
-//                vista = "/index.html";
-//                break;
+            
             default:
                 vista = "/index.html";
         }
@@ -234,7 +246,13 @@ public class ControladorLogin extends HttpServlet {
                 = em.createNamedQuery("Usuario.findByNick", Long.class
                 );
         query.setParameter("nick", nick);
-        return query.getResultList().isEmpty();
+        if (query.getResultList().isEmpty()) {
+            return true;
+        } else {
+            campoIncorrecto = "Nick";
+            motivoCampoIncorrecto = "El nick introduccido ya pertenece a otro usuario";
+            return false;
+        }
     }
 
     public void persist(Object object) {
@@ -271,18 +289,16 @@ public class ControladorLogin extends HttpServlet {
                 = em.createNamedQuery("Usuario.findByNumTel", Long.class
                 );
         query.setParameter("numTel", numTel);
-        return query.getResultList().isEmpty();
+        if (query.getResultList().isEmpty()) {
+            return true;
+        } else {
+            campoIncorrecto = "Número de teléfono";
+            motivoCampoIncorrecto = "El número ya pertenece a otro usuario";
+            return false;
+        }
     }
 
-//    private long generarNumCuenta() {
-//        long nuevoNumCuenta;
-//        do {
-//            nuevoNumCuenta = Math.abs(rdm.nextLong());  // Genera número aleatorio de 64 bits
-//        } while (numeroCuentaExistente(nuevoNumCuenta));
-//
-//        return nuevoNumCuenta;
-//
-//    }
+
     private long generarNumCuenta() {
         long nuevoNumCuenta;
         do {
@@ -316,5 +332,7 @@ public class ControladorLogin extends HttpServlet {
     private boolean checkearPassword(String password, String userPassword) throws NoSuchAlgorithmException {
         return (cifrarPassword(password).equals(userPassword));
     }
+
+    
 
 }

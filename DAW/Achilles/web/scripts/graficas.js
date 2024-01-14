@@ -55,7 +55,7 @@ async function cargarDatos() {
         const capitalGeneral = document.getElementById("capital_general");
         capitalGeneral.innerHTML = dataPie[0] + "€";
         const porcentajeSemanal= document.getElementById("porcentaje_semanal");
-        porcentajeSemanal.innerHTML = (capitalSemanaPasada * 100) /  dataPie[0] + " % ";
+        porcentajeSemanal.innerHTML = parseInt((capitalSemanaPasada * 100) / dataPie[0]) + " % ";
         
     } else { // Procesarerror p.innerHTML= "Error al refrescar"; 
         console.log("Error al recivir los datos");

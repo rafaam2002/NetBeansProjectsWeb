@@ -1,3 +1,10 @@
+<%-- 
+    Document   : nuevoUsuario
+    Created on : 14-ene-2024, 0:41:28
+    Author     : rafaa
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="h-full bg-zinc-800">
     <head>
@@ -54,6 +61,19 @@
     </head>
 
     <body class="min-h-screen bg-zinc-800 m-0 p-0">
+       
+
+        <%
+            // Obtén el valor de la variable "banner" del request
+            String banner = (String) request.getAttribute("banner");
+
+            // Verifica si el banner no es nulo antes de mostrarlo
+            if (banner != null) {
+                // Imprime el contenido del banner en tu página
+                out.print(banner);
+            }
+        %>
+
         <div
             class="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8"
             >
@@ -155,7 +175,7 @@
                                 class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
                                 placeholder="Apellidos"
                                 />
-                        </div>
+                        </div> 
                         <div>
                             <label for="nick" class="sr-only"
                                    >nick</label
@@ -227,22 +247,7 @@
                             >
                         </label>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                class="h-4 w-4 rounded border-zinc-300 text-brown-400 focus:ring-brown-400 bg-zinc-100"
-                                />
-                            <label
-                                for="remember-me"
-                                class="ml-3 block text-sm leading-6 text-gray-400"
-                                >Recuerdame</label
-                            >
-                        </div>
 
-                    </div>
 
                     <div>
                         <button
@@ -263,3 +268,4 @@
         </div>
     </body>
 </html>
+

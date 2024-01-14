@@ -158,27 +158,32 @@
                                     tabindex="-1"
                                     >
                                     <!-- Active: "bg-zinc-700", Not Active: "" -->
-                                    <a
-                                        href="#"
+                                    <div
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        ><%=userName%></a
+                                        ><%=userName%></div
                                     >
-                                    <a
-                                        href="#"
+                                    <div
                                         class="transition duration-300 ease-out block px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-700"
                                         role="menuitem"
                                         tabindex="-1"
                                         id="user-menu-item-0"
-                                        ><%=numCuenta%></a
+                                        ><%=numCuenta%></div
                                     >
-
+                                    <a
+                                        href="/Achilles/ControladorLogin/logout"
+                                        class="transition duration-300 ease-out block px-4 py-2 text-sm text-red-600 hover:bg-zinc-700"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        id="user-menu-item-0"
+                                        >Salir</a
+                                    >
                                 </div>
                             </div>
                         </div>
-                        <div class="-mr-2 flex items-center sm:hidden">
+                            <div class="-mr-2 flex items-center sm:hidden">
                             <!-- Mobile menu button -->
                             <button
                                 id="mobile-menu-buttom"
@@ -265,40 +270,25 @@
                         >
                     </div>
                     <div class="border-t border-gray-200 pb-3 pt-4 text-zinc-300">
-                        <div class="flex items-center px-4">
-                            <div class="flex-shrink-0">
-                                <img
-                                    class="h-10 w-10 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt=""
-                                    />
-                            </div>
-                            <div class="ml-3">
+                       
+                            <div class = "flex justify-between" >
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img
+                                            class="h-10 w-10 rounded-full"
+                                            src="/Achilles/images/usuario.png"
+                                            alt=""
+                                            />
+                                    </div>
 
-                                <div class="text-sm font-medium"><%=userName%></div>
-                            </div>
-                            <button
-                                type="button"
-                                class="relative ml-auto flex-shrink-0 rounded-full bg-zinc-800 p-1 text-gray-200 hover:text-selective-yellow-500 focus:outline-none focus:ring-2 focus:ring-brotext-brown-200 focus:ring-offset-2"
-                                >
-                                <span class="absolute -inset-1.5"></span>
-                                <span class="sr-only">View notifications</span>
-                                <svg
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
-                                    >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
+                                    <div id ="div_nick" class="ml-3 text-sm font-medium"><%=userName%></div>
+
+
+                                    <div  class="ml-3 text-sm font-medium">IBAN: <%=numCuenta%></div>
+                                </div>
+                                
+                                    <a class="mr-4 pt-2.5 text-sm text-red-600 font-medium" href="/Achilles/ControladorLogin/logout">Salir</a>         
+                            </div>    
                     </div>
                 </div>
             </nav>
@@ -324,7 +314,7 @@
                                     name="nombre_destinatario"
                                     id="first-name"
                                     autocomplete="given-name"
-                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black font-normal ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-600 sm:text-sm sm:leading-6"
+                                    class="pl-2 bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black font-normal ring-1 ring-inset ring-zinc-300 placeholder:text-zinc-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-600 sm:text-sm sm:leading-6"
                                     />
                             </div>
                         </div>
@@ -339,7 +329,7 @@
                                     name="apellidos_destinatario"
                                     id="last-name"
                                     autocomplete="family-name"
-                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    class="pl-2 bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
                                     />
                             </div>
                         </div>
@@ -354,7 +344,7 @@
                                     name="iban"
                                     type="text"
                                     autocomplete="on"
-                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    class="pl-2 bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
                                     />
                             </div>
                         </div>
@@ -369,46 +359,20 @@
                                     name="importe"
                                     id="importe"
                                     autocomplete="cc-number"
-                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
+                                    class="pl-2 bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
                                     />
                             </div>
                         </div>
 
-<!--                        <div class="col-span-full">
-                            <label for="concepto" class="block text-sm font-medium leading-6"
-                                   >Concepto</label
-                            >
-                            <div class="mt-2">
-                                <textarea
-                                    id="concepto"
-                                    name="concepto"
-                                    rows="3"
-                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
-                                    ></textarea>
-                            </div>
-                        </div>-->
-
-<!--                        <div class="sm:col-span-full">
-                            <label for="fecha" class="block text-sm font-medium leading-6"
-                                   >Fecha</label
-                            >
-                            <div class="mt-2 w-1/3">
-                                <input
-                                    type="date"
-                                    id="fecha"
-                                    name="fecha"
-                                    class="bg-zinc-400 block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-zinc-300 placeholder:text-gray-600 focus:ring-2 focus:ring-inset focus:ring-selective-yellow-500 sm:text-sm sm:leading-6"
-                                    />
-                            </div>
-                        </div>-->
                     </div>
                     <div class="mt-6 flex items-center justify-end gap-x-6">
-                        <button
-                            type="button"
+                        <a
+
                             class="text-sm font-semibold leading-6 text-white"
+                            href="/Achilles/ControladorPrincipal/main"
                             >
-                            Cancel
-                        </button>
+                            Cancelar
+                        </a>
                         <button
                             type="submit"
                             class="rounded-md bg-selective-yellow-500 px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm hover:bg-selective-yellow-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-selective-yellow-500 transform scale-100 hover:scale-110 transition-transform ease-in"
