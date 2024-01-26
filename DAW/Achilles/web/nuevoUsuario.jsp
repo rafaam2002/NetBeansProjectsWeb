@@ -61,15 +61,10 @@
     </head>
 
     <body class="min-h-screen bg-zinc-800 m-0 p-0">
-       
-
         <%
-            // Obtén el valor de la variable "banner" del request
-            String banner = (String) request.getAttribute("banner");
-
-            // Verifica si el banner no es nulo antes de mostrarlo
+            //Banner de mensaje de error de algún campo incorrecto
+            String banner = (String) request.getAttribute("banner"); 
             if (banner != null) {
-                // Imprime el contenido del banner en tu página
                 out.print(banner);
             }
         %>
@@ -222,9 +217,29 @@
                                 type="password"
                                 autocomplete="current-password"
                                 required
-                                class="p-2 relative block w-full rounded-b-md border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
                                 placeholder="Repita la contraseña"
                                 />
+                        </div>
+                        <select id="pregunta_1" name="pregunta_1" required class="pl-0.5 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-300 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6">
+                            <option value="1">¿En qué ciudad naciste?</option>
+                            <option value="2">¿Cuál fue el nombre de tu primera mascota?</option>
+                            <option value="3">¿Cuál es tu comida favorita?</option>
+                            <option value="4">¿En qué año conociste a tu pareja?</option>
+                        </select>
+                        <div>
+                            <label for="respuesta_1" class="sr-only">respuesta 1</label>
+                            <input id="respuesta_1" name="respuesta_1" required class="pl-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6" placeholder="Respuesta 1">
+                        </div>
+                        <select id="pregunta_2" name="pregunta_2" required class="pl-0.5 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-300 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6">
+                            <option value="1">¿Cuál es tu canción favorita?</option>
+                            <option value="2">¿Cuál fue tu primer trabajo?</option>
+                            <option value="3">¿Cuál fue lamarca tu primer coche?</option>
+                            <option value="4">¿Cuál es tu color favorito?</option>
+                        </select>
+                        <div>
+                            <label for="respuesta_2" class="sr-only">respuesta 2</label>
+                            <input id="respuesta_2" name="respuesta_2" required class="pl-2 relative block w-full rounded-b-md border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6" placeholder="Respuesta 2">
                         </div>
 
                     </div>

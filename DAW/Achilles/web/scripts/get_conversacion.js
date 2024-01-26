@@ -38,7 +38,7 @@ async function getConversacion(e) {
                         <div class="py-1.5 px-2 border-gray-200 bg-zinc-900 ${contE === 1 ? 'rounded-s-xl rounded-ee-xl' : 'rounded-xl'}">
                           <div class="flex items-end gap-2">
                            <p class="text-sm font-normal py-2.5 text-white">${mEnviado.text}</p>
-                           <span class="text-xs font-normal text-gray-400">${mEnviado.fecha}</span>
+                           <span class="text-xs font-normal text-gray-400">${moment(mEnviado.fecha).format('DD/MM/YYYY HH:mm')}</span>
                           </div>
                         </div>
                   `;
@@ -51,7 +51,7 @@ async function getConversacion(e) {
                         <div class=" py-1.5 px-4 border-gray-200 bg-zinc-600 ${contR === 1 ? 'rounded-e-xl rounded-es-xl' : 'rounded-xl'}">
                            <div class="flex items-end gap-2">
                                 <p class="text-sm font-normal py-2.5 text-white">${mRecivido.text}</p>
-                                <span class="text-xs font-normal text-gray-400">${mRecivido.fecha}</span>
+                                <span class="text-xs font-normal text-gray-400">${moment(mRecivido.fecha).format('DD/MM/YYYY HH:mm')}</span>
                            </div>
                         </div>
                   `;
@@ -69,7 +69,7 @@ async function getConversacion(e) {
                         <div class="py-1.5 px-2 border-gray-200 bg-zinc-900 ${contE === 1 ? 'rounded-s-xl rounded-ee-xl' : 'rounded-xl'}">
                           <div class="flex items-end gap-2">
                            <p class="text-sm font-normal py-2.5 text-white">${mEnviado.text}</p>
-                           <span class="text-xs font-normal text-gray-400">${mEnviado.fecha}</span>
+                           <span class="text-xs font-normal text-gray-400">${moment(mEnviado.fecha).format('DD/MM/YYYY HH:mm')}</span>
                           </div>
                         </div>
                   `;
@@ -87,7 +87,7 @@ async function getConversacion(e) {
                         <div class=" py-1.5 px-4 border-gray-200 bg-zinc-600 ${contR === 1 ? 'rounded-e-xl rounded-es-xl' : 'rounded-xl'}">
                            <div class="flex items-end gap-2">
                                 <p class="text-sm font-normal py-2.5 text-white">${mRecivido.text}</p>
-                                <span class="text-xs font-normal text-gray-400">${mRecivido.fecha}</span>
+                                <span class="text-xs font-normal text-gray-400">${moment(mRecivido.fecha).format('DD/MM/YYYY HH:mm')}</span>
                            </div>
                         </div>
                   `;
@@ -205,7 +205,7 @@ async function getConversacion(e) {
                         <div class="py-1.5 px-2 border-gray-200 bg-zinc-900 ${contE === 1 ? 'rounded-s-xl rounded-ee-xl' : 'rounded-xl'}">
                           <div class="flex items-end gap-2">
                            <p class="text-sm font-normal py-2.5 text-white">${msg.text}</p>
-                           <span class="text-xs font-normal text-gray-400">${msg.fecha}</span>
+                           <span class="text-xs font-normal text-gray-400">${moment(msg.fecha).format('DD/MM/YYYY HH:mm')}</span>
                           </div>
                         </div>
                   `;
@@ -235,7 +235,7 @@ async function getConversacion(e) {
                         <div class=" py-1.5 px-4 border-gray-200 bg-zinc-600 ${contR === 1 ? 'rounded-e-xl rounded-es-xl' : 'rounded-xl'}">
                            <div class="flex items-end gap-2">
                                 <p class="text-sm font-normal py-2.5 text-white">${msg.text}</p>
-                                <span class="text-xs font-normal text-gray-400">${msg.fecha}</span>
+                                <span class="text-xs font-normal text-gray-400">${moment(msg.fecha).format('DD/MM/YYYY HH:mm')}</span>
                            </div>
                         </div>
                   `;

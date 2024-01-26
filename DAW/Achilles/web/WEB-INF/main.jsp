@@ -312,7 +312,7 @@
                     <div class="flex flex-col justify-between pb-4">
                         <h1 class="text-selective-yellow-500 text-lg">Capital</h1>
                         <div class="text-2xl text-zinc-50" id = "capital_general"></div>
-                        <div class="text-sm">Last Week</div>
+                        <div class="text-sm">Última semana</div>
                         <div class="text-sm" id = "porcentaje_semanal"></div>
                     </div>
                     <div class="">
@@ -369,6 +369,7 @@
         <!-- Dropdown menu --> 
         <script src="/Achilles/scripts/dropdown_menu.js"></script>
         <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
+        
         <!--socket-->
         <!--        <script src="/Achilles/scripts/codigoSocket.js"></script>-->
     </body>

@@ -342,11 +342,11 @@
 
                     if (!contactos.isEmpty()) {
                         for (Usuario contacto : contactos) {
-                            out.println("<div class='flex py-3 article_chat hover:bg-zinc-600 transition ease-in border-b border-zinc-500' onclick = 'getConversacion(event)'  id = '" + contacto.getNick() + "'>");
-                            out.println("    <div>");
+                            out.println("<div class='cursor-pointer pointer flex space-x-2 py-3 article_chat hover:bg-zinc-600 transition ease-in border-b border-zinc-500' onclick = 'getConversacion(event)'  id = '" + contacto.getNick() + "'>");
+                            out.println("    <div style='pointer-events:none'>");
                             out.println("        <img class='h-11 w-11 rounded-full' src='/Achilles/images/usuario.png' alt='' />");
                             out.println("    </div>");
-                            out.println("    <div class='ml-4'>");
+                            out.println("    <div style='pointer-events:none'>");
                             out.println("        <div class='font-medium'> " + contacto.getNick() + "</div>");
                             out.println("    </div>");
                             out.println("</div>");
@@ -418,6 +418,7 @@
         <script src="/Achilles/scripts/dropdown_menu.js"></script>
         <script src="/Achilles/scripts/dropdown_menu_movil.js"></script>
         <!--getConversacion-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
         <script src="/Achilles/scripts/get_conversacion.js"></script>
         <!--socket-->
         <script src = "/Achilles/scripts/codigo_socket.js"></script>

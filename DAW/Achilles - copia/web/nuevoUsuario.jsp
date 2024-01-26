@@ -1,0 +1,271 @@
+<%-- 
+    Document   : nuevoUsuario
+    Created on : 14-ene-2024, 0:41:28
+    Author     : rafaa
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html class="h-full bg-zinc-800">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ACHILLES</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        width: {
+                            custom: "95.4%",
+                            custommd: "93%",
+                        },
+                        colors: {
+                            brown: {
+                                DEFAULT: "#8F6600",
+                                50: "#FFD15E",
+                                100: "#FFCB47",
+                                200: "#FFB700",
+                                300: "#E0A100",
+                                400: "#BD8700",
+                                500: "#8F6600",
+                                600: "#705000",
+                                700: "#A37500",
+                                800: "#6B4D00",
+                                900: "#140F00",
+                                950: "#050400",
+                            },
+                            "selective-yellow": {
+                                DEFAULT: "#FFB700",
+                                50: "#FFEBB8",
+                                100: "#FFDE8A",
+                                200: "#FFDA7A",
+                                300: "#FFCE52",
+                                400: "#FFC329",
+                                500: "#FFB700",
+                                600: "#C78F00",
+                                700: "#8F6600",
+                                800: "#573E00",
+                                900: "#1F1600",
+                                950: "#030200",
+                            },
+                        },
+                        spacing: {
+                            "12/13": "98%",
+                        },
+                    },
+                },
+            };
+        </script>
+        <link rel="shortcut icon" href="/Achilles/images/espadafavicon.ico" type="image/x-icon">
+    </head>
+
+    <body class="min-h-screen bg-zinc-800 m-0 p-0">
+       
+
+        <%
+            // Obtén el valor de la variable "banner" del request
+            String banner = (String) request.getAttribute("banner");
+
+            // Verifica si el banner no es nulo antes de mostrarlo
+            if (banner != null) {
+                // Imprime el contenido del banner en tu página
+                out.print(banner);
+            }
+        %>
+
+        <div
+            class="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8"
+            >
+            <div class="w-full max-w-sm space-y-10">
+                <a href="/Achilles/index.html">
+                    <div>
+                        <svg
+                            viewBox="0 0 369.66666666666663 83.5871704311582"
+                            class="css-1j8o68f mr-9"
+                            >
+                        <defs id="SvgjsDefs4294">
+                        <linearGradient id="SvgjsLinearGradient4299">
+                        <stop id="SvgjsStop4300" stop-color="#8f5e25" offset="0"></stop>
+                        <stop
+                            id="SvgjsStop4301"
+                            stop-color="#fbf4a1"
+                            offset="0.5"
+                            ></stop>
+                        <stop id="SvgjsStop4302" stop-color="#8f5e25" offset="1"></stop>
+                        </linearGradient>
+                        <linearGradient id="SvgjsLinearGradient4303">
+                        <stop id="SvgjsStop4304" stop-color="#8f5e25" offset="0"></stop>
+                        <stop
+                            id="SvgjsStop4305"
+                            stop-color="#fbf4a1"
+                            offset="0.5"
+                            ></stop>
+                        <stop id="SvgjsStop4306" stop-color="#8f5e25" offset="1"></stop>
+                        </linearGradient>
+                        </defs>
+                        <g
+                            id="SvgjsG4295"
+                            transform="matrix(0.878811776638031,0,0,0.878811776638031,19.824940659485396,-2.636435411878265)"
+                            fill="url(#SvgjsLinearGradient4299)"
+                            >
+                        <path
+                            xmlns="http://www.w3.org/2000/svg"
+                            d="M35.5,79.9c-6.1-6-4.9-5.6-7-7.7l0,0c-2.1-2.1-1.7-0.9-7.8-6.9c-0.4-0.4-0.9-0.3-1.3,0l-0.3,0.3c-0.4,0.4-0.4,0.9,0,1.3  c6,6,4.9,5.4,7.1,7.6l0,0c2.2,2.2,1.7,1,7.7,7c0.4,0.4,0.9,0.3,1.3,0l0.3-0.3C35.8,80.8,35.9,80.3,35.5,79.9z"
+                            ></path>
+                        <path
+                            xmlns="http://www.w3.org/2000/svg"
+                            d="M76.1,34.9C90.5,19,97.3,3,97.3,3l0,0c0,0-15.9,6.9-31.8,21.3c-6.3,5.7-20.2,27-42,42.3c2.1,2,3,2.7,3.7,3.2  c0.5,0.4,0.9,0.7,1.5,1.2c0.1,0.1,52.2-51.5,52.2-51.5S29.5,71.9,29.5,71.9c0.6,0.6,0.9,1.1,1.3,1.6c0.5,0.7,1.2,1.6,3.2,3.7  C49.2,55.3,70.5,41.2,76.1,34.9z"
+                            ></path>
+                        <path
+                            xmlns="http://www.w3.org/2000/svg"
+                            d="M27.4,76.9c-0.6-0.4-1-0.8-1.9-1.7c-0.9-0.9-1.3-1.4-1.7-1.9c-0.1-0.1-0.2-0.2-0.3-0.4C14.2,80.8,6.8,91.1,6.8,91.1l2.7,2.7  c0,0,10.2-7.5,18.1-16.7C27.5,77,27.4,77,27.4,76.9z"
+                            ></path>
+                        <path
+                            xmlns="http://www.w3.org/2000/svg"
+                            d="M5.4,97.9l-2.7-2.7c-0.3-0.3-0.3-0.9,0-1.2l2.5-2.3c0.3-0.3,0.9-0.3,1.2,0l2.4,2.4c0.3,0.3,0.3,0.9,0,1.2l-2.2,2.5  C6.2,98.2,5.7,98.2,5.4,97.9z"
+                            ></path>
+                        </g>
+                        <g
+                            id="SvgjsG4296"
+                            transform="matrix(1.7485628128051758,0,0,1.7485628128051758,102.9318068227062,-3.5592824398182756)"
+                            fill="url(#SvgjsLinearGradient4303)"
+                            >
+                        <path
+                            d="M17.715 12.050999999999998 l-17.676 27.949 l5.0195 0 l4.1211 -6.5234 l9.4922 0 l0 6.5234 l4.2578 0 l0 -27.949 l-5.2148 0 z M18.672 18.477 l0 10.762 l-6.8164 0 z M33.6523625 33.0859 c-1.9531 -1.9531 -2.9297 -4.31 -2.9297 -7.0703 s0.97656 -5.1172 2.9297 -7.0703 c1.9531 -1.9662 4.31 -2.9492 7.0703 -2.9492 c1.6927 0 3.2748 0.40365 4.7461 1.2109 l0 -4.6484 c-1.5365 -0.53385 -3.1186 -0.80078 -4.7461 -0.80078 c-3.9322 0 -7.2916 1.3932 -10.078 4.1797 s-4.1797 6.1459 -4.1797 10.078 s1.3932 7.2916 4.1797 10.078 s6.1459 4.1797 10.078 4.1797 c1.6276 0 3.2096 -0.27344 4.7461 -0.82031 l0 -4.6289 c-1.4713 0.79428 -3.0533 1.1914 -4.7461 1.1914 c-2.7604 0 -5.1172 -0.97656 -7.0703 -2.9297 z M64.628625 12.050999999999998 l0 11.836 l-11.367 0 l0 -11.797 l-4.2383 0 l0 27.91 l4.2383 0 l0 -11.875 l11.367 0 l0 11.875 l4.2383 0 l0 -27.949 l-4.2383 0 z M77.5976625 12.09 l-4.2383 0 l0 27.91 l4.2383 0 l0 -27.91 z M82.2266125 12.050999999999998 l0 27.949 l14.258 0 l0 -4.2383 l-10.02 0 l0 -23.711 l-4.2383 0 z M99.8828625 12.050999999999998 l0 27.949 l14.258 0 l0 -4.2383 l-10.02 0 l0 -23.711 l-4.2383 0 z M117.5391125 12.050999999999998 l0 27.949 l14.258 0 l0 -4.2383 l-10.02 0 l0 -7.6563 l7.7344 0 l0 -4.2383 l-7.7344 0 l0 -7.5781 l10.02 0 l0 -4.2383 l-14.258 0 z M142.6367625 40.25391 c-1.849 -0.078125 -3.5547 -0.57291 -5.1172 -1.4844 c-1.7708 -1.0287 -2.9752 -2.4088 -3.6133 -4.1406 l3.9844 -1.4648 c0.32553 0.85938 0.99609 1.556 2.0117 2.0898 c0.89844 0.45572 1.875 0.70963 2.9297 0.76172 c1.6276 0.065098 2.9752 -0.33203 4.043 -1.1914 c0.89844 -0.72916 1.3737 -1.5625 1.4258 -2.5 c0.078125 -1.7838 -1.7904 -3.2096 -5.6055 -4.2773 c-5.9766 -1.6797 -8.8736 -4.5248 -8.6914 -8.5352 c0.11719 -2.8125 1.3216 -4.9154 3.6133 -6.3086 c1.7448 -1.0677 3.8412 -1.543 6.2891 -1.4258 c2.9688 0.13021 5.3516 1.1654 7.1484 3.1055 l-3.1055 2.8906 c-1.0156 -1.0938 -2.4283 -1.6797 -4.2383 -1.7578 c-1.276 -0.05209 -2.3633 0.11066 -3.2617 0.48826 c-1.4063 0.59896 -2.142 1.6667 -2.207 3.2031 c-0.078125 1.7578 1.7904 3.1705 5.6055 4.2383 c3.4375 0.96354 5.8725 2.3828 7.3047 4.2578 c0.98959 1.3021 1.4518 2.7408 1.3867 4.3164 c-0.10416 2.2135 -1.1068 4.0885 -3.0078 5.625 c-1.7708 1.4193 -3.8932 2.1289 -6.3672 2.1289 c-0.18229 0 -0.35807 -0.0065041 -0.52734 -0.019531 z"
+                            ></path>
+                        </g>
+                        </svg>
+
+                    </div>
+                </a>
+
+
+                <h2
+                    class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-brown-400"
+                    >
+                    Crear cuenta
+                </h2>
+
+                <form id="formulario" class="space-y-6" action="/Achilles/ControladorLogin/newUser" method="POST">
+                    <div class="relative -space-y-px rounded-md shadow-sm">
+                        <div
+                            class="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-zinc-500"
+                            ></div>
+                        <div>
+                            <label for="nombre" class="sr-only">Nombre</label>
+                            <input
+                                id="nombre"
+                                name="nombre"
+                                type="text"
+                                autocomplete="name"
+                                required
+                                class="p-2 relative block w-full rounded-t-md border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="Nombre"
+                                />
+                        </div>
+                        <div>
+                            <label for="apellidos" class="sr-only">Apellidos</label>
+                            <input
+                                id="apellidos"
+                                name="apellidos"
+                                type="text"
+                                autocomplete="name"
+                                required
+                                class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="Apellidos"
+                                />
+                        </div> 
+                        <div>
+                            <label for="nick" class="sr-only"
+                                   >nick</label
+                            >
+                            <input
+                                id="nick"
+                                name="nick"
+                                type="text"
+                                required
+                                class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="nombre de usuario"
+                                />
+                        </div>
+                        <div>
+                            <label for="num_tel" class="sr-only"
+                                   >Numero de telefono</label
+                            >
+                            <input
+                                id="numTelefono"
+                                name="num_tel"
+                                type="number"
+                                required
+                                class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="Numero de telefono"
+                                />
+                        </div>
+                        <div>
+                            <label for="password" class="sr-only">password</label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autocomplete="current-password"
+                                required
+                                class="p-2 relative block w-full border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="Contraseña"
+                                />
+                        </div>
+                        <div>
+                            <label for="password_check" class="sr-only">password</label>
+                            <input
+                                id="password_check"
+                                name="password_check"
+                                type="password"
+                                autocomplete="current-password"
+                                required
+                                class="p-2 relative block w-full rounded-b-md border-0 py-1.5 bg-zinc-700 text-zinc-100 ring-1 ring-inset ring-zinc-500 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-brown-400 sm:text-sm sm:leading-6"
+                                placeholder="Repita la contraseña"
+                                />
+                        </div>
+
+                    </div>
+                    <div class="relative z-0 w-full mb-6 group">
+                        <label
+                            class="relative inline-flex items-center mb-4 cursor-pointer"
+                            >
+                            <input
+                                type="checkbox"
+                                value="active"
+                                class="sr-only peer"
+                                name="bizum"
+                                checked
+                                />
+                            <div
+                                class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-selective-yellow-500"
+                                ></div>
+                            <span class="ml-3 text-sm font-medium text-zinc-400"
+                                  >Habilitar Bizum</span
+                            >
+                        </label>
+                    </div>
+
+
+                    <div>
+                        <button
+                            id="botonSubmit"
+                            type="submit"
+                            class="flex w-full justify-center rounded-md bg-brown-400 px-3 py-1.5 text-sm font-semibold leading-6 text-zinc-100 hover:bg-brown-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown-500"
+                            >
+                            Crear cuenta
+                        </button>
+                        <!-- <button type="submit" class="flex w-full justify-center rounded-md bg-gradient-to-r from-yellow-300 to-yellow-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500">
+                            Sign in
+                          </button> -->
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </body>
+</html>
+

@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -61,6 +62,17 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private boolean bizumActive;
 
+    @ManyToOne
+    @JoinColumn(name = "pregunta1_id")
+    private Pregunta1 pregunta1;
+
+    @ManyToOne
+    @JoinColumn(name = "pregunta2_id")
+    private Pregunta2 pregunta2;
+
+    private String respuestaP1;
+    private String respuestaP2;
+
     @ManyToMany
     @JoinTable(name = "Contacto", joinColumns = {
         @JoinColumn(name = "Usuario1")}, inverseJoinColumns = {
@@ -85,6 +97,38 @@ public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "recMensaje")
     private List<MensajeEntity> mRecividos;
+
+    public Pregunta1 getPregunta1() {
+        return pregunta1;
+    }
+
+    public void setPregunta1(Pregunta1 pregunta1) {
+        this.pregunta1 = pregunta1;
+    }
+
+    public Pregunta2 getPregunta2() {
+        return pregunta2;
+    }
+
+    public void setPregunta2(Pregunta2 pregunta2) {
+        this.pregunta2 = pregunta2;
+    }
+    
+    public String getRespuestaP1() {
+        return respuestaP1;
+    }
+
+    public void setRespuestaP1(String respuestaP1) {
+        this.respuestaP1 = respuestaP1;
+    }
+
+    public String getRespuestaP2() {
+        return respuestaP2;
+    }
+
+    public void setRespuestaP2(String respuestaP2) {
+        this.respuestaP2 = respuestaP2;
+    }
 
     public List<MensajeEntity> getmEnviados() {
         return mEnviados;
